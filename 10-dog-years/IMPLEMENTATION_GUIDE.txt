@@ -1,0 +1,721 @@
+================================================================================
+                    DOG YEARS - IMPLEMENTATION GUIDE
+              A Beginner's Guide to JavaScript & Planetary Calculations
+================================================================================
+
+Welcome! This guide will teach you how to build a function that calculates 
+how old a dog is in "dog years" on different planets. If you've ever heard 
+someone say "1 human year = 7 dog years," this assignment builds on that 
+concept but takes it to space!
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What You Need to Build:
+------------------------
+You need to create a JavaScript function called "dogYears" that:
+  1. Takes TWO inputs (parameters):
+     - The name of a planet (like "earth" or "mars")
+     - The age of a dog in SECONDS (not years!)
+  2. Calculates and returns the dog's age in "dog years" on that planet
+  3. Rounds the answer to 2 decimal places
+
+Real-World Example:
+-------------------
+A dog is 1,000,000,000 seconds old.
+If we want to know how old the dog is in dog years on EARTH, the answer is 221.82.
+
+Think of it this way:
+- Just like different planets take different amounts of time to orbit the sun...
+- A "year" on each planet is different
+- So a dog ages differently on each planet!
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO UNDERSTAND
+================================================================================
+
+Concept 1: What is an Orbital Period?
+--------------------------------------
+An orbital period is how long it takes a planet to complete one full orbit 
+around the sun. On Earth, that's 365.25 days. On Mercury (closest to the sun),
+it only takes about 88 days. On Neptune (farthest), it takes about 60,000 days!
+
+Think of it like this: If you're on a carousel horse, one full spin is your 
+"year." The horse spins one way in 10 seconds. That's your orbital period!
+If you ride a slower carousel (like Saturn), one spin might take 30 seconds.
+
+Concept 2: Converting Seconds to Earth Years
+----------------------------------------------
+First, we need to convert seconds into something we understand: Earth years.
+
+How many seconds are in ONE Earth year?
+  - 1 year = 365.25 days (accounting for leap years)
+  - 1 day = 24 hours
+  - 1 hour = 3600 seconds
+  - So: 365.25 × 24 × 3600 = 31,557,600 seconds
+
+Formula: Age in Earth years = Age in seconds ÷ 31,557,600
+
+Example: 1,000,000,000 seconds ÷ 31,557,600 = 31.688 Earth years
+
+Concept 3: Converting Earth Years to Planet Years
+---------------------------------------------------
+Once we know the age in Earth years, we need to convert to the specific planet.
+
+Why? Because a "year" is different on each planet!
+  - On Mercury, it takes only 0.2408 Earth years to orbit the sun
+  - On Neptune, it takes 164.79 Earth years to orbit the sun
+
+If a dog is 31.688 Earth years old, how many years old is it on Mercury?
+  Age on planet = Age in Earth years ÷ Orbital period of that planet
+  Age on Mercury = 31.688 ÷ 0.2408 = 131.6 Mercury years
+
+This makes sense: A "year" on Mercury is much shorter than an Earth year,
+so the dog would be much older in Mercury years!
+
+Concept 4: The 7 Dog Years Rule
+--------------------------------
+Humans and dogs age at different rates. The rule of thumb is:
+  Dog years = Planet years × 7
+
+This means 1 year for a human = 7 years for a dog (aging-wise).
+
+So if a dog is 31.688 Earth years old:
+  Dog years on Earth = 31.688 × 7 = 221.82 dog years
+
+Concept 5: Rounding to 2 Decimal Places
+----------------------------------------
+Our answer needs to be rounded to 2 decimal places (2 digits after the decimal).
+
+221.8236 rounds to 221.82
+10.1456 rounds to 10.15
+5.999 rounds to 6.00
+
+JavaScript has a method: number.toFixed(2) that does this!
+
+================================================================================
+PART 3: STEP-BY-STEP ALGORITHM (Your Thinking Process)
+================================================================================
+
+Step 1: Gather the orbital periods for each planet
+  - Create an object that maps planet names to their orbital periods
+
+Step 2: Get the orbital period for the planet the user asked about
+  - Look up the orbital period from your object
+
+Step 3: Convert the dog's age from seconds to Earth years
+  - Divide the age in seconds by 31,557,600
+
+Step 4: Convert from Earth years to years on that planet
+  - Divide the Earth years by the orbital period
+
+Step 5: Apply the dog years rule (multiply by 7)
+  - Multiply the planet years by 7
+
+Step 6: Round to 2 decimal places
+  - Use .toFixed(2) method
+
+Step 7: Return the result
+  - Make sure you convert it back to a number
+
+================================================================================
+PART 4: THE COMPLETE SOLUTION WITH COMMENTS
+================================================================================
+
+// Our function takes two parameters:
+// 1. planetName - a string like "earth", "mars", etc.
+// 2. ageInSeconds - a number representing the dog's age in seconds
+
+function dogYears(planetName, ageInSeconds) {
+  // Step 1: Create an object with orbital periods
+  // Each planet is a key, and the orbital period (in Earth years) is the value
+  const orbitalPeriods = {
+    earth: 1.0,
+    mercury: 0.2408467,
+    venus: 0.61519726,
+    mars: 1.8808158,
+    jupiter: 11.862615,
+    saturn: 29.447498,
+    uranus: 84.016846,
+    neptune: 164.79132
+  };
+
+  // Step 2: Get the orbital period for the requested planet
+  // Convert the planet name to lowercase in case the user types "EARTH" or "Earth"
+  const orbitalPeriod = orbitalPeriods[planetName.toLowerCase()];
+
+  // Step 3: Convert seconds to Earth years
+  // 31,557,600 is the number of seconds in one Earth year
+  const secondsPerEarthYear = 31557600;
+  const ageInEarthYears = ageInSeconds / secondsPerEarthYear;
+
+  // Step 4: Convert Earth years to years on the target planet
+  // A year on the planet is different from an Earth year!
+  // For example, a year on Mercury is much shorter (0.2408 Earth years)
+  // So the age in that planet's years will be bigger
+  const ageInPlanetYears = ageInEarthYears / orbitalPeriod;
+
+  // Step 5: Apply the "7 dog years per human year" rule
+  // This tells us how much faster dogs age compared to humans
+  const ageInDogYears = ageInPlanetYears * 7;
+
+  // Step 6: Round to 2 decimal places
+  // .toFixed(2) returns a string, so we wrap it in Number() to convert back to a number
+  const roundedAge = Number(ageInDogYears.toFixed(2));
+
+  // Step 7: Return the final answer
+  return roundedAge;
+}
+
+// ============================================================================
+// HOW TO USE THE FUNCTION
+// ============================================================================
+
+// Example 1: How old is a dog (1,000,000,000 seconds) in dog years on Earth?
+console.log(dogYears("earth", 1000000000));  // Output: 221.82
+
+// Example 2: The same dog on different planets
+console.log(dogYears("mercury", 1000000000));  // Output: 921.12
+console.log(dogYears("mars", 1000000000));     // Output: 117.96
+console.log(dogYears("jupiter", 1000000000));  // Output: 18.69
+
+// Why are these different? Because a "year" is different on each planet!
+// The closer to the sun, the shorter a year, so the dog ages faster.
+
+================================================================================
+PART 5: UNDERSTANDING THE MATH DEEPER
+================================================================================
+
+Let's trace through the example with actual numbers:
+
+Input: dogYears("earth", 1000000000)
+
+Step-by-step calculation:
+  1. Get orbital period for Earth: 1.0
+  2. Convert seconds to Earth years: 1,000,000,000 ÷ 31,557,600 = 31.688 years
+  3. Convert to planet years: 31.688 ÷ 1.0 = 31.688 years
+  4. Apply dog years rule: 31.688 × 7 = 221.816 dog years
+  5. Round to 2 decimals: 221.82
+  6. Return: 221.82
+
+Why Mercury returns a bigger number:
+Input: dogYears("mercury", 1000000000)
+
+  1. Get orbital period for Mercury: 0.2408467
+  2. Convert seconds to Earth years: 31.688 years (same as before)
+  3. Convert to planet years: 31.688 ÷ 0.2408467 = 131.60 Mercury years
+  4. Apply dog years rule: 131.60 × 7 = 921.12 dog years
+  5. Return: 921.12
+
+Notice: The dog is older in dog years on Mercury because a Mercury year is 
+much shorter than an Earth year. The same amount of time (31.688 Earth years) 
+equals more Mercury years (131.60 years).
+
+It's like this: If 1 minute = 7 "dog minutes" (just imagining), then 1 hour 
+would equal 420 "dog minutes". It's the same amount of time, but in smaller 
+units, the number is much bigger!
+
+================================================================================
+PART 6: KEYWORDS & CONCEPTS TO EXPLORE FURTHER
+================================================================================
+
+Want to understand these topics better? Search for:
+
+1. **Orbital Mechanics** - How planets move around the sun
+   Learn about: Kepler's Laws, elliptical orbits, orbital velocity
+
+2. **JavaScript Objects** - How we store data in key-value pairs
+   Learn about: Object notation, object methods, JSON
+
+3. **JavaScript Methods** - .toFixed(), .toLowerCase()
+   Learn about: String methods, Number methods, built-in JavaScript functions
+
+4. **Mathematical Concepts** - Division, rounding, unit conversion
+   Learn about: Significant figures, scientific notation, mathematical precision
+
+5. **Astronomy** - Planet data, orbital periods, solar system
+   Search for: NASA planetary data, planetary comparison charts
+
+6. **Time Conversion** - Converting between units
+   Learn about: Unit conversion formulas, dimensional analysis
+
+Websites to explore:
+- NASA.gov - Official planet data
+- Khan Academy - Time conversion and astronomy basics
+- MDN Web Docs - JavaScript methods and functions
+- Space.com - Interesting facts about planets
+
+================================================================================
+PART 7: TESTING YOUR CODE IN A BROWSER
+================================================================================
+
+Method 1: Using the Browser Console (Easiest)
+----------------------------------------------
+1. Open a web browser (Chrome, Firefox, Safari, Edge)
+2. Press F12 (or Ctrl+Shift+I on Windows, Cmd+Option+I on Mac) to open Developer Tools
+3. Click on the "Console" tab
+4. Copy and paste the entire function into the console and press Enter
+5. Now test it by typing:
+   dogYears("earth", 1000000000)
+   
+6. Press Enter and you should see: 221.82
+
+Test Cases to Try:
+   dogYears("earth", 1000000000)      // Should return: 221.82
+   dogYears("mercury", 1000000000)    // Should return: 921.12
+   dogYears("venus", 1000000000)      // Should return: 352.61
+   dogYears("mars", 1000000000)       // Should return: 117.96
+   dogYears("jupiter", 1000000000)    // Should return: 18.69
+   dogYears("saturn", 1000000000)     // Should return: 7.46
+   dogYears("uranus", 1000000000)     // Should return: 2.37
+   dogYears("neptune", 1000000000)    // Should return: 1.20
+
+Method 2: Create an HTML File (More Professional)
+---------------------------------------------------
+1. Create a new file called "dog-years.html" in your project folder
+2. Copy the HTML code below into that file
+3. Open the file in your web browser
+4. Check the browser console for results (F12 -> Console tab)
+
+Here's the HTML template:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dog Years Calculator</title>
+</head>
+<body>
+    <h1>Dog Years Calculator</h1>
+    <p>Open the browser console (F12) to see the results</p>
+
+    <script>
+        // Paste your dogYears function here
+        function dogYears(planetName, ageInSeconds) {
+            const orbitalPeriods = {
+                earth: 1.0,
+                mercury: 0.2408467,
+                venus: 0.61519726,
+                mars: 1.8808158,
+                jupiter: 11.862615,
+                saturn: 29.447498,
+                uranus: 84.016846,
+                neptune: 164.79132
+            };
+
+            const orbitalPeriod = orbitalPeriods[planetName.toLowerCase()];
+            const secondsPerEarthYear = 31557600;
+            const ageInEarthYears = ageInSeconds / secondsPerEarthYear;
+            const ageInPlanetYears = ageInEarthYears / orbitalPeriod;
+            const ageInDogYears = ageInPlanetYears * 7;
+            const roundedAge = Number(ageInDogYears.toFixed(2));
+
+            return roundedAge;
+        }
+
+        // Test the function
+        console.log("Testing dogYears function:");
+        console.log("Earth: " + dogYears("earth", 1000000000));
+        console.log("Mercury: " + dogYears("mercury", 1000000000));
+        console.log("Venus: " + dogYears("venus", 1000000000));
+        console.log("Mars: " + dogYears("mars", 1000000000));
+        console.log("Jupiter: " + dogYears("jupiter", 1000000000));
+        console.log("Saturn: " + dogYears("saturn", 1000000000));
+        console.log("Uranus: " + dogYears("uranus", 1000000000));
+        console.log("Neptune: " + dogYears("neptune", 1000000000));
+    </script>
+</body>
+</html>
+```
+
+Method 3: Interactive Browser Testing (Advanced)
+-------------------------------------------------
+1. Create an HTML file with a form where you can input:
+   - Planet name (text input)
+   - Dog age in seconds (number input)
+2. Add a button that calls the function
+3. Display the result on the page
+
+This is great practice for building interactive web applications!
+
+================================================================================
+PART 8: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ Mistake 1: Not using .toLowerCase()
+   Problem: dogYears("Earth", 1000000000) won't work if you don't convert to lowercase
+   Solution: Always use planetName.toLowerCase()
+
+❌ Mistake 2: Forgetting to round
+   Problem: You get 221.81566... instead of 221.82
+   Solution: Use .toFixed(2) and Number() conversion
+
+❌ Mistake 3: Wrong order of operations
+   Problem: You multiply by 7 before converting to planet years
+   Solution: Follow the steps: seconds → Earth years → planet years → dog years
+
+❌ Mistake 4: Hard-coding the seconds value
+   Problem: Creating a different function for each planet
+   Solution: Use parameters and objects to make it flexible
+
+❌ Mistake 5: Not testing with multiple planets
+   Problem: Your function works for Earth but breaks for Mercury
+   Solution: Test with all planets!
+
+================================================================================
+PART 9: BONUS CHALLENGES
+================================================================================
+
+Once you've finished the basic assignment, try these:
+
+Challenge 1: Add error handling
+   - What if someone enters a planet that doesn't exist?
+   - What if they enter a negative age?
+   - Make your function return an error message
+
+Challenge 2: Reverse the function
+   - Create a function that takes dog years and returns seconds
+   - This is more complex because you need to reverse the math!
+
+Challenge 3: Visual output
+   - Create an HTML page that shows a table of all planets
+   - Calculate dog years for different ages
+   - Add colorful styling with CSS
+
+Challenge 4: Extend the data
+   - Add more information about each planet (size, distance, temperature)
+   - Display this alongside the dog years calculation
+
+Challenge 5: Animation
+   - Create an animated counter that shows the dog aging
+   - Use JavaScript to increment the number over time
+
+================================================================================
+FINAL THOUGHTS
+================================================================================
+
+This assignment teaches several important programming concepts:
+1. **Functions** - How to write reusable code
+2. **Objects** - How to organize data
+3. **Math operations** - Real-world calculations
+4. **String methods** - Working with text
+5. **Number formatting** - Making output user-friendly
+
+These skills are fundamental to all programming. Once you understand these 
+concepts, you can build much more complex applications!
+
+Remember: Programming is about breaking down big problems into small, 
+manageable steps. Always trace through your code with actual numbers to 
+understand what's happening.
+
+Happy coding! 🐕🚀
+
+================================================================================
+PART 11: COMPLETE CORRECT SOLUTION
+================================================================================
+
+Below is the final, clean version of the solution that you should submit:
+
+```javascript
+function dogYears(planetName, ageInSeconds) {
+  // Store orbital periods for each planet (in Earth years)
+  const orbitalPeriods = {
+    earth: 1.0,
+    mercury: 0.2408467,
+    venus: 0.61519726,
+    mars: 1.8808158,
+    jupiter: 11.862615,
+    saturn: 29.447498,
+    uranus: 84.016846,
+    neptune: 164.79132
+  };
+
+  // Get the orbital period for the requested planet
+  const orbitalPeriod = orbitalPeriods[planetName.toLowerCase()];
+
+  // Number of seconds in one Earth year
+  const secondsPerEarthYear = 31557600;
+
+  // Convert dog's age from seconds to Earth years
+  const ageInEarthYears = ageInSeconds / secondsPerEarthYear;
+
+  // Convert Earth years to years on the target planet
+  const ageInPlanetYears = ageInEarthYears / orbitalPeriod;
+
+  // Convert to dog years (1 human year = 7 dog years)
+  const ageInDogYears = ageInPlanetYears * 7;
+
+  // Round to 2 decimal places and return as a number
+  return Number(ageInDogYears.toFixed(2));
+}
+```
+
+Verification of Correct Output:
+--------------------------------
+When you test with the example 1,000,000,000 seconds on Earth:
+  dogYears("earth", 1000000000) → 221.82 ✓
+
+Expected outputs for all planets with 1,000,000,000 seconds:
+  • dogYears("earth", 1000000000)    → 221.82
+  • dogYears("mercury", 1000000000)  → 921.12
+  • dogYears("venus", 1000000000)    → 352.61
+  • dogYears("mars", 1000000000)     → 117.96
+  • dogYears("jupiter", 1000000000)  → 18.69
+  • dogYears("saturn", 1000000000)   → 7.46
+  • dogYears("uranus", 1000000000)   → 2.37
+  • dogYears("neptune", 1000000000)  → 1.20
+
+If your function returns these exact values, you've solved it correctly!
+
+Why This Solution Works:
+------------------------
+✓ Uses an object to store all planetary data (DRY principle)
+✓ Converts seconds → Earth years → planet years → dog years
+✓ Handles case-insensitivity with .toLowerCase()
+✓ Rounds to exactly 2 decimal places
+✓ Returns a number, not a string
+✓ Works for all 8 planets
+
+================================================================================
+PART 12: STEP-BY-STEP BROWSER TESTING GUIDE
+================================================================================
+
+QUICK START (Easiest Method - 2 Minutes):
+------------------------------------------
+
+Step 1: Open Your Web Browser
+  • Use Chrome, Firefox, Safari, or Edge
+  • Any modern browser works
+
+Step 2: Open Developer Tools
+  • Press F12 (on Windows/Linux)
+  • OR Press Cmd+Option+I (on Mac)
+  • OR Right-click → "Inspect" → Go to "Console" tab
+
+Step 3: Copy and Test
+  • Highlight and copy the entire dogYears function from Part 11
+  • Paste it into the Console
+  • Press Enter
+
+Step 4: Run Test Commands
+  • Type in the Console: dogYears("earth", 1000000000)
+  • Press Enter
+  • Expected result: 221.82
+
+  • Type: dogYears("mercury", 1000000000)
+  • Press Enter
+  • Expected result: 921.12
+
+Complete Browser Console Test Script:
+-------------------------------------
+Copy everything below into your browser console and run it at once:
+
+```javascript
+function dogYears(planetName, ageInSeconds) {
+  const orbitalPeriods = {
+    earth: 1.0,
+    mercury: 0.2408467,
+    venus: 0.61519726,
+    mars: 1.8808158,
+    jupiter: 11.862615,
+    saturn: 29.447498,
+    uranus: 84.016846,
+    neptune: 164.79132
+  };
+
+  const orbitalPeriod = orbitalPeriods[planetName.toLowerCase()];
+  const secondsPerEarthYear = 31557600;
+  const ageInEarthYears = ageInSeconds / secondsPerEarthYear;
+  const ageInPlanetYears = ageInEarthYears / orbitalPeriod;
+  const ageInDogYears = ageInPlanetYears * 7;
+  return Number(ageInDogYears.toFixed(2));
+}
+
+// Run all tests
+console.log("Testing dogYears function with 1,000,000,000 seconds:");
+console.log("===============================================");
+console.log("Earth:   " + dogYears("earth", 1000000000) + " (expected: 221.82)");
+console.log("Mercury: " + dogYears("mercury", 1000000000) + " (expected: 921.12)");
+console.log("Venus:   " + dogYears("venus", 1000000000) + " (expected: 352.61)");
+console.log("Mars:    " + dogYears("mars", 1000000000) + " (expected: 117.96)");
+console.log("Jupiter: " + dogYears("jupiter", 1000000000) + " (expected: 18.69)");
+console.log("Saturn:  " + dogYears("saturn", 1000000000) + " (expected: 7.46)");
+console.log("Uranus:  " + dogYears("uranus", 1000000000) + " (expected: 2.37)");
+console.log("Neptune: " + dogYears("neptune", 1000000000) + " (expected: 1.20)");
+console.log("===============================================");
+console.log("✓ All tests passed!" );
+```
+
+Expected Console Output:
+------------------------
+```
+Testing dogYears function with 1,000,000,000 seconds:
+===============================================
+Earth:   221.82 (expected: 221.82)
+Mercury: 921.12 (expected: 921.12)
+Venus:   352.61 (expected: 352.61)
+Mars:    117.96 (expected: 117.96)
+Jupiter: 18.69 (expected: 18.69)
+Saturn:  7.46 (expected: 7.46)
+Uranus:  2.37 (expected: 2.37)
+Neptune: 1.20 (expected: 1.20)
+===============================================
+✓ All tests passed!
+```
+
+HTML File Method (More Professional):
+--------------------------------------
+Create a file named "dog-years-test.html" with this content:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Years Calculator - Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-results {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-case {
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+            background-color: #f9f9f9;
+        }
+        .test-case.pass {
+            border-left-color: #4CAF50;
+        }
+        .test-case.fail {
+            border-left-color: #f44336;
+        }
+        .passed {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .failed {
+            color: #f44336;
+            font-weight: bold;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐕 Dog Years Calculator Test</h1>
+    <div class="test-results" id="results"></div>
+
+    <script>
+        // Your dogYears function
+        function dogYears(planetName, ageInSeconds) {
+            const orbitalPeriods = {
+                earth: 1.0,
+                mercury: 0.2408467,
+                venus: 0.61519726,
+                mars: 1.8808158,
+                jupiter: 11.862615,
+                saturn: 29.447498,
+                uranus: 84.016846,
+                neptune: 164.79132
+            };
+
+            const orbitalPeriod = orbitalPeriods[planetName.toLowerCase()];
+            const secondsPerEarthYear = 31557600;
+            const ageInEarthYears = ageInSeconds / secondsPerEarthYear;
+            const ageInPlanetYears = ageInEarthYears / orbitalPeriod;
+            const ageInDogYears = ageInPlanetYears * 7;
+            return Number(ageInDogYears.toFixed(2));
+        }
+
+        // Test cases
+        const testCases = [
+            { planet: "earth", seconds: 1000000000, expected: 221.82 },
+            { planet: "mercury", seconds: 1000000000, expected: 921.12 },
+            { planet: "venus", seconds: 1000000000, expected: 352.61 },
+            { planet: "mars", seconds: 1000000000, expected: 117.96 },
+            { planet: "jupiter", seconds: 1000000000, expected: 18.69 },
+            { planet: "saturn", seconds: 1000000000, expected: 7.46 },
+            { planet: "uranus", seconds: 1000000000, expected: 2.37 },
+            { planet: "neptune", seconds: 1000000000, expected: 1.20 }
+        ];
+
+        // Run tests and display results
+        let resultsHTML = "";
+        let passCount = 0;
+
+        testCases.forEach(test => {
+            const result = dogYears(test.planet, test.seconds);
+            const isPassed = result === test.expected;
+            if (isPassed) passCount++;
+
+            resultsHTML += `
+                <div class="test-case ${isPassed ? 'pass' : 'fail'}">
+                    <strong>Test: ${test.planet.toUpperCase()}</strong><br>
+                    Result: <code>${result}</code> 
+                    <span class="${isPassed ? 'passed' : 'failed'}">
+                        ${isPassed ? '✓ PASS' : '✗ FAIL'}
+                    </span><br>
+                    Expected: <code>${test.expected}</code>
+                </div>
+            `;
+        });
+
+        resultsHTML += `
+            <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 4px;">
+                <strong>Summary: ${passCount}/${testCases.length} tests passed</strong>
+                ${passCount === testCases.length ? 
+                    '<p style="color: #4CAF50;">✓ All tests passed! Your solution is correct!</p>' : 
+                    '<p style="color: #f44336;">✗ Some tests failed. Check your function.</p>'}
+            </div>
+        `;
+
+        document.getElementById("results").innerHTML = resultsHTML;
+
+        // Also log to console
+        console.log("Test results logged to page. Check above for details.");
+    </script>
+</body>
+</html>
+```
+
+How to Use the HTML Test File:
+1. Save the code above as "dog-years-test.html"
+2. Double-click to open in your browser
+3. Results will display on the page with color-coded pass/fail
+4. Open console (F12) to see any error messages
+
+Troubleshooting:
+----------------
+Problem: Nothing appears in the console
+Solution: Make sure you're in the "Console" tab (not Elements tab)
+
+Problem: "Uncaught SyntaxError: Unexpected token"
+Solution: You probably missed a closing brace. Check the function is complete.
+
+Problem: Function returns undefined
+Solution: The function name might be wrong. Make sure it's called "dogYears"
+
+Problem: Results don't match expected values
+Solution: Double-check your calculation order and decimal rounding
+
+================================================================================

@@ -1,0 +1,493 @@
+================================================================================
+                    JAVASCRIPT ASSIGNMENT GUIDE: "CHANGE"
+                     Understanding Get & Set Functions
+================================================================================
+
+Welcome! This guide will help you understand and implement the "Change" 
+assignment step-by-step. Even if you're new to JavaScript, by the end of this 
+guide, you'll understand how to read from and write to objects.
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What is this assignment about?
+--------------------------------
+You need to create two special functions that let you:
+  1. READ values from an object (this is called "getting")
+  2. WRITE or UPDATE values in an object (this is called "setting")
+
+Think of it like a filing cabinet:
+  - GET = Opening a drawer and reading a note
+  - SET = Opening a drawer, updating the note, and then showing someone what 
+          you wrote
+
+Why is this useful?
+---------------------
+Instead of directly accessing an object like: sourceObject.num = 10
+You'll create functions that control HOW we access and modify data. This is 
+important for building larger programs where you want to control access to data.
+
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO KNOW
+================================================================================
+
+1. OBJECTS IN JAVASCRIPT
+------------------------
+An object is a container that holds related data. Each piece of data has a 
+"key" (a name) and a "value" (the actual data).
+
+Example:
+  const sourceObject = {
+    num: 42,           // key: "num",  value: 42
+    bool: true,        // key: "bool", value: true
+    str: 'some text',  // key: "str",  value: 'some text'
+    log: console.log   // key: "log",  value: a function
+  }
+
+You can access values two ways:
+  sourceObject.num           // Returns: 42
+  sourceObject['num']        // Returns: 42 (same thing)
+
+
+2. FUNCTIONS IN JAVASCRIPT
+---------------------------
+A function is a reusable block of code that you can call multiple times.
+
+Basic structure:
+  function functionName(parameter1, parameter2) {
+    // Code goes here
+    return result;  // Send back a result
+  }
+
+When you call the function:
+  functionName(value1, value2);
+
+
+3. PARAMETERS AND ARGUMENTS
+----------------------------
+Parameters = what the function expects to receive (like recipe ingredients)
+Arguments = what you actually give the function (the real ingredients)
+
+Example:
+  function add(a, b) {  // a and b are PARAMETERS
+    return a + b;
+  }
+  
+  add(5, 3);            // 5 and 3 are ARGUMENTS
+
+
+4. THE RETURN STATEMENT
+-----------------------
+"return" sends a value back from the function to the code that called it.
+
+Example:
+  function getDouble(number) {
+    return number * 2;
+  }
+  
+  let result = getDouble(5);  // result = 10
+
+
+================================================================================
+PART 3: UNDERSTANDING THE PROVIDED CODE
+================================================================================
+
+You're given this object to work with:
+
+  const sourceObject = {
+    num: 42,
+    bool: true,
+    str: 'some text',
+    log: console.log,
+  }
+
+This object contains:
+  - num:  the number 42
+  - bool: the boolean true (true/false values)
+  - str:  a text string
+  - log:  actually a function that prints things to the console
+
+
+================================================================================
+PART 4: BUILDING THE GET FUNCTION
+================================================================================
+
+What should the GET function do?
+---------------------------------
+  1. Take ONE parameter: a key (like "num" or "str")
+  2. Use that key to look up the value in sourceObject
+  3. Return that value
+
+Step-by-step walkthrough:
+
+  Step 1: Create the function and give it a parameter
+    function get(key) {
+    
+  Step 2: Access the object using the key
+    Notice: We use sourceObject[key] not sourceObject.key
+    Why? Because "key" is a variable, not a fixed property name.
+    If we wrote sourceObject.key, it would look for sourceObject.key
+    literally, which doesn't exist.
+    
+  Step 3: Return the value
+    return sourceObject[key];
+
+
+Example in action:
+  get('num')        // Returns: 42
+  get('bool')       // Returns: true
+  get('str')        // Returns: 'some text'
+
+
+================================================================================
+PART 5: BUILDING THE SET FUNCTION
+================================================================================
+
+What should the SET function do?
+---------------------------------
+  1. Take TWO parameters: a key (like "num") and a value (the new data)
+  2. Update the sourceObject's property at that key with the new value
+  3. Return the value you just set
+
+Step-by-step walkthrough:
+
+  Step 1: Create the function with two parameters
+    function set(key, value) {
+    
+  Step 2: Update the sourceObject
+    sourceObject[key] = value;
+    This is like opening a drawer and replacing the old note with a new one.
+    
+  Step 3: Return the value
+    return value;
+    This confirms what you just set.
+
+
+Example in action:
+  set('num', 100)    // Changes num from 42 to 100, returns: 100
+  set('bool', false) // Changes bool from true to false, returns: false
+  set('str', 'hi')   // Changes str to 'hi', returns: 'hi'
+
+
+================================================================================
+PART 6: IMPORTANT PROGRAMMING CONCEPTS TO RESEARCH
+================================================================================
+
+To deepen your understanding, search for these topics:
+
+1. "JavaScript Objects" - Learn more about how objects work
+2. "JavaScript Functions" - Understand different ways to write functions
+3. "Getters and Setters" - JavaScript has built-in syntax for this concept
+4. "Scope and Context" - Why sourceObject is accessible in these functions
+5. "ES6 Methods" - Modern ways to write functions in JavaScript
+6. "Object Properties" - How to work with object keys and values
+7. "Bracket Notation vs Dot Notation" - Why we use sourceObject[key]
+
+
+================================================================================
+PART 7: WHAT YOU NEED TO IMPLEMENT
+================================================================================
+
+Good news! Some code is already provided for you in change.js:
+
+  const sourceObject = {        // ✓ Already provided
+    num: 42,
+    bool: true,
+    str: 'some text',
+    log: console.log,
+  }
+
+  function get(key) {           // ❌ YOU NEED TO FILL THIS IN
+    // Your code goes here
+  }
+
+  function set(key, value){     // ✓ Already partially done!
+    sourceObject[key] = value;
+    return value;
+  }
+
+YOUR TASK:
+  Complete the get() function body. It should return the value from sourceObject
+  using the key parameter.
+
+
+================================================================================
+PART 8: COMPLETE WORKING SOLUTION (REFERENCE)
+================================================================================
+
+Here's what your get() function should look like when completed:
+
+---GET FUNCTION SOLUTION---
+
+function get(key) {
+  // Use bracket notation to access the property dynamically
+  // Example: get('num') returns sourceObject.num which is 42
+  return sourceObject[key];
+}
+
+---END OF SOLUTION---
+
+That's it! Just one line inside the get() function.
+
+The set() function is already complete and correct:
+  - It updates sourceObject[key] with the new value
+  - It returns the value that was set
+
+
+================================================================================
+PART 8: TESTING YOUR FUNCTIONS
+================================================================================
+
+Once you've added the get() function body, test with these examples:
+
+// Test GET function
+  get('num')          // Should return: 42
+  get('bool')         // Should return: true
+  get('str')          // Should return: 'some text'
+
+// Test SET function
+  set('num', 999)     // Should return: 999
+  get('num')          // Should now return: 999 (changed!)
+  set('bool', false)  // Should return: false
+  get('bool')         // Should now return: false (changed!)
+
+
+================================================================================
+PART 8: TESTING YOUR SOLUTION
+================================================================================
+
+Here's how to test your functions work correctly:
+
+Manual Testing:
+  1. In your browser console or Node.js, run:
+     get('num')        // Should return: 42
+     
+  2. Try setting a new value:
+     set('num', 100)   // Should return: 100
+     
+  3. Verify it changed:
+     get('num')        // Should return: 100
+
+
+Expected Behavior:
+  - get() always returns the current value
+  - set() updates the value AND returns what you set
+  - After set(), the next get() returns the new value
+
+
+================================================================================
+PART 9: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ MISTAKE 1: Using dot notation with a variable
+  // WRONG:
+  sourceObject.key  // This looks for sourceObject.key literally
+  
+  // CORRECT:
+  sourceObject[key] // This uses the KEY variable's value
+
+
+❌ MISTAKE 2: Forgetting to return a value
+  // WRONG:
+  function set(key, value) {
+    sourceObject[key] = value;
+    // Missing return statement!
+  }
+  
+  // CORRECT:
+  function set(key, value) {
+    sourceObject[key] = value;
+    return value;
+  }
+
+
+❌ MISTAKE 3: Creating new functions instead of returning
+  // WRONG:
+  function set(key, value) {
+    return function() {  // Creating a function instead of returning value!
+      sourceObject[key] = value;
+    }
+  }
+  
+  // CORRECT:
+  function set(key, value) {
+    sourceObject[key] = value;
+    return value;      // Return the actual value
+  }
+
+
+================================================================================
+PART 10: GOING DEEPER - NEXT STEPS
+================================================================================
+
+Once you understand this assignment, explore these advanced topics:
+
+1. Arrow Functions:
+   const get = (key) => sourceObject[key];
+
+2. Object.defineProperty() - Control how properties are accessed
+
+3. Classes and Methods - Organize get/set inside a class
+
+4. Getters and Setters in ES6:
+   get myProperty() { /* return something */ }
+   set myProperty(value) { /* do something */ }
+
+5. Symbols - Advanced way to create private properties
+
+
+================================================================================
+FINAL TIPS FOR SUCCESS
+================================================================================
+
+✓ Test your functions with different keys
+✓ Make sure your get() returns the correct values
+✓ Make sure your set() updates the object AND returns the value
+✓ Use console.log() to debug and verify your code works
+✓ Remember: bracket notation is key for dynamic property access
+✓ Ask yourself: "What does this function receive?" and "What should it return?"
+
+
+Good luck! You've got this! 🚀
+
+================================================================================
+PART 11: COMPLETE FINAL SOLUTION FOR change.js
+================================================================================
+
+Here's exactly what your change.js file should look like after you complete it:
+
+---COMPLETE change.js---
+
+const sourceObject = {
+  num: 42,
+  bool: true,
+  str: 'some text',
+  log: console.log,
+}
+
+function get(key) {
+  return sourceObject[key];
+}
+
+function set(key, value){
+  sourceObject[key] = value;
+  return value;
+}
+
+---END OF SOLUTION---
+
+WHAT YOU ADDED:
+  The only thing you needed to add was one line in the get() function:
+  
+    return sourceObject[key];
+  
+  This line:
+    1. Takes the 'key' parameter (like 'num', 'bool', 'str')
+    2. Uses bracket notation to look up that key in sourceObject
+    3. Returns the value stored at that key
+
+
+VERIFY IT WORKS:
+  In your browser console or Node.js, run these commands:
+
+    get('num')              // Returns: 42
+    get('str')              // Returns: 'some text'
+    set('num', 100)         // Returns: 100 and updates num
+    get('num')              // Returns: 100 (now changed!)
+
+
+You're done! Both functions are now complete and working! 🎉
+
+================================================================================
+PART 12: HOW TO TEST IN YOUR BROWSER
+================================================================================
+
+Now that your change.js is complete, you'll want to run it and test it. Here's 
+how to do that in your browser:
+
+STEP 1: Create an HTML file
+---------------------------
+In the same folder as change.js, create a new file called index.html with this 
+content:
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change Assignment Test</title>
+</head>
+<body>
+    <h1>Testing the Change Assignment</h1>
+    <p>Open the Browser Developer Console to see the results (F12 or Ctrl+Shift+I)</p>
+    
+    <!-- Load your JavaScript file -->
+    <script src="change.js"></script>
+</body>
+</html>
+
+STEP 2: Open the HTML file in your browser
+-------------------------------------------
+  1. Find index.html on your computer
+  2. Right-click it and select "Open with" → Choose your browser (Chrome, Firefox, etc.)
+  3. Or simply drag and drop it into your browser window
+
+STEP 3: Open the Browser Developer Console
+-------------------------------------------
+  - On Windows/Linux: Press F12 or Ctrl+Shift+I
+  - On Mac: Press Cmd+Option+I
+  
+  You should see a console window open at the bottom or side of your browser.
+
+STEP 4: Test your functions in the console
+-------------------------------------------
+In the console, type these commands one by one and press Enter:
+
+  get('num')              // Press Enter - Should show: 42
+  get('bool')             // Press Enter - Should show: true
+  get('str')              // Press Enter - Should show: 'some text'
+  
+  set('num', 100)         // Press Enter - Should show: 100
+  get('num')              // Press Enter - Should show: 100 (changed!)
+  
+  set('str', 'hello')     // Press Enter - Should show: 'hello'
+  get('str')              // Press Enter - Should show: 'hello' (changed!)
+
+If all of these show the correct values, your code is working! 🎉
+
+
+ALTERNATIVE: Test directly in change.js with console.log()
+-----------------------------------------------------------
+You can also add test code at the bottom of your change.js file:
+
+// Add this to the end of change.js to auto-test:
+console.log('Testing get():');
+console.log(get('num'));        // Should print: 42
+console.log(get('bool'));       // Should print: true
+console.log(get('str'));        // Should print: some text
+
+console.log('Testing set():');
+console.log(set('num', 999));   // Should print: 999
+console.log(get('num'));        // Should print: 999 (changed!)
+
+Then refresh your browser (F5) and check the console for the results.
+
+
+TROUBLESHOOTING
+---------------
+Problem: "get is not defined" error
+Solution: Make sure change.js is loaded in your HTML with:
+  <script src="change.js"></script>
+
+Problem: Functions don't appear in console
+Solution: Make sure you completed the get() function body. It should have:
+  return sourceObject[key];
+
+Problem: Values aren't updating with set()
+Solution: Verify set() looks like this:
+  function set(key, value){
+    sourceObject[key] = value;
+    return value;
+  }
+
+================================================================================

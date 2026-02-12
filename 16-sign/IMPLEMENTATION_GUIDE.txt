@@ -1,0 +1,1150 @@
+================================================================================
+                    SIGN FUNCTIONS - IMPLEMENTATION GUIDE
+             Master Positive, Negative & Zero Detection in JavaScript
+================================================================================
+
+Welcome! This guide will teach you how to create functions that determine whether
+numbers are positive, negative, or zero. Think of it like a number classifier—
+a skill you'll use constantly in real programs!
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What You Need to Build:
+------------------------
+
+You will create TWO functions:
+
+1. **sign(number)** - A function that:
+   • Takes ONE number as input
+   • Returns 1 if the number is positive (> 0)
+   • Returns -1 if the number is negative (< 0)
+   • Returns 0 if the number is exactly zero (= 0)
+   • You must write your own logic; you CANNOT use Math.sign()
+
+2. **sameSign(num1, num2)** - A function that:
+   • Takes TWO numbers as input
+   • Returns true if both numbers have the same sign
+   • Returns false if they have different signs
+   • Uses your custom sign() function to solve it
+
+Real-World Example:
+-------------------
+
+Imagine a bank app. When checking your account:
+   • +$500 (positive) → deposit, money coming in
+   • -$50 (negative) → withdrawal, money going out
+   • $0 → no transaction
+
+With the sign function:
+   sign(500) returns 1     (positive = money in)
+   sign(-50) returns -1    (negative = money out)
+   sign(0) returns 0       (zero = no change)
+
+With sameSign:
+   sameSign(500, 200) returns true  (both positive)
+   sameSign(500, -50) returns false (different signs)
+   sameSign(-50, -25) returns true  (both negative)
+
+Why This Matters:
+-----------------
+
+Understanding signs and numbers is FUNDAMENTAL in programming:
+   • Game development: detecting if players are moving left or right
+   • Weather apps: showing if temperature went up or down
+   • Math functions: validating input ranges
+   • Logic building: creating conditional statements
+   
+Programmers solve "sign detection" problems daily. This is your foundation!
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO UNDERSTAND
+================================================================================
+
+Concept 1: Number Signs & Comparisons
+--------------------------------------
+
+Every number in the universe falls into THREE categories:
+
+   Positive numbers: 1, 2, 5.5, 100, 999...
+      • Greater than zero (> 0)
+      • Represent "more," "up," or "increase"
+
+   Negative numbers: -1, -2, -5.5, -100, -999...
+      • Less than zero (< 0)
+      • Represent "less," "down," or "decrease"
+
+   Zero: 0
+      • The boundary point
+      • Neither positive nor negative
+      • Represents "nothing" or "neutral"
+
+Analogy: Think of a number line. You're standing at zero. Numbers to the right 
+are positive (happy face 😊), numbers to the left are negative (sad face 😞), 
+and you're standing at neutral (😐). Your job is to identify where each number is!
+
+JavaScript lets us compare numbers:
+   • 5 > 0     returns true   (5 is greater than 0, so positive)
+   • -5 < 0    returns true   (-5 is less than 0, so negative)
+   • 0 === 0   returns true   (0 equals 0, so it's zero)
+
+
+Concept 2: If-Else Statements (Decision Making)
+-------------------------------------------------
+
+An if-else statement is like asking questions in a decision tree:
+
+   "Is the number positive?"
+      → If YES, do this
+      → If NO, ask another question
+         "Is the number negative?"
+            → If YES, do that
+            → If NO, it must be zero
+
+Real-world analogy: Imagine a flow chart at a pizza restaurant:
+   • Are you hungry? → YES → Give pizza, NO → Ask again
+   • Do you like pepperoni? → YES → Pepperoni pizza, NO → Cheese pizza
+
+In JavaScript:
+   if (condition1) {
+      // code if condition1 is true
+   } else if (condition2) {
+      // code if condition2 is true
+   } else {
+      // code if none of the above are true
+   }
+
+
+Concept 3: Functions (Reusable Code)
+-------------------------------------
+
+A function is like a recipe. You write instructions ONCE, then use them MANY times.
+
+Why? Because you don't want to repeat the same code over and over!
+
+Function anatomy:
+   function name(parameter) {
+      // code that does something
+      return result;  // send answer back
+   }
+
+Example - Recipe analogy:
+   Recipe for "makeJuice":
+      function makeJuice(fruit) {
+         // 1. Cut the fruit
+         // 2. Squeeze the juice
+         // 3. Return the juice
+         return juice;
+      }
+
+   // Now you can use it:
+   glass1 = makeJuice("orange");  // Makes orange juice
+   glass2 = makeJuice("apple");   // Makes apple juice
+   // Same instructions, different inputs!
+
+
+Concept 4: Return Values
+------------------------
+
+The "return" keyword sends a value BACK from the function to whoever called it.
+
+   function sign(number) {
+      if (number > 0) {
+         return 1;  // Send back 1 to the caller
+      } else if (number < 0) {
+         return -1; // Send back -1 to the caller
+      } else {
+         return 0;  // Send back 0 to the caller
+      }
+   }
+
+   let result = sign(5);  // result gets 1
+   let result = sign(-3); // result gets -1
+
+Without "return", the function result is undefined (nothing).
+
+
+Concept 5: Combining Functions (Function Composition)
+------------------------------------------------------
+
+One function can use another function! This is VERY powerful.
+
+For sameSign, we'll use our custom sign() function:
+
+   function sameSign(num1, num2) {
+      // Get the signs of both numbers
+      let sign1 = sign(num1);      // Use sign() function
+      let sign2 = sign(num2);      // Use sign() function
+      
+      // Compare them
+      if (sign1 === sign2) {
+         return true;   // Same sign!
+      } else {
+         return false;  // Different signs
+      }
+   }
+
+Analogy: Building with LEGO blocks. First, you build a simple block (sign function).
+Then, you use that block to build something bigger (sameSign function).
+
+================================================================================
+PART 3: STEP-BY-STEP ALGORITHM (Your Thinking Process)
+================================================================================
+
+FOR THE sign(number) FUNCTION:
+
+Step 1: Check if the number is greater than 0
+   • If YES → the number is positive
+   • Return 1
+
+Step 2: If Step 1 was NO, check if the number is less than 0
+   • If YES → the number is negative
+   • Return -1
+
+Step 3: If both Step 1 and Step 2 are NO, the number must be 0
+   • Return 0
+
+That's it! Three simple checks.
+
+
+FOR THE sameSign(num1, num2) FUNCTION:
+
+Step 1: Call sign(num1) and store the result
+   • This tells us if num1 is positive (1), negative (-1), or zero (0)
+
+Step 2: Call sign(num2) and store the result
+   • This tells us if num2 is positive (1), negative (-1), or zero (0)
+
+Step 3: Compare the two results
+   • If they're equal (===), the signs are the same → return true
+   • If they're not equal, the signs are different → return false
+
+Visual Example with actual numbers:
+
+   sameSign(5, 10):
+      sign(5) = 1
+      sign(10) = 1
+      1 === 1? YES → return true ✓
+
+   sameSign(5, -10):
+      sign(5) = 1
+      sign(-10) = -1
+      1 === -1? NO → return false ✓
+
+   sameSign(-5, -10):
+      sign(-5) = -1
+      sign(-10) = -1
+      -1 === -1? YES → return true ✓
+
+================================================================================
+PART 4: THE COMPLETE SOLUTION WITH COMMENTS
+================================================================================
+
+// FUNCTION 1: sign()
+// Purpose: Determine if a number is positive, negative, or zero
+// Takes: one parameter (a number)
+// Returns: 1 for positive, -1 for negative, 0 for zero
+
+function sign(number) {
+   // Check if the number is greater than zero
+   if (number > 0) {
+      // It's positive! Return 1
+      return 1;
+   } 
+   // Check if the number is less than zero
+   else if (number < 0) {
+      // It's negative! Return -1
+      return -1;
+   } 
+   // If neither of the above, it must be zero
+   else {
+      // It's exactly zero! Return 0
+      return 0;
+   }
+}
+
+// FUNCTION 2: sameSign()
+// Purpose: Check if two numbers have the same sign
+// Takes: two parameters (two numbers)
+// Returns: true if same sign, false if different signs
+
+function sameSign(num1, num2) {
+   // Get the sign of the first number using our sign() function
+   let sign1 = sign(num1);
+   
+   // Get the sign of the second number using our sign() function
+   let sign2 = sign(num2);
+   
+   // Compare the signs using strict equality (===)
+   // === checks if two values are EXACTLY the same
+   if (sign1 === sign2) {
+      // The signs match! Both are positive, both negative, or both zero
+      return true;
+   } else {
+      // The signs don't match. One is different from the other
+      return false;
+   }
+}
+
+Example Usage:
+--------------
+
+// TESTING THE sign() FUNCTION:
+console.log(sign(5));      // Output: 1 (5 is positive)
+console.log(sign(-3));     // Output: -1 (-3 is negative)
+console.log(sign(0));      // Output: 0 (0 is zero)
+console.log(sign(100));    // Output: 1 (100 is positive)
+console.log(sign(-0.5));   // Output: -1 (-0.5 is negative)
+
+// TESTING THE sameSign() FUNCTION:
+console.log(sameSign(5, 10));      // Output: true (both positive)
+console.log(sameSign(-5, -10));    // Output: true (both negative)
+console.log(sameSign(5, -10));     // Output: false (different signs)
+console.log(sameSign(0, 5));       // Output: false (0 vs positive)
+console.log(sameSign(-5, 0));      // Output: false (negative vs 0)
+console.log(sameSign(0, 0));       // Output: true (both zero)
+
+What the outputs mean:
+   • sign(5) = 1 means "5 is positive"
+   • sign(-3) = -1 means "-3 is negative"
+   • sign(0) = 0 means "0 is zero"
+   • sameSign(5, 10) = true means "5 and 10 have the same sign (both positive)"
+   • sameSign(5, -10) = false means "5 and -10 have different signs"
+
+================================================================================
+PART 5: UNDERSTANDING THE MATH/LOGIC DEEPER
+================================================================================
+
+Let's TRACE through the logic with actual numbers:
+
+TRACE: sign(7)
+   ├─ Is 7 > 0?  YES! ✓
+   ├─ Return 1
+   └─ Result: 1
+
+TRACE: sign(-4)
+   ├─ Is -4 > 0? NO ✗
+   ├─ Is -4 < 0? YES! ✓
+   ├─ Return -1
+   └─ Result: -1
+
+TRACE: sign(0)
+   ├─ Is 0 > 0?  NO ✗
+   ├─ Is 0 < 0?  NO ✗
+   ├─ Must be 0! Execute else block
+   ├─ Return 0
+   └─ Result: 0
+
+TRACE: sameSign(7, 12)
+   ├─ Call sign(7)
+   │  ├─ 7 > 0? YES
+   │  └─ sign(7) returns 1
+   ├─ Call sign(12)
+   │  ├─ 12 > 0? YES
+   │  └─ sign(12) returns 1
+   ├─ Compare: 1 === 1?  YES! ✓
+   ├─ Return true
+   └─ Result: true (both positive!)
+
+TRACE: sameSign(7, -12)
+   ├─ Call sign(7)
+   │  ├─ 7 > 0? YES
+   │  └─ sign(7) returns 1
+   ├─ Call sign(-12)
+   │  ├─ -12 > 0? NO
+   │  ├─ -12 < 0? YES
+   │  └─ sign(-12) returns -1
+   ├─ Compare: 1 === -1?  NO ✗
+   ├─ Return false
+   └─ Result: false (different signs!)
+
+TRACE: sameSign(-3, -8)
+   ├─ Call sign(-3)
+   │  ├─ -3 > 0? NO
+   │  ├─ -3 < 0? YES
+   │  └─ sign(-3) returns -1
+   ├─ Call sign(-8)
+   │  ├─ -8 > 0? NO
+   │  ├─ -8 < 0? YES
+   │  └─ sign(-8) returns -1
+   ├─ Compare: -1 === -1?  YES! ✓
+   ├─ Return true
+   └─ Result: true (both negative!)
+
+Why Each Step is Necessary:
+
+   The if-else chain ensures we check in the RIGHT order:
+   
+   1. Check positive FIRST (> 0) because we need a definitive answer
+   2. Check negative SECOND (< 0) because it's different from positive
+   3. Check zero LAST (else) because it's the only remaining possibility
+   
+   If we checked them out of order, we might make mistakes!
+   If we didn't have the checks, we couldn't classify the number.
+
+Alternative Approaches:
+
+   Approach 1 (OUR SOLUTION - Clearest):
+   - Use if-else statements
+   - Easy to understand
+   - Clear intent
+
+   Approach 2 (Using ternary operator - Advanced):
+   function sign(number) {
+      return number > 0 ? 1 : number < 0 ? -1 : 0;
+   }
+   - More compact
+   - Harder to read if you're new
+   - Does the same thing!
+
+   Approach 3 (Using switch statement - Different style):
+   - More verbose
+   - Could use for multiple cases
+   - Rarely used for this problem
+
+   Why we stick with if-else: It's the CLEAREST for learning!
+
+================================================================================
+PART 6: KEYWORDS & CONCEPTS TO EXPLORE FURTHER
+================================================================================
+
+Want to understand these topics better? Search for these terms:
+
+1. **Conditional Statements (if-else-if)** - Making decisions in code
+   Learn about: else-if chains, ternary operators, switch statements
+   Why: You'll use these in every program you write
+   Search: "JavaScript if else tutorial"
+
+2. **Functions and Parameters** - Reusable blocks of code
+   Learn about: function scope, parameters, return values, naming conventions
+   Why: Functions are the building blocks of all software
+   Search: "JavaScript functions explained for beginners"
+
+3. **Comparison Operators** - Comparing values
+   Learn about: >, <, ===, ==, !==, <=, >=
+   Why: Essential for making decisions
+   Search: "JavaScript comparison operators"
+
+4. **Strict Equality (===) vs Loose Equality (==)** - The difference matters!
+   Learn about: Why === is better, type coercion, best practices
+   Why: Using the wrong one causes subtle bugs
+   Search: "JavaScript === vs == strict equality"
+
+5. **Code Logic & Algorithm Design** - Thinking like a programmer
+   Learn about: pseudocode, flowcharts, breaking problems into steps
+   Why: Good logic = good code
+   Search: "algorithm design for beginners"
+
+6. **Testing Code** - Making sure your code works
+   Learn about: unit testing, test cases, console.log debugging
+   Why: Professional programmers test constantly
+   Search: "JavaScript testing for beginners"
+
+Websites to Explore:
+- **MDN Web Docs** (mdn.mozilla.org) - Official JavaScript documentation, very thorough
+- **JavaScript.info** (javascript.info) - Interactive tutorials, start here!
+- **Codecademy** (codecademy.com) - Interactive lessons with instant feedback
+- **FreeCodeCamp** (freecodecamp.org) - Free, comprehensive JavaScript course
+- **W3Schools** (w3schools.com) - Quick reference and tutorials
+
+================================================================================
+PART 7: TESTING YOUR CODE IN A BROWSER
+================================================================================
+
+Method 1: Using the Browser Console (Easiest)
+----------------------------------------------
+
+Step 1: Open any website in your browser
+Step 2: Press F12 (or Ctrl+Shift+I on Windows/Linux, Cmd+Option+I on Mac)
+        → This opens the Developer Tools
+Step 3: Click the "Console" tab
+Step 4: Copy and paste the code below into the console:
+
+```javascript
+// FUNCTION 1: sign()
+function sign(number) {
+   if (number > 0) {
+      return 1;
+   } else if (number < 0) {
+      return -1;
+   } else {
+      return 0;
+   }
+}
+
+// FUNCTION 2: sameSign()
+function sameSign(num1, num2) {
+   let sign1 = sign(num1);
+   let sign2 = sign(num2);
+   
+   if (sign1 === sign2) {
+      return true;
+   } else {
+      return false;
+   }
+}
+
+// TEST CASES FOR sign()
+console.log("=== TESTING sign() ===");
+console.log(sign(5));      // Should be 1
+console.log(sign(-3));     // Should be -1
+console.log(sign(0));      // Should be 0
+console.log(sign(100));    // Should be 1
+console.log(sign(-50));    // Should be -1
+
+// TEST CASES FOR sameSign()
+console.log("\n=== TESTING sameSign() ===");
+console.log(sameSign(5, 10));     // Should be true
+console.log(sameSign(-5, -10));   // Should be true
+console.log(sameSign(5, -10));    // Should be false
+console.log(sameSign(0, 5));      // Should be false
+console.log(sameSign(-5, 0));     // Should be false
+console.log(sameSign(0, 0));      // Should be true
+```
+
+Step 5: Press Enter and check the output
+
+Test Cases to Try:
+   sign(5)       → Expected: 1
+   sign(-3)      → Expected: -1
+   sign(0)       → Expected: 0
+   sign(0.001)   → Expected: 1 (positive, even though tiny)
+   sign(-0.001)  → Expected: -1 (negative, even though tiny)
+   
+   sameSign(5, 10)    → Expected: true (both positive)
+   sameSign(-5, -10)  → Expected: true (both negative)
+   sameSign(5, -10)   → Expected: false (different)
+   sameSign(0, 0)     → Expected: true (both zero)
+   sameSign(100, -1)  → Expected: false (different)
+
+
+Method 2: Create an HTML File (More Professional)
+---------------------------------------------------
+
+This method is cleaner and more professional. You can save it and reuse it!
+
+Step 1: Create a new file named "test-sign.html"
+Step 2: Copy this content into it:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Function Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-case {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+            font-family: monospace;
+        }
+        .pass {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .fail {
+            color: #f44336;
+            font-weight: bold;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            background-color: #f0f0f0;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔢 Sign Function Tester</h1>
+    
+    <div class="test-section">
+        <h2>Test Individual Numbers</h2>
+        <input type="number" id="testNumber" placeholder="Enter a number" value="5">
+        <button onclick="testSign()">Test sign()</button>
+        <button onclick="testTwoNumbers()">Test sameSign()</button>
+        
+        <h3>Additional Input</h3>
+        <input type="number" id="testNumber2" placeholder="Enter second number" value="10">
+    </div>
+
+    <div class="test-section">
+        <h2>Automatic Test Cases</h2>
+        <button onclick="runAllTests()">Run All Tests</button>
+    </div>
+
+    <div id="output">
+        Results will appear here...
+    </div>
+
+    <script>
+        // FUNCTION 1: sign()
+        function sign(number) {
+            if (number > 0) {
+                return 1;
+            } else if (number < 0) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+
+        // FUNCTION 2: sameSign()
+        function sameSign(num1, num2) {
+            let sign1 = sign(num1);
+            let sign2 = sign(num2);
+            
+            if (sign1 === sign2) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function testSign() {
+            let num = Number(document.getElementById('testNumber').value);
+            let result = sign(num);
+            let output = `sign(${num}) = ${result}\n`;
+            
+            if (num > 0) output += "✓ Correct! This number is positive.";
+            else if (num < 0) output += "✓ Correct! This number is negative.";
+            else output += "✓ Correct! This number is zero.";
+            
+            document.getElementById('output').textContent = output;
+        }
+
+        function testTwoNumbers() {
+            let num1 = Number(document.getElementById('testNumber').value);
+            let num2 = Number(document.getElementById('testNumber2').value);
+            let result = sameSign(num1, num2);
+            
+            let sign1 = sign(num1);
+            let sign2 = sign(num2);
+            
+            let output = `sameSign(${num1}, ${num2}) = ${result}\n`;
+            output += `sign(${num1}) = ${sign1}\n`;
+            output += `sign(${num2}) = ${sign2}\n`;
+            
+            if (result) output += "✓ Correct! Both numbers have the same sign.";
+            else output += "✓ Correct! These numbers have different signs.";
+            
+            document.getElementById('output').textContent = output;
+        }
+
+        function runAllTests() {
+            let output = "=== RUNNING ALL TESTS ===\n\n";
+            
+            // Test cases for sign()
+            output += "--- Testing sign() ---\n";
+            const signTests = [
+                { input: 5, expected: 1 },
+                { input: -3, expected: -1 },
+                { input: 0, expected: 0 },
+                { input: 100, expected: 1 },
+                { input: -50, expected: -1 },
+                { input: 0.1, expected: 1 },
+                { input: -0.1, expected: -1 }
+            ];
+            
+            let signPassed = 0;
+            signTests.forEach(test => {
+                let result = sign(test.input);
+                let passed = result === test.expected;
+                if (passed) signPassed++;
+                output += `sign(${test.input}) = ${result} ${passed ? '✓' : '✗'}\n`;
+            });
+            
+            output += `\nPassed: ${signPassed}/${signTests.length}\n\n`;
+            
+            // Test cases for sameSign()
+            output += "--- Testing sameSign() ---\n";
+            const sameSignTests = [
+                { input1: 5, input2: 10, expected: true },
+                { input1: -5, input2: -10, expected: true },
+                { input1: 5, input2: -10, expected: false },
+                { input1: 0, input2: 5, expected: false },
+                { input1: -5, input2: 0, expected: false },
+                { input1: 0, input2: 0, expected: true },
+                { input1: 100, input2: 1, expected: true },
+                { input1: -100, input2: -1, expected: true }
+            ];
+            
+            let samePassed = 0;
+            sameSignTests.forEach(test => {
+                let result = sameSign(test.input1, test.input2);
+                let passed = result === test.expected;
+                if (passed) samePassed++;
+                output += `sameSign(${test.input1}, ${test.input2}) = ${result} ${passed ? '✓' : '✗'}\n`;
+            });
+            
+            output += `\nPassed: ${samePassed}/${sameSignTests.length}\n`;
+            output += `\nTotal: ${signPassed + samePassed}/${signTests.length + sameSignTests.length} tests passed!`;
+            
+            document.getElementById('output').textContent = output;
+        }
+
+        // Run tests automatically when page loads
+        window.onload = function() {
+            runAllTests();
+        };
+    </script>
+</body>
+</html>
+```
+
+Step 3: Open this file in your browser
+Step 4: You'll see automatic tests run! You can also manually test numbers
+
+
+Method 3: Interactive Browser Testing (Advanced)
+-------------------------------------------------
+
+If you want to create your own interactive interface, try this approach:
+
+Step 1: Create an HTML file with form inputs
+Step 2: Add JavaScript that reads the inputs
+Step 3: Call your functions with the input values
+Step 4: Display results on the page
+
+This is what professional web developers do! (We did this in Method 2)
+
+================================================================================
+PART 8: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ Mistake 1: Using == instead of ===
+   Problem: 
+      let x = sign(-5);
+      if (x == "-1") { }  // Wrong! -1 is a number, not a string
+      
+   Solution: Always use === for strict comparison
+      if (x === -1) { }   // Right! Checks the actual number
+
+   Why: JavaScript's == does "type coercion" (converts types automatically),
+        which can lead to VERY confusing bugs. Always use ===!
+
+
+❌ Mistake 2: Forgetting to return a value
+   Problem:
+      function sign(number) {
+         if (number > 0) {
+            return 1;
+         }
+         // Oops! No return for other cases
+      }
+      
+      let result = sign(-5);  // result is undefined!
+   
+   Solution: Make sure EVERY code path returns something
+      function sign(number) {
+         if (number > 0) {
+            return 1;
+         } else if (number < 0) {
+            return -1;
+         } else {
+            return 0;
+         }
+      }
+
+
+❌ Mistake 3: Returning the wrong type
+   Problem:
+      function sign(number) {
+         if (number > 0) {
+            return "1";  // String, not a number!
+         } else if (number < 0) {
+            return "-1"; // String, not a number!
+         } else {
+            return 0;
+         }
+      }
+      
+      sameSign(5, 10);  // May not work correctly
+   
+   Solution: Return numbers, not strings
+      function sign(number) {
+         if (number > 0) {
+            return 1;    // Number!
+         } else if (number < 0) {
+            return -1;   // Number!
+         } else {
+            return 0;    // Number!
+         }
+      }
+
+
+❌ Mistake 4: Using Math.sign() when you're not allowed to
+   Problem:
+      function sign(number) {
+         return Math.sign(number);  // Cheating! The assignment says NO!
+      }
+   
+   Solution: Write your own using if-else logic
+      function sign(number) {
+         if (number > 0) {
+            return 1;
+         } else if (number < 0) {
+            return -1;
+         } else {
+            return 0;
+         }
+      }
+   
+   Why: The assignment specifically says you must write your own logic.
+        Using Math.sign defeats the learning purpose!
+
+
+❌ Mistake 5: Comparing to zero incorrectly
+   Problem:
+      function sign(number) {
+         if (number >= 0) {  // Wrong! This includes zero
+            return 1;
+         } else {
+            return -1;
+         }
+      }
+      
+      sign(0);  // Returns 1, but should return 0!
+   
+   Solution: Use > and < with separate checks
+      function sign(number) {
+         if (number > 0) {      // Only positive
+            return 1;
+         } else if (number < 0) { // Only negative
+            return -1;
+         } else {               // Must be zero
+            return 0;
+         }
+      }
+
+================================================================================
+PART 9: BONUS CHALLENGES
+================================================================================
+
+Once you've finished the basic assignment, try these challenges to deepen your
+understanding:
+
+Challenge 1: Simplify with a Ternary Operator
+   Write a one-line version of sign() using the ternary operator (? :)
+   Hint: number > 0 ? 1 : ...
+   This is advanced but teaches you concise coding!
+   
+   Try this:
+   function sign(number) {
+      return number > 0 ? 1 : number < 0 ? -1 : 0;
+   }
+
+
+Challenge 2: Create signDifference() Function
+   Write a function that returns the DIFFERENCE between the signs of two numbers
+   
+   Example:
+      signDifference(5, -3)   // sign(5)=1, sign(-3)=-1, difference=2
+      signDifference(10, 8)   // sign(10)=1, sign(8)=1, difference=0
+      signDifference(-5, -3)  // sign(-5)=-1, sign(-3)=-1, difference=0
+
+
+Challenge 3: Create validateSign() Function
+   Write a function that takes a number and a sign value and validates they match
+   
+   Example:
+      validateSign(5, 1)      // true (5 is positive, expected 1)
+      validateSign(-3, -1)    // true (-3 is negative, expected -1)
+      validateSign(5, -1)     // false (5 is positive, but expected -1)
+
+
+Challenge 4: Create countSameSigns() Function
+   Write a function that takes an ARRAY of numbers and counts how many pairs
+   have the same sign
+   
+   Example:
+      countSameSigns([1, 2, -3, -4])  
+      // Pairs with same sign: (1,2), (-3,-4) = 2 pairs
+   
+   This requires learning about loops! (for or while)
+
+
+Challenge 5: Add Edge Case Testing
+   Test your functions with unusual numbers:
+      • Very large numbers: sign(999999999999)
+      • Very small numbers: sign(0.00000001)
+      • Negative decimals: sign(-0.5)
+      • Infinity: sign(Infinity)  // Does it work?
+   
+   Question to think about: Should you handle special cases differently?
+
+================================================================================
+PART 10: FINAL THOUGHTS
+================================================================================
+
+This assignment teaches several important programming concepts:
+
+1. **Conditional Logic (if-else)** - Making decisions in code based on conditions
+   Every program makes decisions. This is how!
+
+2. **Comparison Operators** - Comparing values to make decisions
+   Fundamental to understanding how to direct program flow.
+
+3. **Return Values** - Sending data back from functions
+   Functions need to communicate their results. This is how!
+
+4. **Function Composition** - Using one function inside another
+   Building bigger programs from smaller pieces. This is CRITICAL!
+
+5. **Breaking Problems Into Steps** - Algorithm thinking
+   Before coding, think through the logic. This prevents bugs!
+
+These skills are absolutely FUNDAMENTAL to all programming. Whether you're
+building websites, games, mobile apps, or AI systems, you'll use these
+concepts hundreds of times.
+
+Remember: Every expert programmer started exactly where you are. The difference
+between beginners and experts is PRACTICE. Code more, fail more, learn more!
+
+🚀 You've just learned how to:
+   ✓ Create functions that classify numbers
+   ✓ Use conditional statements effectively
+   ✓ Compose functions (using one inside another)
+   ✓ Think algorithmically about problems
+   ✓ Test your code properly
+
+These are skills that will serve you for your entire programming career.
+Celebrate this progress! 🎉
+
+================================================================================
+PART 11: COMPLETE CORRECT SOLUTION
+================================================================================
+
+Below is the final, clean version of the solution that you should submit:
+
+```javascript
+function sign(number) {
+   if (number > 0) {
+      return 1;
+   } else if (number < 0) {
+      return -1;
+   } else {
+      return 0;
+   }
+}
+
+function sameSign(num1, num2) {
+   let sign1 = sign(num1);
+   let sign2 = sign(num2);
+   
+   if (sign1 === sign2) {
+      return true;
+   } else {
+      return false;
+   }
+}
+```
+
+Verification of Correct Output:
+--------------------------------
+
+Test Case: sign(5)      Expected: 1       ✓
+Test Case: sign(-3)     Expected: -1      ✓
+Test Case: sign(0)      Expected: 0       ✓
+Test Case: sign(100)    Expected: 1       ✓
+Test Case: sign(-50)    Expected: -1      ✓
+
+Test Case: sameSign(5, 10)      Expected: true    ✓
+Test Case: sameSign(-5, -10)    Expected: true    ✓
+Test Case: sameSign(5, -10)     Expected: false   ✓
+Test Case: sameSign(0, 0)       Expected: true    ✓
+Test Case: sameSign(100, -1)    Expected: false   ✓
+
+If your function returns these exact values, you've solved it correctly!
+
+Why This Solution Works:
+------------------------
+
+✓ Covers all three cases (positive, negative, zero) with separate checks
+✓ Returns the correct type (numbers, not strings)
+✓ sameSign properly uses the sign() function, demonstrating composition
+✓ Uses strict equality (===) to avoid type coercion bugs
+✓ Clear logic flow makes it easy to understand and debug
+✓ No use of Math.sign, following the requirements
+
+================================================================================
+PART 12: STEP-BY-STEP BROWSER TESTING GUIDE
+================================================================================
+
+QUICK START (Easiest Method - 2 minutes):
+------------------------------------------
+
+Step 1: Open your browser and press F12 to open Developer Tools
+Step 2: Click the "Console" tab
+Step 3: Copy-paste the complete code below into the console
+Step 4: Press Enter and watch the tests run!
+
+Complete Browser Console Test Script:
+-------------------------------------
+
+Copy everything below and paste into your browser console:
+
+```javascript
+// Function 1: sign()
+function sign(number) {
+   if (number > 0) {
+      return 1;
+   } else if (number < 0) {
+      return -1;
+   } else {
+      return 0;
+   }
+}
+
+// Function 2: sameSign()
+function sameSign(num1, num2) {
+   let sign1 = sign(num1);
+   let sign2 = sign(num2);
+   
+   if (sign1 === sign2) {
+      return true;
+   } else {
+      return false;
+   }
+}
+
+// ============ RUN ALL TESTS ============
+
+console.log("====== TESTING sign() ======");
+console.log("sign(5) =", sign(5), "✓ (expected 1)");
+console.log("sign(-3) =", sign(-3), "✓ (expected -1)");
+console.log("sign(0) =", sign(0), "✓ (expected 0)");
+console.log("sign(100) =", sign(100), "✓ (expected 1)");
+console.log("sign(-50) =", sign(-50), "✓ (expected -1)");
+console.log("sign(0.5) =", sign(0.5), "✓ (expected 1)");
+console.log("sign(-0.5) =", sign(-0.5), "✓ (expected -1)");
+
+console.log("\n====== TESTING sameSign() ======");
+console.log("sameSign(5, 10) =", sameSign(5, 10), "✓ (expected true)");
+console.log("sameSign(-5, -10) =", sameSign(-5, -10), "✓ (expected true)");
+console.log("sameSign(5, -10) =", sameSign(5, -10), "✓ (expected false)");
+console.log("sameSign(0, 0) =", sameSign(0, 0), "✓ (expected true)");
+console.log("sameSign(0, 5) =", sameSign(0, 5), "✓ (expected false)");
+console.log("sameSign(-100, -1) =", sameSign(-100, -1), "✓ (expected true)");
+console.log("sameSign(100, -1) =", sameSign(100, -1), "✓ (expected false)");
+
+console.log("\n✅ All tests completed! Check the results above.");
+```
+
+Expected Console Output:
+------------------------
+
+```
+====== TESTING sign() ======
+sign(5) = 1 ✓ (expected 1)
+sign(-3) = -1 ✓ (expected -1)
+sign(0) = 0 ✓ (expected 0)
+sign(100) = 1 ✓ (expected 1)
+sign(-50) = -1 ✓ (expected -1)
+sign(0.5) = 1 ✓ (expected 1)
+sign(-0.5) = -1 ✓ (expected -1)
+
+====== TESTING sameSign() ======
+sameSign(5, 10) = true ✓ (expected true)
+sameSign(-5, -10) = true ✓ (expected true)
+sameSign(5, -10) = false ✓ (expected false)
+sameSign(0, 0) = true ✓ (expected true)
+sameSign(0, 5) = false ✓ (expected false)
+sameSign(-100, -1) = true ✓ (expected true)
+sameSign(100, -1) = false ✓ (expected false)
+
+✅ All tests completed! Check the results above.
+```
+
+HTML File Method (More Professional):
+--------------------------------------
+
+See "Method 2" in PART 7 above for a complete HTML file with an interactive
+testing interface. This is the professional way to test JavaScript!
+
+How to Use the HTML Test File:
+1. Save the HTML code from Method 2 as "test-sign.html"
+2. Double-click to open it in your browser
+3. Click "Run All Tests" to see automatic testing
+4. Enter numbers in the input fields and click buttons to test manually
+
+Troubleshooting:
+----------------
+
+Problem: Console shows "ReferenceError: sign is not defined"
+Solution: Make sure you pasted the entire code including the function definitions.
+          Copy-paste the complete script above into the console.
+
+Problem: My function returns different results than expected
+Solution: Check these common mistakes:
+          - Are you using > and < correctly? (Not >= or <=)
+          - Are you returning numbers (1, -1, 0) not strings ("1", "-1", "0")?
+          - Are you using === for comparison, not ==?
+          - Are you including ALL three cases (positive, negative, zero)?
+
+Problem: Tests pass in console but fail when submitted
+Solution: Make sure:
+          - You have BOTH functions (sign AND sameSign)
+          - You're not using Math.sign() (the assignment forbids it)
+          - Function names are exactly: sign and sameSign
+          - Parameters are in the right order
+
+================================================================================
+
+🎓 CONGRATULATIONS! 🎓
+
+You now understand:
+- How to classify numbers by sign
+- How to write clear, logical functions
+- How to compose functions (using one inside another)
+- How to test code thoroughly
+- How professional JavaScript code is structured
+
+These are genuine programming skills. Use them well!
+
+Keep coding, keep learning, and remember:
+"The only way to learn programming is by DOING it." - Every programmer ever
+
+Welcome to the wonderful world of JavaScript! 🚀
+
+================================================================================

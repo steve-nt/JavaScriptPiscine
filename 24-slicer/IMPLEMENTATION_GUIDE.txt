@@ -1,0 +1,924 @@
+================================================================================
+                         SLICER - IMPLEMENTATION GUIDE
+                    Master the Art of Extracting Data from Sequences
+================================================================================
+
+Welcome! This guide will teach you how to create a powerful slice() function that
+works on both strings and arrays. Think of it like a digital knife that can cut
+out exactly the portion of data you need—whether you're trimming a sentence or
+extracting elements from a list.
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What You Need to Build:
+------------------------
+✓ Create a function named slice() that extracts a portion of a string or array
+✓ The function takes 3 parameters:
+  - The first parameter: a string or array you want to slice
+  - The second parameter: the starting index (where to begin cutting)
+  - The third parameter (optional): the ending index (where to stop)
+✓ Return a new string or array containing only the sliced portion
+✓ Handle negative indices (counting from the end)
+✓ Handle missing parameters gracefully
+
+Real-World Example:
+-------------------
+Imagine you have a sentence: "Hello World"
+
+With slice(0, 5), you extract "Hello" — starting at position 0, ending at 5
+With slice(6), you extract "World" — starting at position 6 to the end
+With slice(-5), you extract "World" — starting 5 characters from the end
+
+The same logic applies to arrays! If you have [1, 2, 3, 4, 5]:
+- slice(1, 4) gives you [2, 3, 4]
+- slice(-2) gives you [4, 5]
+
+Why This Matters:
+-----------------
+In real programming, you constantly need to work with portions of data:
+- Extracting URL parameters from a web address
+- Getting the first few items from a user's feed
+- Removing unwanted characters from user input
+- Splitting data into manageable chunks
+
+Understanding how slice works is fundamental to working with strings and arrays.
+It teaches you about indices, boundaries, and how to handle edge cases—skills
+that apply to nearly every programming task!
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO UNDERSTAND
+================================================================================
+
+Concept 1: Indices (Positions in Sequences)
+--------------------------------------------
+Every character in a string or element in an array has a position called an 
+INDEX. Indices always start counting from 0!
+
+Think of indices like seat numbers in a theater:
+  - Seat 0: First position
+  - Seat 1: Second position
+  - Seat 2: Third position
+  ... and so on
+
+Example with "Hello":
+  Index: 0 1 2 3 4
+  Char:  H e l l o
+
+Example with [10, 20, 30, 40]:
+  Index: 0  1  2  3
+  Elem:  10 20 30 40
+
+Concept 2: Negative Indices (Counting from the End)
+-----------------------------------------------------
+Negative indices count backwards from the end of the string or array!
+
+Think of it like standing at the end of a line and counting backwards:
+  - Position -1: Last element
+  - Position -2: Second to last
+  - Position -3: Third from last
+  ... and so on
+
+Example with "Hello":
+  Index:  0 1 2 3 4  (forward)
+  Index: -5-4-3-2-1  (backward)
+  Char:  H e l l o
+
+This means index -1 refers to the same character as index 4 (the last 'o')
+
+Concept 3: The Starting and Ending Parameters
+-----------------------------------------------
+slice(start, end) creates a "window" to view your data:
+
+START parameter:
+- Where your window begins (inclusive — this index IS included)
+- If negative, count from the end
+- If omitted, defaults to 0 (the beginning)
+- If greater than the length, returns empty result
+
+END parameter:
+- Where your window stops (exclusive — this index is NOT included)
+- The element AT this index is NOT included in the result
+- If negative, count from the end
+- If omitted, goes to the end of the sequence
+- If greater than the length, uses the length instead
+
+Example: "Hello" (length is 5)
+- slice(1, 4) starts at index 1 ('e'), stops BEFORE index 4
+  Result: "ell" (includes indices 1, 2, 3 but NOT 4)
+- slice(1) starts at index 1, goes to the end
+  Result: "ello"
+
+Concept 4: Not Modifying the Original
+---------------------------------------
+slice() NEVER changes the original string or array. It creates a new copy
+with just the portion you asked for.
+
+Think of it like photocopying a page from a book rather than cutting the
+actual book. The original stays intact, and you get a fresh copy.
+
+================================================================================
+PART 3: STEP-BY-STEP ALGORITHM (Your Thinking Process)
+================================================================================
+
+Step 1: Figure Out the Length
+     Determine how many characters (string) or elements (array) you're working
+     with. You'll need this to handle indices properly.
+
+Step 2: Handle the Start Index
+     - If start is undefined, use 0
+     - If start is negative, convert it: actual_start = length + start
+     - If start is greater than length, use length
+     - If start is negative after conversion, use 0
+
+Step 3: Handle the End Index
+     - If end is undefined, use the length (this means "go to the end")
+     - If end is negative, convert it: actual_end = length + end
+     - If end is greater than length, use length
+     - If end is less than 0 after conversion, use 0
+
+Step 4: Ensure Valid Boundaries
+     - Make sure start doesn't exceed end
+     - If start > end, return an empty string or array
+     - If start and end are equal, return an empty string or array
+
+Step 5: Extract the Portion
+     - Loop from start index to end index (not including end)
+     - Collect each character or element
+     - Return the result as a new string or array
+
+================================================================================
+PART 4: THE COMPLETE SOLUTION WITH COMMENTS
+================================================================================
+
+function slice(sequence, start, end) {
+  // STEP 1: Get the length of the sequence (string or array)
+  const length = sequence.length;
+  
+  // STEP 2: Handle the start parameter
+  // If start is undefined, we start from the beginning (index 0)
+  if (start === undefined) {
+    start = 0;
+  }
+  
+  // Convert negative start indices to positive
+  // Example: in a string of length 5, start=-2 becomes start=3
+  if (start < 0) {
+    start = Math.max(0, length + start);
+  } else {
+    // If start is beyond the length, cap it at the length
+    start = Math.min(start, length);
+  }
+  
+  // STEP 3: Handle the end parameter
+  // If end is undefined, we go all the way to the end
+  if (end === undefined) {
+    end = length;
+  }
+  
+  // Convert negative end indices to positive
+  if (end < 0) {
+    end = Math.max(0, length + end);
+  } else {
+    // If end is beyond the length, cap it at the length
+    end = Math.min(end, length);
+  }
+  
+  // STEP 4: Ensure start doesn't exceed end
+  // If start is greater than end, there's nothing to extract
+  if (start >= end) {
+    // Return empty string if it's a string, empty array if it's an array
+    return typeof sequence === 'string' ? '' : [];
+  }
+  
+  // STEP 5: Extract the portion and return it
+  // For strings, we can use substring, but we're implementing it manually
+  // For arrays, we loop and collect elements
+  
+  if (typeof sequence === 'string') {
+    // Build the result character by character
+    let result = '';
+    for (let i = start; i < end; i++) {
+      result += sequence[i];
+    }
+    return result;
+  } else {
+    // sequence is an array
+    let result = [];
+    for (let i = start; i < end; i++) {
+      result.push(sequence[i]);
+    }
+    return result;
+  }
+}
+
+Example Usage:
+--------------
+
+// Example 1: Slicing a string
+const text = "JavaScript";
+console.log(slice(text, 0, 4));    // "Java"
+console.log(slice(text, 4));       // "Script"
+console.log(slice(text, -6));      // "Script" (6 chars from the end)
+console.log(slice(text, 1, -1));   // "avaScrip" (skip first and last)
+
+// Example 2: Slicing an array
+const numbers = [10, 20, 30, 40, 50];
+console.log(slice(numbers, 1, 3));    // [20, 30]
+console.log(slice(numbers, -2));      // [40, 50]
+console.log(slice(numbers, 0, 5));    // [10, 20, 30, 40, 50] (entire array)
+console.log(slice(numbers, 2, 2));    // [] (empty, because start === end)
+
+What These Outputs Mean:
+------------------------
+- slice("JavaScript", 0, 4) returns "Java" because we include indices 0-3
+- slice("JavaScript", 4) returns "Script" because we start at 4 and go to end
+- slice("JavaScript", -6) counts 6 positions from the end, which is index 4
+- slice(numbers, 1, 3) returns [20, 30] by including indices 1-2 only
+- slice(numbers, -2) returns the last 2 elements: [40, 50]
+
+================================================================================
+PART 5: UNDERSTANDING THE MATH/LOGIC DEEPER
+================================================================================
+
+Let's trace through a complex example step-by-step:
+
+EXAMPLE: slice("Hello", -4, 3)
+String: "Hello" (length = 5)
+Indices: 0:'H', 1:'e', 2:'l', 3:'l', 4:'o'
+
+STEP 1: Get length
+  length = 5
+
+STEP 2: Convert negative start
+  start = -4
+  Since -4 < 0: start = Math.max(0, 5 + (-4)) = Math.max(0, 1) = 1
+
+STEP 3: Handle end parameter
+  end = 3 (it's positive, so no conversion needed)
+  3 is not greater than length (5), so end stays 3
+
+STEP 4: Compare start and end
+  start (1) < end (3)? YES, so we continue
+
+STEP 5: Extract from index 1 to 3 (not including 3)
+  Index 1: 'e'
+  Index 2: 'l'
+  Result: "el"
+
+Another Example: slice([5, 10, 15, 20, 25], 2, -1)
+Array: [5, 10, 15, 20, 25] (length = 5)
+Indices: 0:5, 1:10, 2:15, 3:20, 4:25
+
+STEP 1: length = 5
+
+STEP 2: Handle start (2)
+  2 is positive and less than length, so start = 2
+
+STEP 3: Convert negative end
+  end = -1
+  Since -1 < 0: end = Math.max(0, 5 + (-1)) = Math.max(0, 4) = 4
+
+STEP 4: Compare
+  start (2) < end (4)? YES
+
+STEP 5: Extract from index 2 to 4 (not including 4)
+  Index 2: 15
+  Index 3: 20
+  Result: [15, 20]
+
+Why Each Step Is Necessary:
+----------------------------
+1. Getting the length is crucial for converting negative indices and validating boundaries
+2. Converting negative indices makes them easier to work with in the loop
+3. Capping values at length prevents going past the sequence
+4. Checking if start >= end prevents infinite loops and handles edge cases
+5. The actual extraction uses a simple loop to build the result
+
+Why This Is Better Than Other Approaches:
+-------------------------------------------
+- It handles BOTH strings and arrays with the same logic
+- It properly handles negative indices in both directions
+- It handles undefined parameters gracefully with defaults
+- It's clear and easy to understand, even for beginners
+
+================================================================================
+PART 6: KEYWORDS & CONCEPTS TO EXPLORE FURTHER
+================================================================================
+
+Want to understand these topics better? Search for:
+
+1. **String Methods in JavaScript** - Introduction to built-in string functions
+   Learn about: charAt(), substring(), indexOf(), split()
+
+2. **Array Methods in JavaScript** - How to work with array manipulation
+   Learn about: filter(), map(), concat(), splice() (different from slice!)
+
+3. **Indexing and Array Access** - Understanding how to navigate sequences
+   Learn about: for loops, while loops, iteration
+
+4. **Type Checking (typeof operator)** - How to determine what type of data you're working with
+   Learn about: typeof, instanceof, data types in JavaScript
+
+5. **Mathematical Operations on Indices** - How to manipulate position numbers
+   Learn about: Math.max(), Math.min(), negative numbers, conditional logic
+
+6. **Immutability in JavaScript** - Why some functions don't modify originals
+   Learn about: const vs let, shallow copy, deep copy
+
+Websites to explore:
+- **MDN Web Docs** (https://developer.mozilla.org/) - Official JavaScript documentation with examples
+- **JavaScript.info** (https://javascript.info/) - Interactive tutorials and deep dives
+- **Codecademy** (https://codecademy.com/) - Interactive coding practice
+- **Khan Academy** (https://www.khanacademy.org/) - Visual learning about algorithms
+
+================================================================================
+PART 7: TESTING YOUR CODE IN A BROWSER
+================================================================================
+
+Method 1: Using the Browser Console (Easiest - 2 minutes)
+-----------------------------------------------------------
+1. Open any website in your browser
+2. Right-click and select "Inspect" or press F12
+3. Click the "Console" tab
+4. Copy your slice function and paste it into the console
+5. Press Enter
+6. Now type test cases and press Enter
+
+Test Cases to Try:
+   // Test 1: Basic string slicing
+   slice("Hello", 0, 2)           // Expected: "He"
+   
+   // Test 2: Array slicing
+   slice([1, 2, 3, 4, 5], 1, 4)   // Expected: [2, 3, 4]
+   
+   // Test 3: Negative indices
+   slice("Hello", -2)             // Expected: "lo"
+   
+   // Test 4: No parameters after first
+   slice("Hello", 1)              // Expected: "ello"
+   
+   // Test 5: Edge case - empty result
+   slice("Hello", 2, 2)           // Expected: ""
+   
+   // Test 6: Negative both ways
+   slice([10, 20, 30], -2, -1)    // Expected: [20]
+   
+   // Test 7: Start beyond length
+   slice("Hi", 10, 20)            // Expected: ""
+   
+   // Test 8: Large end index
+   slice("Test", 1, 100)          // Expected: "est"
+
+Method 2: Create an HTML File (More Professional)
+---------------------------------------------------
+Create a file called "test-slicer.html" and open it in your browser.
+The console will show you detailed test results.
+
+[HTML test file provided below in Section 12]
+
+Method 3: Interactive Browser Testing (Advanced)
+-------------------------------------------------
+Create an interactive HTML page where you can type test inputs and see results
+in real-time with visual feedback.
+
+[Interactive test template provided below in Section 12]
+
+================================================================================
+PART 8: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ Mistake 1: Forgetting That End Index Is Exclusive
+   Problem: You might think slice(string, 0, 3) includes index 3
+   Example: slice("Hello", 0, 3) returns "Hel" NOT "Hell"
+   Solution: Remember: end is exclusive (NOT included). The slice stops BEFORE reaching the end index.
+
+❌ Mistake 2: Not Converting Negative Indices Correctly
+   Problem: If you use -1 directly in a loop, you'll get errors
+   Example: Looping to "array[-1]" doesn't work in JavaScript
+   Solution: Convert negative indices FIRST using: length + negativeIndex
+
+❌ Mistake 3: Modifying the Original Sequence
+   Problem: Some students accidentally modify the input instead of returning new data
+   Solution: NEVER modify the original. Always create and return a NEW string or array.
+
+❌ Mistake 4: Forgetting to Handle the Array vs String Difference
+   Problem: Treating arrays and strings identically in the return
+   Example: Returning a string when an array was expected
+   Solution: Check the type and return the correct type (use typeof or Array.isArray())
+
+❌ Mistake 5: Off-by-One Errors
+   Problem: Getting indices wrong by one position is super common
+   Solution: Always test your boundaries with small examples first. Use console.log to debug!
+
+================================================================================
+PART 9: BONUS CHALLENGES
+================================================================================
+
+Once you've finished the basic assignment, try these enhancements:
+
+Challenge 1: Add Parameter Validation
+   Description: Create error messages if someone passes invalid parameters
+   (e.g., non-string/array, non-numeric indices). Throw helpful errors!
+
+Challenge 2: Create a Chainable Slice Method
+   Description: Make it so you can do slice(slice(string, 1, 5), 0, 2)
+   (This should already work, but think about why!)
+
+Challenge 3: Extend It with More Features
+   Description: Add a function called "slice2" that also returns the 
+   remaining parts: const [part1, part2] = slice2(string, 2)
+
+Challenge 4: Performance Challenge
+   Description: Time your function with very large strings/arrays
+   Can you make it more efficient?
+
+Challenge 5: Unicode Challenge
+   Description: Test your function with emojis and special characters
+   Example: slice("Hello 👋", 6) — does it work correctly?
+
+================================================================================
+PART 10: FINAL THOUGHTS
+================================================================================
+
+This assignment teaches several important programming concepts:
+
+1. **Index-Based Access** - Understanding positions in sequences is fundamental
+   to all data structures. Every time you work with arrays or strings, you'll
+   use this knowledge.
+
+2. **Parameter Handling** - Learning to manage optional parameters and provide
+   sensible defaults is crucial for writing flexible functions that others
+   can use easily.
+
+3. **Type Awareness** - Knowing how to check data types and handle different
+   types appropriately is a skill you'll use in almost every program.
+
+4. **Boundary Validation** - Making sure your operations stay within valid
+   limits prevents errors and crashes. This applies to security, performance,
+   and correctness.
+
+5. **Immutability** - Understanding that some functions should NOT modify
+   their inputs is important for writing predictable, reliable code.
+
+These skills are fundamental to all programming. Once you understand these 
+concepts, you can build much more complex applications like:
+- Text editors that can cut/copy/paste
+- Image processors that crop photos
+- Data processors that extract specific columns
+- Games that manage inventory systems
+- Chat applications that process messages
+
+Remember: Every expert programmer started exactly where you are now. The fact
+that you're learning to manipulate data in creative ways means you're building
+the foundation for everything that comes next!
+
+You've got this! 💪 Programming is like learning a language—at first it seems
+confusing, but with practice, it becomes second nature. Keep experimenting,
+breaking things on purpose, and having fun with code!
+
+================================================================================
+PART 11: COMPLETE CORRECT SOLUTION
+================================================================================
+
+Below is the final, clean version of the solution that you should submit:
+
+```javascript
+function slice(sequence, start, end) {
+  // Determine the length of the sequence (works for both strings and arrays)
+  const length = sequence.length;
+  
+  // Handle the start parameter
+  if (start === undefined) {
+    start = 0;
+  }
+  
+  if (start < 0) {
+    start = Math.max(0, length + start);
+  } else {
+    start = Math.min(start, length);
+  }
+  
+  // Handle the end parameter
+  if (end === undefined) {
+    end = length;
+  }
+  
+  if (end < 0) {
+    end = Math.max(0, length + end);
+  } else {
+    end = Math.min(end, length);
+  }
+  
+  // If start is at or beyond end, return empty result
+  if (start >= end) {
+    return typeof sequence === 'string' ? '' : [];
+  }
+  
+  // Extract and return the sliced portion
+  if (typeof sequence === 'string') {
+    let result = '';
+    for (let i = start; i < end; i++) {
+      result += sequence[i];
+    }
+    return result;
+  } else {
+    // It's an array
+    let result = [];
+    for (let i = start; i < end; i++) {
+      result.push(sequence[i]);
+    }
+    return result;
+  }
+}
+```
+
+Verification of Correct Output:
+--------------------------------
+If you run these tests and get these exact outputs, you've solved it correctly:
+
+TEST 1: slice("Hello World", 0, 5) = "Hello" ✓
+TEST 2: slice("Hello World", 6)    = "World" ✓
+TEST 3: slice("Hello World", -5)   = "World" ✓
+TEST 4: slice([1, 2, 3, 4, 5], 1, 4) = [2, 3, 4] ✓
+TEST 5: slice([1, 2, 3, 4, 5], -2) = [4, 5] ✓
+TEST 6: slice("Test", 2, 2)       = "" ✓
+TEST 7: slice([10, 20, 30], 10, 20) = [] ✓
+TEST 8: slice("Hi", 1, 100)       = "i" ✓
+
+Why This Solution Works:
+------------------------
+✓ Handles BOTH strings and arrays with the same logic
+✓ Properly converts negative indices to positive ones
+✓ Validates boundaries to prevent errors
+✓ Returns empty string/array when appropriate
+✓ Never modifies the original sequence
+✓ Handles all edge cases (undefined parameters, out-of-bounds, etc.)
+✓ Clear, readable code with proper type checking
+✓ Efficient - runs in O(n) time where n is the slice size
+
+================================================================================
+PART 12: STEP-BY-STEP BROWSER TESTING GUIDE
+================================================================================
+
+QUICK START (Easiest Method - 2 Minutes):
+------------------------------------------
+
+Step 1: Open any website in your browser (or go to google.com)
+Step 2: Press F12 to open Developer Tools
+Step 3: Click the "Console" tab
+Step 4: Paste the entire function code (from Part 11) and press Enter
+Step 5: Type one of the test cases below and press Enter
+
+You'll instantly see if it works! The console will display the result.
+
+Complete Browser Console Test Script:
+-------------------------------------
+Copy everything below into your browser console and run it all at once:
+
+```javascript
+function slice(sequence, start, end) {
+  const length = sequence.length;
+  
+  if (start === undefined) {
+    start = 0;
+  }
+  
+  if (start < 0) {
+    start = Math.max(0, length + start);
+  } else {
+    start = Math.min(start, length);
+  }
+  
+  if (end === undefined) {
+    end = length;
+  }
+  
+  if (end < 0) {
+    end = Math.max(0, length + end);
+  } else {
+    end = Math.min(end, length);
+  }
+  
+  if (start >= end) {
+    return typeof sequence === 'string' ? '' : [];
+  }
+  
+  if (typeof sequence === 'string') {
+    let result = '';
+    for (let i = start; i < end; i++) {
+      result += sequence[i];
+    }
+    return result;
+  } else {
+    let result = [];
+    for (let i = start; i < end; i++) {
+      result.push(sequence[i]);
+    }
+    return result;
+  }
+}
+
+// Run all tests
+console.log("=== STRING TESTS ===");
+console.log("slice('Hello World', 0, 5):", slice('Hello World', 0, 5)); // "Hello"
+console.log("slice('Hello World', 6):", slice('Hello World', 6));       // "World"
+console.log("slice('Hello World', -5):", slice('Hello World', -5));     // "World"
+console.log("slice('JavaScript', 4):", slice('JavaScript', 4));         // "Script"
+
+console.log("\n=== ARRAY TESTS ===");
+console.log("slice([1,2,3,4,5], 1, 4):", slice([1,2,3,4,5], 1, 4));    // [2,3,4]
+console.log("slice([1,2,3,4,5], -2):", slice([1,2,3,4,5], -2));        // [4,5]
+console.log("slice([10,20,30], 0):", slice([10,20,30], 0));            // [10,20,30]
+
+console.log("\n=== EDGE CASES ===");
+console.log("slice('Test', 2, 2):", slice('Test', 2, 2));              // ""
+console.log("slice([1,2], 10, 20):", slice([1,2], 10, 20));            // []
+console.log("slice('Hi', 0, 1):", slice('Hi', 0, 1));                  // "H"
+
+console.log("\n✅ All tests complete! Check results above.");
+```
+
+Expected Console Output:
+------------------------
+```
+=== STRING TESTS ===
+slice('Hello World', 0, 5): Hello
+slice('Hello World', 6): World
+slice('Hello World', -5): World
+slice('JavaScript', 4): Script
+
+=== ARRAY TESTS ===
+slice([1,2,3,4,5], 1, 4): Array(3) [ 2, 3, 4 ]
+slice([1,2,3,4,5], -2): Array(2) [ 4, 5 ]
+slice([10,20,30], 0): Array(3) [ 10, 20, 30 ]
+
+=== EDGE CASES ===
+slice('Test', 2, 2): 
+slice([1,2], 10, 20): Array(0) []
+slice('Hi', 0, 1): H
+
+✅ All tests complete! Check results above.
+```
+
+HTML File Method (More Professional):
+--------------------------------------
+Create a file named "test-slicer.html" with this content:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slicer Function Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        
+        .test-section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        
+        .test-case {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #0066cc;
+        }
+        
+        .test-input {
+            font-weight: bold;
+            color: #333;
+            font-family: monospace;
+        }
+        
+        .test-output {
+            margin-top: 5px;
+            color: #28a745;
+            font-family: monospace;
+        }
+        
+        .test-output.error {
+            color: #dc3545;
+        }
+        
+        .status {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
+        .status.pass {
+            color: #28a745;
+        }
+        
+        .status.fail {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔪 Slicer Function Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>String Tests</h2>
+        <div id="string-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Array Tests</h2>
+        <div id="array-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Edge Cases</h2>
+        <div id="edge-tests"></div>
+    </div>
+    
+    <script>
+        // Your slice function
+        function slice(sequence, start, end) {
+            const length = sequence.length;
+            
+            if (start === undefined) {
+                start = 0;
+            }
+            
+            if (start < 0) {
+                start = Math.max(0, length + start);
+            } else {
+                start = Math.min(start, length);
+            }
+            
+            if (end === undefined) {
+                end = length;
+            }
+            
+            if (end < 0) {
+                end = Math.max(0, length + end);
+            } else {
+                end = Math.min(end, length);
+            }
+            
+            if (start >= end) {
+                return typeof sequence === 'string' ? '' : [];
+            }
+            
+            if (typeof sequence === 'string') {
+                let result = '';
+                for (let i = start; i < end; i++) {
+                    result += sequence[i];
+                }
+                return result;
+            } else {
+                let result = [];
+                for (let i = start; i < end; i++) {
+                    result.push(sequence[i]);
+                }
+                return result;
+            }
+        }
+        
+        // Test runner
+        function runTest(input, expected, description) {
+            let result;
+            let isArray = Array.isArray(input);
+            
+            try {
+                if (isArray) {
+                    const [seq, start, end] = input;
+                    result = slice(seq, start, end);
+                } else {
+                    const [seq, start, end] = input;
+                    result = slice(seq, start, end);
+                }
+                
+                const pass = JSON.stringify(result) === JSON.stringify(expected);
+                const status = pass ? '✓ PASS' : '✗ FAIL';
+                const statusClass = pass ? 'pass' : 'fail';
+                
+                return `
+                    <div class="test-case">
+                        <div class="test-input">${description}</div>
+                        <div class="test-output">
+                            Expected: ${JSON.stringify(expected)}<br>
+                            Got: ${JSON.stringify(result)}
+                            <span class="status ${statusClass}">${status}</span>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                return `
+                    <div class="test-case">
+                        <div class="test-input">${description}</div>
+                        <div class="test-output error">
+                            Error: ${error.message}
+                            <span class="status fail">✗ ERROR</span>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // String tests
+        const stringTests = document.getElementById('string-tests');
+        stringTests.innerHTML = `
+            ${runTest(['Hello World', 0, 5], 'Hello', "slice('Hello World', 0, 5)")}
+            ${runTest(['Hello World', 6], 'World', "slice('Hello World', 6)")}
+            ${runTest(['Hello World', -5], 'World', "slice('Hello World', -5)")}
+            ${runTest(['JavaScript', 4], 'Script', "slice('JavaScript', 4)")}
+            ${runTest(['Test', 1, 3], 'es', "slice('Test', 1, 3)")}
+        `;
+        
+        // Array tests
+        const arrayTests = document.getElementById('array-tests');
+        arrayTests.innerHTML = `
+            ${runTest([[1,2,3,4,5], 1, 4], [2,3,4], "slice([1,2,3,4,5], 1, 4)")}
+            ${runTest([[1,2,3,4,5], -2], [4,5], "slice([1,2,3,4,5], -2)")}
+            ${runTest([[1,2,3,4,5], 0], [1,2,3,4,5], "slice([1,2,3,4,5], 0)")}
+            ${runTest([['a','b','c'], 1, 2], ['b'], "slice(['a','b','c'], 1, 2)")}
+        `;
+        
+        // Edge cases
+        const edgeTests = document.getElementById('edge-tests');
+        edgeTests.innerHTML = `
+            ${runTest(['Test', 2, 2], '', "slice('Test', 2, 2) - empty")}
+            ${runTest([[1,2], 10, 20], [], "slice([1,2], 10, 20) - out of bounds")}
+            ${runTest(['Hi', 0, 1], 'H', "slice('Hi', 0, 1) - single char")}
+            ${runTest([[], 0, 5], [], "slice([], 0, 5) - empty array")}
+            ${runTest(['', 0, 5], '', "slice('', 0, 5) - empty string")}
+        `;
+    </script>
+</body>
+</html>
+```
+
+How to Use the HTML Test File:
+1. Copy the HTML code above into a text editor (Notepad, VS Code, etc.)
+2. Save it as "test-slicer.html"
+3. Double-click the file to open it in your browser
+4. You'll see a color-coded test report with all results
+5. Green ✓ means your function works correctly
+6. Red ✗ means something needs fixing
+
+Troubleshooting:
+----------------
+
+Problem: "slice is not defined" error in console
+Solution: Make sure you pasted the entire function into the console and pressed
+Enter. The function must be defined BEFORE you call it.
+
+Problem: Tests fail for arrays
+Solution: Make sure you're returning a new array, not a string. Use Array.push()
+to build arrays, not string concatenation.
+
+Problem: Negative indices don't work
+Solution: Double-check your conversion formula. For a sequence of length N,
+the index at position -x should become N - x.
+
+Problem: Some tests pass but others fail
+Solution: This usually means boundary cases (like when start === end) aren't
+handled correctly. Review Step 4 of the algorithm.
+
+================================================================================
+
+CONGRATULATIONS! 🎉
+
+You now understand how the slice function works! This is a powerful tool that
+you'll use throughout your programming career. You've learned about:
+
+- How to work with indices and sequences
+- How to handle optional parameters
+- How to support both strings and arrays
+- How to manage edge cases
+- How to write clean, understandable code
+
+Keep practicing, keep asking questions, and keep building! Every expert
+programmer started exactly where you are now. Your curiosity and willingness
+to learn will take you far. 🚀
+
+Happy coding! 💻
+
+================================================================================

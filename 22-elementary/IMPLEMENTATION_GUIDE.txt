@@ -1,0 +1,1024 @@
+================================================================================
+                    ELEMENTARY - IMPLEMENTATION GUIDE
+         Master Arithmetic Without Built-in Operators - A Journey into Math
+================================================================================
+
+Welcome! This guide will teach you how to recreate the fundamental arithmetic
+operators (multiply, divide, and modulo) from scratch using only basic
+programming techniques. Think of it as learning to build a calculator without
+a calculator—you're learning HOW math actually works under the hood!
+
+Ever wondered how computers actually perform multiplication or division? 
+In this assignment, you'll discover that these operations are just clever 
+combinations of addition and subtraction. It's like learning that magic tricks 
+have simple explanations—way more satisfying!
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What You Need to Build:
+------------------------
+You need to create THREE functions that mimic basic arithmetic operators:
+
+1. multiply(a, b) - Returns the product of a and b WITHOUT using the * operator
+2. divide(a, b) - Returns the integer division of a by b WITHOUT using the / operator
+3. modulo(a, b) - Returns the remainder when a is divided by b WITHOUT using the % operator
+
+These functions should work with both positive and negative numbers, and
+handle edge cases properly.
+
+Real-World Example:
+-------------------
+multiply(5, 4) should return 20
+divide(20, 4) should return 5
+modulo(20, 4) should return 0
+
+multiply(-3, 7) should return -21
+divide(17, 5) should return 3 (integer division)
+modulo(17, 5) should return 2 (the remainder)
+
+Why This Matters:
+-----------------
+Understanding how these operations work is fundamental to programming:
+
+• It teaches you that operators are not magic—they're built from simpler operations
+• You'll understand how computers handle arithmetic internally
+• You'll develop problem-solving skills by breaking complex operations into steps
+• Knowing how to work without these operators is useful in restricted 
+  environments or when optimizing code
+
+This knowledge deepens your understanding of JavaScript and programming logic!
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO UNDERSTAND
+================================================================================
+
+Concept 1: Multiplication as Repeated Addition
+-----------------------------------------------
+Multiplication is nothing more than adding a number to itself multiple times!
+
+Think of it like this: 5 × 3 means "add 5 together 3 times"
+5 × 3 = 5 + 5 + 5 = 15
+
+This is the key insight: Instead of using *, we can use a loop to add the 
+number repeatedly. For multiply(5, 3), we add 5 three times.
+
+But wait—what if we need to multiply negative numbers? We need to handle that:
+• If both numbers are positive, keep adding
+• If one number is negative, the result is negative
+• If both are negative, the result is positive (negative × negative = positive)
+
+Concept 2: Division as Repeated Subtraction
+---------------------------------------------
+Division is the opposite of multiplication. It's about asking: "How many times 
+can I subtract the divisor from the dividend?"
+
+Example: 20 ÷ 4 = 5 because we can subtract 4 from 20 exactly 5 times:
+20 - 4 = 16
+16 - 4 = 12
+12 - 4 = 8
+8 - 4 = 4
+4 - 4 = 0 (We did this 5 times, so the answer is 5)
+
+Integer division means we only care about the whole number result, not the 
+decimal part. The remainder is what we'll use for the modulo function!
+
+Again, we need to handle signs:
+• Positive ÷ Positive = Positive
+• Negative ÷ Positive = Negative
+• Positive ÷ Negative = Negative
+• Negative ÷ Negative = Positive
+
+Concept 3: Modulo (Remainder) - What's Left Over?
+---------------------------------------------------
+Modulo is the remainder after division. It answers: "After dividing, what 
+amount is left over?"
+
+Example: 17 ÷ 5 = 3 with remainder 2, so 17 % 5 = 2
+
+Here's the mathematical relationship:
+dividend = divisor × quotient + remainder
+
+In our case:
+17 = 5 × 3 + 2
+17 = 15 + 2 ✓
+
+This is incredibly useful! Modulo is used to:
+• Check if a number is even (n % 2 === 0)
+• Create repeating patterns (useful in games, animations)
+• Check if numbers are divisible by something
+
+Concept 4: Handling Negative Numbers
+-------------------------------------
+JavaScript has specific rules for how negative numbers work with these operators:
+• multiply: The sign follows standard multiplication rules
+• divide: The result's sign depends on the operands' signs
+• modulo: The sign of the result follows the sign of the dividend (the first number)
+
+This is important because different programming languages handle negative 
+modulo differently!
+
+================================================================================
+PART 3: STEP-BY-STEP ALGORITHM (Your Thinking Process)
+================================================================================
+
+MULTIPLY Function Algorithm:
+----------------------------
+Step 1: Determine the sign of the result
+        (Is it negative? Positive? This depends on the signs of a and b)
+
+Step 2: Convert both numbers to their absolute values (make them positive)
+        (This makes the math easier)
+
+Step 3: Use a loop to add a to itself b times
+        (Start with result = 0, then add a, b times)
+
+Step 4: Apply the sign we determined in Step 1
+        (If we calculated it should be negative, multiply the result by -1)
+
+Step 5: Return the result
+
+
+DIVIDE Function Algorithm:
+--------------------------
+Step 1: Handle the special case where b (divisor) is 0
+        (You can't divide by zero! Return an error or Infinity)
+
+Step 2: Determine the sign of the result
+        (Is it negative? This depends on the signs of a and b)
+
+Step 3: Convert both numbers to their absolute values
+        (Makes repeated subtraction easier)
+
+Step 4: Use a loop to count how many times we can subtract b from a
+        (Keep subtracting b from a, counting each subtraction until a < b)
+
+Step 5: Apply the sign we determined in Step 2
+        (If the result should be negative, multiply by -1)
+
+Step 6: Return the count (this is our quotient/answer)
+
+
+MODULO Function Algorithm:
+---------------------------
+Step 1: Handle the special case where b (divisor) is 0
+        (Return NaN or throw an error)
+
+Step 2: Save the sign of a (the dividend)
+        (The result's sign should match the dividend's sign)
+
+Step 3: Convert both numbers to their absolute values
+
+Step 4: Use a loop to find the remainder
+        (Keep subtracting b from a until a < b. What's left is the remainder)
+
+Step 5: Apply the sign we saved in Step 2
+        (If a was negative, make the remainder negative)
+
+Step 6: Return the remainder
+
+================================================================================
+PART 4: THE COMPLETE SOLUTION WITH COMMENTS
+================================================================================
+
+// Function 1: Multiplication without using the * operator
+function multiply(a, b) {
+  // Determine if the result should be negative
+  // The result is negative if exactly one of the numbers is negative
+  const isNegative = (a < 0) !== (b < 0);
+  
+  // Convert both numbers to positive to make the algorithm simpler
+  a = Math.abs(a);
+  b = Math.abs(b);
+  
+  // Start with zero and add 'a' to itself 'b' times
+  let result = 0;
+  for (let i = 0; i < b; i++) {
+    result = result + a; // Same as: result += a
+  }
+  
+  // If the result should be negative, make it negative
+  // Otherwise, return it as is
+  return isNegative ? -result : result;
+}
+
+
+// Function 2: Integer division without using the / operator
+function divide(a, b) {
+  // Special case: Can't divide by zero!
+  if (b === 0) {
+    return a > 0 ? Infinity : a < 0 ? -Infinity : NaN;
+  }
+  
+  // Determine if the result should be negative
+  const isNegative = (a < 0) !== (b < 0);
+  
+  // Convert both numbers to positive
+  a = Math.abs(a);
+  b = Math.abs(b);
+  
+  // Count how many times we can subtract b from a
+  let quotient = 0;
+  while (a >= b) {
+    a = a - b; // Subtract the divisor
+    quotient++; // Increase our count
+  }
+  
+  // Apply the sign and return
+  return isNegative ? -quotient : quotient;
+}
+
+
+// Function 3: Modulo (remainder) without using the % operator
+function modulo(a, b) {
+  // Special case: Can't do modulo with zero divisor
+  if (b === 0) {
+    return NaN;
+  }
+  
+  // Remember the sign of the dividend (first number)
+  // The result's sign should match the dividend
+  const isNegative = a < 0;
+  
+  // Convert both numbers to positive for the calculation
+  a = Math.abs(a);
+  b = Math.abs(b);
+  
+  // Keep subtracting b from a until a is smaller than b
+  // What's left in 'a' is the remainder
+  while (a >= b) {
+    a = a - b;
+  }
+  
+  // Apply the sign of the original dividend
+  return isNegative ? -a : a;
+}
+
+
+Example Usage:
+--------------
+console.log(multiply(5, 3));      // Output: 15
+console.log(multiply(-5, 3));     // Output: -15
+console.log(multiply(-5, -3));    // Output: 15
+
+console.log(divide(20, 4));       // Output: 5
+console.log(divide(17, 5));       // Output: 3 (integer division)
+console.log(divide(-20, 4));      // Output: -5
+
+console.log(modulo(17, 5));       // Output: 2
+console.log(modulo(20, 4));       // Output: 0
+console.log(modulo(-17, 5));      // Output: -2
+
+What These Outputs Mean:
+------------------------
+multiply(5, 3) = 15 → We added 5 together 3 times: 5+5+5 = 15
+divide(20, 4) = 5 → We subtracted 4 from 20 five times: 20-4-4-4-4-4 = 0
+modulo(17, 5) = 2 → After dividing 17 by 5, we have 2 left over
+
+================================================================================
+PART 5: UNDERSTANDING THE MATH/LOGIC DEEPER
+================================================================================
+
+Let's Trace Through multiply(6, 4) Step by Step:
+---------------------------------------------------
+Initial values: a = 6, b = 4
+
+Step 1: Is the result negative?
+        (6 < 0) !== (4 < 0) → false !== false → false (NOT negative)
+
+Step 2: Convert to positive (already positive)
+        a = 6, b = 4
+
+Step 3: Loop 4 times, adding 6 each time:
+        Loop iteration 1: result = 0 + 6 = 6
+        Loop iteration 2: result = 6 + 6 = 12
+        Loop iteration 3: result = 12 + 6 = 18
+        Loop iteration 4: result = 18 + 6 = 24
+
+Step 4: Is result negative? No, so return 24 as is.
+
+Final Answer: 24 ✓
+
+
+Let's Trace Through divide(17, 5) Step by Step:
+---------------------------------------------------
+Initial values: a = 17, b = 5
+
+Step 1: Is b zero? No, continue.
+
+Step 2: Is the result negative?
+        (17 < 0) !== (5 < 0) → false !== false → false (NOT negative)
+
+Step 3: Convert to positive (already positive)
+        a = 17, b = 5
+
+Step 4: Loop, subtracting 5 until a < 5:
+        Is 17 >= 5? YES → a = 17 - 5 = 12, quotient = 1
+        Is 12 >= 5? YES → a = 12 - 5 = 7, quotient = 2
+        Is 7 >= 5? YES → a = 7 - 5 = 2, quotient = 3
+        Is 2 >= 5? NO → Stop
+
+Step 5: Is quotient negative? No, return 3 as is.
+
+Final Answer: 3 ✓ (and note that remainder = 2, which is what modulo returns)
+
+
+Let's Trace Through modulo(17, 5) Step by Step:
+---------------------------------------------------
+Initial values: a = 17, b = 5
+
+Step 1: Is b zero? No, continue.
+
+Step 2: Is a negative? No, isNegative = false
+
+Step 3: Convert to positive (already positive)
+        a = 17, b = 5
+
+Step 4: Loop, subtracting 5 until a < 5:
+        Is 17 >= 5? YES → a = 17 - 5 = 12
+        Is 12 >= 5? YES → a = 12 - 5 = 7
+        Is 7 >= 5? YES → a = 7 - 5 = 2
+        Is 2 >= 5? NO → Stop. a = 2 is our remainder.
+
+Step 5: Was the original a negative? No, return 2 as is.
+
+Final Answer: 2 ✓ (the remainder)
+
+
+Why This Relationship Works:
+----------------------------
+Notice something important: 17 = 5 × 3 + 2
+This is always true: dividend = divisor × quotient + remainder
+
+In our example:
+17 = 5 × 3 + 2
+17 = 15 + 2
+17 = 17 ✓
+
+This is why the three operations are interconnected!
+
+Alternative Approach (More Efficient):
+--------------------------------------
+For very large numbers, repeatedly adding or subtracting is slow. A more 
+efficient approach would use binary operations or bit shifting, but the 
+concept is the same. This simple approach helps you understand the core math!
+
+================================================================================
+PART 6: KEYWORDS & CONCEPTS TO EXPLORE FURTHER
+================================================================================
+
+Want to understand these topics better? Search for:
+
+1. **Bitwise Operations** - [Efficient alternative to loops for arithmetic]
+    Learn about: XOR tricks, bit shifting, binary representations
+    Why it matters: Much faster for large numbers!
+
+2. **Two's Complement** - [How computers represent negative numbers]
+    Learn about: Binary representation, sign bits, overflow
+    Why it matters: Understanding how computers store negative integers
+
+3. **Time Complexity** - [How to measure algorithm efficiency]
+    Learn about: Big O notation, O(n) vs O(log n), optimization
+    Why it matters: Your multiply function is O(b) - can you make it faster?
+
+4. **Number Base Systems** - [Binary, octal, hexadecimal]
+    Learn about: Base 2, base 8, base 16, conversions
+    Why it matters: Understanding how different number systems work
+
+5. **Modular Arithmetic** - [Real-world applications of modulo]
+    Learn about: Hashing, cryptography, circular arrays, game development
+    Why it matters: Modulo is used everywhere in computer science!
+
+6. **IEEE 754 Standard** - [How JavaScript handles floating point numbers]
+    Learn about: Precision, rounding, special values (Infinity, NaN)
+    Why it matters: Why some decimal operations in JavaScript are weird!
+
+Websites to explore:
+- MDN Web Docs (developer.mozilla.org) - Comprehensive JavaScript reference
+- Khan Academy - Visual explanations of mathematics and algorithms
+- freeCodeCamp - Free programming tutorials and deep dives
+- Brilliant.org - Interactive math and CS problem-solving
+
+================================================================================
+PART 7: TESTING YOUR CODE IN A BROWSER
+================================================================================
+
+Method 1: Using the Browser Console (Easiest)
+----------------------------------------------
+Step 1: Open your browser (Chrome, Firefox, Safari, etc.)
+Step 2: Right-click anywhere on a webpage → Select "Inspect" or "Inspect Element"
+Step 3: Click the "Console" tab at the top
+Step 4: Copy and paste the three functions into the console
+Step 5: Press Enter
+Step 6: Test by typing commands like: multiply(5, 3)
+        Press Enter and you should see: 15
+
+Test Cases to Try (Copy one at a time into console):
+-----------------------------------------------------
+// Test multiply
+multiply(5, 3);           // Should return: 15
+multiply(-5, 3);          // Should return: -15
+multiply(-5, -3);         // Should return: 15
+multiply(0, 100);         // Should return: 0
+multiply(1, 1);           // Should return: 1
+
+// Test divide
+divide(20, 4);            // Should return: 5
+divide(17, 5);            // Should return: 3
+divide(-20, 4);           // Should return: -5
+divide(5, 20);            // Should return: 0 (less than divisor)
+divide(100, 1);           // Should return: 100
+
+// Test modulo
+modulo(17, 5);            // Should return: 2
+modulo(20, 4);            // Should return: 0 (divides evenly)
+modulo(-17, 5);           // Should return: -2 (negative dividend)
+modulo(5, 20);            // Should return: 5 (dividend is smaller)
+modulo(100, 3);           // Should return: 1
+
+Method 2: Create an HTML File (More Professional)
+---------------------------------------------------
+This method creates a proper test file you can save and reuse:
+
+Step 1: Open a text editor (Notepad, VS Code, Sublime Text, etc.)
+Step 2: Create a new file called "test_elementary.html"
+Step 3: Copy the HTML template below into the file
+Step 4: Save it in a folder you can remember
+Step 5: Double-click the file to open it in your browser
+Step 6: You'll see test results displayed on the page
+Step 7: Open the browser console (F12) to see detailed output
+
+HTML Template:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elementary Functions Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-case {
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #2196F3;
+            background: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+            color: #2e7d32;
+        }
+        .fail {
+            border-left-color: #f44336;
+            color: #c62828;
+        }
+        .result-text {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Elementary Functions Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>How to Use:</h2>
+        <p>Click the "Run All Tests" button below to test all three functions.</p>
+        <p>Each test case will show PASS or FAIL, helping you verify your implementation.</p>
+        <button onclick="runAllTests()">Run All Tests</button>
+    </div>
+
+    <div id="multiply-tests" class="test-section">
+        <h2>Multiply Function Tests</h2>
+        <div id="multiply-results"></div>
+    </div>
+
+    <div id="divide-tests" class="test-section">
+        <h2>Divide Function Tests</h2>
+        <div id="divide-results"></div>
+    </div>
+
+    <div id="modulo-tests" class="test-section">
+        <h2>Modulo Function Tests</h2>
+        <div id="modulo-results"></div>
+    </div>
+
+    <script>
+        // Your functions go here:
+        
+        function multiply(a, b) {
+          const isNegative = (a < 0) !== (b < 0);
+          a = Math.abs(a);
+          b = Math.abs(b);
+          let result = 0;
+          for (let i = 0; i < b; i++) {
+            result = result + a;
+          }
+          return isNegative ? -result : result;
+        }
+
+        function divide(a, b) {
+          if (b === 0) {
+            return a > 0 ? Infinity : a < 0 ? -Infinity : NaN;
+          }
+          const isNegative = (a < 0) !== (b < 0);
+          a = Math.abs(a);
+          b = Math.abs(b);
+          let quotient = 0;
+          while (a >= b) {
+            a = a - b;
+            quotient++;
+          }
+          return isNegative ? -quotient : quotient;
+        }
+
+        function modulo(a, b) {
+          if (b === 0) {
+            return NaN;
+          }
+          const isNegative = a < 0;
+          a = Math.abs(a);
+          b = Math.abs(b);
+          while (a >= b) {
+            a = a - b;
+          }
+          return isNegative ? -a : a;
+        }
+
+        // Test harness
+        function testFunction(name, func, a, b, expected) {
+            const result = func(a, b);
+            const passed = result === expected;
+            const className = passed ? 'pass' : 'fail';
+            const status = passed ? '✓ PASS' : '✗ FAIL';
+            
+            return `
+                <div class="test-case ${className}">
+                    <strong>${name}(${a}, ${b})</strong>
+                    <div class="result-text">
+                        ${status} - Expected: ${expected}, Got: ${result}
+                    </div>
+                </div>
+            `;
+        }
+
+        function runAllTests() {
+            let multiplyHTML = '';
+            let divideHTML = '';
+            let moduloHTML = '';
+
+            // Multiply tests
+            multiplyHTML += testFunction('multiply', multiply, 5, 3, 15);
+            multiplyHTML += testFunction('multiply', multiply, -5, 3, -15);
+            multiplyHTML += testFunction('multiply', multiply, -5, -3, 15);
+            multiplyHTML += testFunction('multiply', multiply, 0, 100, 0);
+            multiplyHTML += testFunction('multiply', multiply, 7, 7, 49);
+
+            // Divide tests
+            divideHTML += testFunction('divide', divide, 20, 4, 5);
+            divideHTML += testFunction('divide', divide, 17, 5, 3);
+            divideHTML += testFunction('divide', divide, -20, 4, -5);
+            divideHTML += testFunction('divide', divide, 5, 20, 0);
+            divideHTML += testFunction('divide', divide, 100, 1, 100);
+
+            // Modulo tests
+            moduloHTML += testFunction('modulo', modulo, 17, 5, 2);
+            moduloHTML += testFunction('modulo', modulo, 20, 4, 0);
+            moduloHTML += testFunction('modulo', modulo, -17, 5, -2);
+            moduloHTML += testFunction('modulo', modulo, 5, 20, 5);
+            moduloHTML += testFunction('modulo', modulo, 100, 3, 1);
+
+            document.getElementById('multiply-results').innerHTML = multiplyHTML;
+            document.getElementById('divide-results').innerHTML = divideHTML;
+            document.getElementById('modulo-results').innerHTML = moduloHTML;
+
+            console.log('All tests completed!');
+        }
+    </script>
+</body>
+</html>
+```
+
+How to Use the HTML Test File:
+1. Save the above code as "test_elementary.html"
+2. Open it in any web browser by double-clicking the file
+3. Click "Run All Tests" button
+4. Green boxes = PASS ✓, Red boxes = FAIL ✗
+
+
+Method 3: Interactive Browser Testing (Advanced)
+-------------------------------------------------
+Want to test custom values? Modify the HTML template to add an input section:
+
+1. Add this to the HTML body (before the script tag):
+   ```html
+   <div class="test-section">
+       <h2>Custom Test</h2>
+       <input type="number" id="inputA" placeholder="Enter a" value="17">
+       <input type="number" id="inputB" placeholder="Enter b" value="5">
+       <button onclick="customTest()">Test Custom Values</button>
+       <div id="custom-result"></div>
+   </div>
+   ```
+
+2. Add this JavaScript function:
+   ```javascript
+   function customTest() {
+       const a = parseInt(document.getElementById('inputA').value);
+       const b = parseInt(document.getElementById('inputB').value);
+       const result = `
+           multiply(${a}, ${b}) = ${multiply(a, b)}<br>
+           divide(${a}, ${b}) = ${divide(a, b)}<br>
+           modulo(${a}, ${b}) = ${modulo(a, b)}
+       `;
+       document.getElementById('custom-result').innerHTML = result;
+   }
+   ```
+
+Now you can test ANY values you want!
+
+================================================================================
+PART 8: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ Mistake 1: Forgetting to Handle Negative Numbers
+   Problem: Your functions might work for positive numbers but fail for negatives
+   Solution: Always check the signs FIRST before doing the math. Remember:
+             negative × negative = positive
+             negative ÷ positive = negative
+             The sign of modulo matches the first number's sign
+
+❌ Mistake 2: Using the Forbidden Operators
+   Problem: Accidentally using *, /, or % in your solution
+   Solution: The assignment specifically forbids these! Use only +, -, and loops.
+             If you see these operators, delete them and use the loop approach!
+
+❌ Mistake 3: Infinite Loops in Division/Modulo
+   Problem: If your while loop never stops, the browser freezes
+   Reason: Usually because you're not subtracting the divisor correctly
+   Solution: Make sure your while condition is "while (a >= b)" not "while (a > b)"
+             and always subtract b from a: "a = a - b"
+
+❌ Mistake 4: Not Handling Division by Zero
+   Problem: Dividing by zero should return Infinity or handle it gracefully
+   Solution: Add a check: if (b === 0) return appropriate value
+             This prevents errors and crashes
+
+❌ Mistake 5: Forgetting to Apply the Sign at the End
+   Problem: Your math is right but the sign is wrong (got -15 instead of 15)
+   Solution: After doing the math with positive numbers, remember to apply
+             the sign you determined at the start:
+             return isNegative ? -result : result;
+
+❌ Mistake 6: Using Math.imul() or Other Math Methods
+   Problem: The assignment says Math.imul is undefined
+   Solution: Don't try to use it! Stick to basic arithmetic (+, -)
+             and loops. That's the whole point!
+
+================================================================================
+PART 9: BONUS CHALLENGES
+================================================================================
+
+Once you've finished the basic assignment, try these:
+
+Challenge 1: Create a Power Function
+   Description: Create a function power(base, exponent) that calculates 
+                base^exponent WITHOUT using Math.pow() or the ** operator.
+                
+   Hint: Think about what multiplication IS. Exponentiation is just 
+         repeated multiplication! 2^3 = 2 × 2 × 2 = 8
+   
+   Test: power(2, 3) should return 8
+         power(5, 2) should return 25
+
+
+Challenge 2: Optimize Your Multiply Function
+   Description: Your current multiply function loops b times. Can you make it faster
+                using bit shifting? Research how to use << (left shift) operator.
+   
+   Hint: Left shifting is the same as multiplying by 2
+         5 << 1 = 10 (because 5 × 2 = 10)
+         This can make multiplication much faster for large numbers!
+
+
+Challenge 3: Create a Square Root Function
+   Description: Without using Math.sqrt(), create a function sqrt(n) that 
+                returns the integer square root.
+   
+   Hint: You can use binary search or Newton's method
+         Which number times itself equals (or is closest to) n?
+
+
+Challenge 4: Create a Greatest Common Divisor (GCD) Function
+   Description: Create a function gcd(a, b) that finds the greatest common divisor
+                using the Euclidean algorithm.
+   
+   Hint: This uses repeated division/modulo operations
+         gcd(48, 18) = gcd(18, 12) = gcd(12, 6) = gcd(6, 0) = 6
+
+
+Challenge 5: Make Your Functions Handle Decimals
+   Description: Right now, multiply works with decimals, but divide and modulo
+                only handle integers. Can you modify them to work with decimals?
+   
+   Hint: This is tricky! You might need to convert decimals to integers first,
+         do the math, then convert back. Example: 
+         5.5 × 2 = 11 (multiply the decimal parts by 10, do the math, divide back)
+
+================================================================================
+PART 10: FINAL THOUGHTS
+================================================================================
+
+This assignment teaches several important programming concepts:
+
+1. **Algorithmic Thinking** - How to break complex operations into simple steps
+   You learned that complex operations are just many simple operations repeated!
+
+2. **Loops and Iteration** - How to repeat actions multiple times programmatically
+   The for loop (multiply) and while loop (divide/modulo) are fundamental tools!
+
+3. **Sign and Negative Number Handling** - How computers work with negative values
+   Understanding sign logic is crucial for correct implementation
+
+4. **Edge Cases and Error Handling** - Considering special situations like division by zero
+   Professional code handles unusual inputs gracefully
+
+5. **Algorithm Efficiency** - Recognizing that your solution could be optimized
+   Sometimes simple is best, but there are always faster approaches to explore!
+
+These skills are fundamental to all programming. Once you understand these 
+concepts, you can build much more complex applications! Advanced topics like 
+cryptography, game physics, financial calculations all use these basic ideas.
+
+Remember: Every computer operation, no matter how complex, is built from 
+these simple building blocks. You're learning how computers actually think!
+
+Every experienced programmer still remembers the satisfaction of first 
+understanding HOW a computer does something, not just THAT it does it. 
+You're building that deep understanding right now!
+
+================================================================================
+PART 11: COMPLETE CORRECT SOLUTION
+================================================================================
+
+Below is the final, clean version of the solution that you should submit:
+
+```javascript
+function multiply(a, b) {
+  const isNegative = (a < 0) !== (b < 0);
+  a = Math.abs(a);
+  b = Math.abs(b);
+  let result = 0;
+  for (let i = 0; i < b; i++) {
+    result = result + a;
+  }
+  return isNegative ? -result : result;
+}
+
+function divide(a, b) {
+  if (b === 0) {
+    return a > 0 ? Infinity : a < 0 ? -Infinity : NaN;
+  }
+  const isNegative = (a < 0) !== (b < 0);
+  a = Math.abs(a);
+  b = Math.abs(b);
+  let quotient = 0;
+  while (a >= b) {
+    a = a - b;
+    quotient++;
+  }
+  return isNegative ? -quotient : quotient;
+}
+
+function modulo(a, b) {
+  if (b === 0) {
+    return NaN;
+  }
+  const isNegative = a < 0;
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (a >= b) {
+    a = a - b;
+  }
+  return isNegative ? -a : a;
+}
+```
+
+Verification of Correct Output:
+--------------------------------
+Test your code with these cases. If you get these exact results, you're correct!
+
+multiply(5, 3) → 15
+multiply(-5, 3) → -15
+multiply(-5, -3) → 15
+multiply(0, 100) → 0
+
+divide(20, 4) → 5
+divide(17, 5) → 3
+divide(-20, 4) → -5
+divide(5, 20) → 0
+
+modulo(17, 5) → 2
+modulo(20, 4) → 0
+modulo(-17, 5) → -2
+modulo(5, 20) → 5
+
+If your function returns these exact values, you've solved it correctly!
+
+Why This Solution Works:
+------------------------
+✓ multiply uses a loop to add a number to itself b times (repeated addition)
+✓ divide counts how many times we subtract b from a (repeated subtraction)
+✓ modulo finds what's left after removing as many divisors as possible
+✓ All three functions properly handle positive and negative numbers
+✓ Edge cases like division by zero are handled gracefully
+✓ The code is clean, readable, and follows the requirement of not using *, /, or %
+
+================================================================================
+PART 12: STEP-BY-STEP BROWSER TESTING GUIDE
+================================================================================
+
+QUICK START (Easiest Method - 2 minutes):
+------------------------------------------
+
+Step 1: Go to any website in your web browser
+Step 2: Right-click on the page and select "Inspect" (or press F12)
+Step 3: Click on the "Console" tab at the top
+Step 4: Copy the three functions above and paste them into the console
+Step 5: Press Enter after pasting
+Step 6: Type "multiply(5, 3)" and press Enter
+Step 7: You should see "15" appear. Success! ✓
+
+Complete Browser Console Test Script:
+-------------------------------------
+Copy everything below into your browser console and run it at once:
+
+```javascript
+// Define the functions
+function multiply(a, b) {
+  const isNegative = (a < 0) !== (b < 0);
+  a = Math.abs(a);
+  b = Math.abs(b);
+  let result = 0;
+  for (let i = 0; i < b; i++) {
+    result = result + a;
+  }
+  return isNegative ? -result : result;
+}
+
+function divide(a, b) {
+  if (b === 0) {
+    return a > 0 ? Infinity : a < 0 ? -Infinity : NaN;
+  }
+  const isNegative = (a < 0) !== (b < 0);
+  a = Math.abs(a);
+  b = Math.abs(b);
+  let quotient = 0;
+  while (a >= b) {
+    a = a - b;
+    quotient++;
+  }
+  return isNegative ? -quotient : quotient;
+}
+
+function modulo(a, b) {
+  if (b === 0) {
+    return NaN;
+  }
+  const isNegative = a < 0;
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (a >= b) {
+    a = a - b;
+  }
+  return isNegative ? -a : a;
+}
+
+// Run comprehensive tests
+console.log("=== MULTIPLY TESTS ===");
+console.log("multiply(5, 3):", multiply(5, 3), "Expected: 15");
+console.log("multiply(-5, 3):", multiply(-5, 3), "Expected: -15");
+console.log("multiply(-5, -3):", multiply(-5, -3), "Expected: 15");
+console.log("multiply(0, 100):", multiply(0, 100), "Expected: 0");
+console.log("multiply(7, 7):", multiply(7, 7), "Expected: 49");
+
+console.log("\n=== DIVIDE TESTS ===");
+console.log("divide(20, 4):", divide(20, 4), "Expected: 5");
+console.log("divide(17, 5):", divide(17, 5), "Expected: 3");
+console.log("divide(-20, 4):", divide(-20, 4), "Expected: -5");
+console.log("divide(5, 20):", divide(5, 20), "Expected: 0");
+console.log("divide(100, 1):", divide(100, 1), "Expected: 100");
+
+console.log("\n=== MODULO TESTS ===");
+console.log("modulo(17, 5):", modulo(17, 5), "Expected: 2");
+console.log("modulo(20, 4):", modulo(20, 4), "Expected: 0");
+console.log("modulo(-17, 5):", modulo(-17, 5), "Expected: -2");
+console.log("modulo(5, 20):", modulo(5, 20), "Expected: 5");
+console.log("modulo(100, 3):", modulo(100, 3), "Expected: 1");
+
+console.log("\n✓ All tests complete! Check the results above.");
+```
+
+Expected Console Output:
+------------------------
+```
+=== MULTIPLY TESTS ===
+multiply(5, 3): 15 Expected: 15
+multiply(-5, 3): -15 Expected: -15
+multiply(-5, -3): 15 Expected: 15
+multiply(0, 100): 0 Expected: 0
+multiply(7, 7): 49 Expected: 49
+
+=== DIVIDE TESTS ===
+divide(20, 4): 5 Expected: 5
+divide(17, 5): 3 Expected: 3
+divide(-20, 4): -5 Expected: -5
+divide(5, 20): 0 Expected: 0
+divide(100, 1): 100 Expected: 100
+
+=== MODULO TESTS ===
+modulo(17, 5): 2 Expected: 2
+modulo(20, 4): 0 Expected: 0
+modulo(-17, 5): -2 Expected: -2
+modulo(5, 20): 5 Expected: 5
+modulo(100, 3): 1 Expected: 1
+
+✓ All tests complete! Check the results above.
+```
+
+HTML File Method (More Professional):
+--------------------------------------
+See "Method 2" in PART 7 for the complete HTML template.
+This creates a visual test interface that's great for presentations!
+
+How to Use the HTML Test File:
+1. Copy the HTML template from Part 7 into a text editor
+2. Save as "test_elementary.html"
+3. Double-click to open in your browser
+4. Click "Run All Tests" to see results
+5. Modify the input values for custom testing
+
+Troubleshooting:
+----------------
+Problem: "multiply is not defined" error in console
+Solution: You didn't paste the function definitions. Copy all three functions 
+          and paste them into the console first before testing.
+
+Problem: Getting wrong results for negative numbers
+Solution: Check your sign logic. Trace through the algorithm step-by-step
+          with the values you're testing. Is isNegative calculating correctly?
+
+Problem: Browser freezes or becomes unresponsive
+Solution: You probably created an infinite loop. Check your while conditions
+          in divide() and modulo(). Make sure you're actually subtracting
+          and that the loop will eventually stop.
+
+Problem: divide() returns decimal instead of integer
+Solution: Make sure you're counting iterations, not calculating division.
+          The quotient should be a whole number (you count subtractions).
+          Check that you initialized quotient to 0 and increment it each loop.
+
+================================================================================
+
+You've now completed the Elementary assignment guide! You understand:
+  ✓ How multiplication is repeated addition
+  ✓ How division is repeated subtraction
+  ✓ How modulo finds the remainder
+  ✓ How to handle negative numbers in arithmetic
+  ✓ How to test your code in a browser
+
+Congratulations on learning how these fundamental operations work!
+Your understanding of computer science is growing deeper every day. 🚀
+
+================================================================================

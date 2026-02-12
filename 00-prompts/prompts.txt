@@ -27,5 +27,5 @@ Feel free to fill in the blanks with the specific project information and adapt 
 The assignment is the following: 
 
 
-
 The implementation guide template is 
+@IMPLEMENTATION_GUIDE_TEMPLATE.txt

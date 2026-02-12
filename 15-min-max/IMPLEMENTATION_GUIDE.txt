@@ -1,0 +1,948 @@
+================================================================================
+                    MIN & MAX - IMPLEMENTATION GUIDE
+                  Master Comparing Numbers in JavaScript!
+================================================================================
+
+Welcome! This guide will teach you how to create two powerful functions that
+compare numbers and tell you which is bigger or smaller. These functions are
+like having a referee in a game who decides which player scored more points!
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What You Need to Build:
+------------------------
+• A function called `max` that takes 2 numbers and returns the larger one
+• A function called `min` that takes 2 numbers and returns the smaller one
+• You CANNOT use Math.max() or Math.min() - you have to build these yourself!
+• You must figure out the logic on your own
+
+Real-World Example:
+-------------------
+Imagine you're at a video game arcade and want to set a new high score:
+
+  max(150, 200) → 200  (The high score is 200)
+  max(99, 42)   → 99   (The high score is 99)
+  
+  min(150, 200) → 150  (The low score is 150)
+  min(99, 42)   → 42   (The low score is 42)
+
+Why This Matters:
+-----------------
+• These functions teach you CONDITIONAL LOGIC - the ability to make decisions
+• Almost every program needs to compare things: prices, scores, temperatures,
+  dates, and more
+• By building these yourself instead of using Math.max/min, you learn HOW
+  computers make decisions
+• This is the foundation for more complex decision-making in programming
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO UNDERSTAND
+================================================================================
+
+Concept 1: JavaScript Functions
+--------------------------------
+A function is like a recipe. You give it ingredients (parameters), it does some
+work, and returns a result. Here's the basic structure:
+
+    function functionName(parameter1, parameter2) {
+      // Do something here
+      return result;
+    }
+
+Think of it like a kitchen appliance:
+  • The function name is the appliance (toaster)
+  • The parameters are the ingredients (bread)
+  • The return value is the result (toasted bread)
+
+In our case:
+    function max(num1, num2) {
+      // Compare the two numbers and decide which is bigger
+      return theBiggerOne;
+    }
+
+
+Concept 2: The Ternary Operator - Decision Making in One Line
+--------------------------------------------------------------
+The ternary operator is a shorthand way to make a choice. It's like asking a
+yes/no question and having two different answers:
+
+    condition ? valueIfTrue : valueIfFalse
+
+Think of it like a conversation:
+  "Is it raining?" 
+  YES → "Bring an umbrella"
+  NO → "Bring sunglasses"
+
+In code:
+    const whatToBring = isRaining ? "umbrella" : "sunglasses";
+
+For our assignment:
+    num1 > num2 ? num1 : num2
+
+This means: "If num1 is greater than num2, return num1, otherwise return num2"
+
+The ternary operator is perfect for comparing two values because:
+  • It's concise (takes only one line!)
+  • It's easy to understand once you know the pattern
+  • It's exactly designed for this kind of decision
+
+
+Concept 3: Comparison Operators
+--------------------------------
+To compare numbers, JavaScript gives us these tools:
+
+    >    Greater than         (5 > 3 is true)
+    <    Less than           (5 < 3 is false)
+    >=   Greater or equal    (5 >= 5 is true)
+    <=   Less or equal       (5 <= 3 is false)
+    ==   Equal to            (5 == "5" is true)
+    ===  Strictly equal      (5 === "5" is false)
+
+For max and min, you only need > (greater than) and < (less than).
+
+Think of these like a seesaw:
+    num1 > num2  means "Is num1 higher on the seesaw?"
+    num1 < num2  means "Is num1 lower on the seesaw?"
+
+
+Concept 4: The Return Statement
+--------------------------------
+The return statement gives your answer back to whoever called the function.
+Once you return, the function stops immediately.
+
+    function checkAge(age) {
+      if (age >= 18) {
+        return "You can vote!";
+      }
+      return "You're too young to vote";
+    }
+
+When you call checkAge(20), it returns "You can vote!" and stops.
+
+
+Concept 5: How if/else Statements Work (The Long Way)
+------------------------------------------------------
+Before we use the ternary operator, let's understand the if/else approach:
+
+    function max(num1, num2) {
+      if (num1 > num2) {
+        return num1;
+      } else {
+        return num2;
+      }
+    }
+
+This says: "Check if num1 is bigger. If yes, return num1. If no, return num2."
+
+================================================================================
+PART 3: STEP-BY-STEP ALGORITHM (Your Thinking Process)
+================================================================================
+
+Step 1: Define the function with parameters
+  • Create a function named `max`
+  • Give it two parameters: the two numbers to compare
+
+Step 2: Compare the two numbers
+  • Check if the first number is greater than the second number
+  • Use the > operator for comparison
+
+Step 3: Return the result
+  • If the first number is bigger, return it
+  • Otherwise, return the second number
+
+Step 4: Test your logic
+  • Try with num1=10, num2=5 → Should return 10 ✓
+  • Try with num1=3, num2=8 → Should return 8 ✓
+  • Try with negative numbers: num1=-5, num2=-10 → Should return -5 ✓
+
+Step 5: Create the min function
+  • Use the exact same logic, but reverse it
+  • Check if first number is LESS THAN the second
+  • Return the smaller number
+
+Step 6: Test both functions thoroughly
+  • Test with positive numbers
+  • Test with negative numbers
+  • Test with equal numbers
+  • Test with decimals
+
+================================================================================
+PART 4: THE COMPLETE SOLUTION WITH COMMENTS
+================================================================================
+
+// FUNCTION 1: Find the Maximum (Largest) of Two Numbers
+function max(num1, num2) {
+  // Use the ternary operator to compare num1 and num2
+  // If num1 is greater than num2, return num1, otherwise return num2
+  return num1 > num2 ? num1 : num2;
+}
+
+// FUNCTION 2: Find the Minimum (Smallest) of Two Numbers
+function min(num1, num2) {
+  // Use the ternary operator to compare num1 and num2
+  // If num1 is less than num2, return num1, otherwise return num2
+  return num1 < num2 ? num1 : num2;
+}
+
+
+Example Usage:
+--------------
+
+max(10, 5)      // Returns: 10 (10 is bigger than 5)
+max(3, 8)       // Returns: 8 (8 is bigger than 3)
+max(-5, -10)    // Returns: -5 (-5 is bigger than -10)
+max(7, 7)       // Returns: 7 (they're equal)
+
+min(10, 5)      // Returns: 5 (5 is smaller than 10)
+min(3, 8)       // Returns: 3 (3 is smaller than 8)
+min(-5, -10)    // Returns: -10 (-10 is smaller than -5)
+min(100, 1)     // Returns: 1 (1 is smaller than 100)
+
+
+Explanation of Results:
+-----------------------
+When you call max(10, 5):
+  1. The function receives num1=10 and num2=5
+  2. It checks: Is 10 > 5? YES, it is true
+  3. Since the condition is true, it returns 10
+  4. The answer 10 is given back to you
+
+When you call min(10, 5):
+  1. The function receives num1=10 and num2=5
+  2. It checks: Is 10 < 5? NO, it is false
+  3. Since the condition is false, it returns 5
+  4. The answer 5 is given back to you
+
+================================================================================
+PART 5: UNDERSTANDING THE MATH/LOGIC DEEPER
+================================================================================
+
+Let's trace through an example step-by-step with actual numbers:
+
+Example: max(15, 23)
+
+Step 1: Function call
+  Input: num1 = 15, num2 = 23
+  
+Step 2: Evaluate the condition
+  Is 15 > 23?
+  Is 15 greater than 23?
+  NO, this is false (23 is actually bigger than 15)
+  
+Step 3: Use the ternary operator
+  15 > 23 ? 15 : 23
+  ^false^  ^skip^ use this one
+  
+Step 4: Return the result
+  Returns 23 ✓ (This is correct!)
+
+
+Another Example: min(-8, -2)
+
+Step 1: Function call
+  Input: num1 = -8, num2 = -2
+  
+Step 2: Evaluate the condition
+  Is -8 < -2?
+  Is -8 less than -2?
+  YES, this is true (-8 is further left on the number line)
+  
+Step 3: Use the ternary operator
+  -8 < -2 ? -8 : -2
+  ^true^  use this
+  
+Step 4: Return the result
+  Returns -8 ✓ (This is correct! -8 is smaller than -2)
+
+
+Why This Approach Works:
+------------------------
+✓ Simple: We only need ONE comparison operator
+✓ Fast: The ternary operator is very efficient
+✓ Readable: Anyone can understand "is X greater than Y?"
+✓ Works with any numbers: positive, negative, decimals
+✓ Handles edge cases: even when numbers are equal, we return one of them
+
+
+Alternative Approach (Using if/else - NOT required):
+------------------------------------------------------
+You could also write it this way:
+
+  function max(num1, num2) {
+    if (num1 > num2) {
+      return num1;
+    } else {
+      return num2;
+    }
+  }
+
+This does exactly the same thing! The ternary operator is just shorter.
+Some programmers prefer if/else because it's more readable.
+Some prefer ternary because it's more concise.
+Both are correct - pick what feels natural to you.
+
+================================================================================
+PART 6: KEYWORDS & CONCEPTS TO EXPLORE FURTHER
+================================================================================
+
+Want to understand these topics better? Search for:
+
+1. **Functions in JavaScript** - The foundation of reusable code
+   Learn about: function declarations, parameters, return statements, scope
+   Why: Functions are the building blocks of all programs
+
+2. **Ternary Operator (Conditional Operator)** - Decision-making in one line
+   Learn about: conditional expressions, nested ternaries, when to use them
+   Why: Makes your code more concise and elegant
+
+3. **Comparison Operators** - How computers compare values
+   Learn about: >, <, >=, <=, ==, ===, !=, !==
+   Why: Every decision in a program relies on comparisons
+
+4. **Conditional Logic** - How to make programs make decisions
+   Learn about: if/else statements, switch cases, boolean logic
+   Why: This is how programs respond to different situations
+
+5. **Number Data Type in JavaScript** - How JavaScript handles numbers
+   Learn about: integers, decimals, Infinity, NaN, negative numbers
+   Why: Understanding how numbers work helps you avoid bugs
+
+6. **Boolean Data Type** - True and False
+   Learn about: truthy values, falsy values, boolean operations
+   Why: Booleans are the result of every comparison you make
+
+Websites to explore:
+- MDN Web Docs (https://developer.mozilla.org/) - Detailed documentation
+  Look for: "JavaScript Functions", "Conditional (Ternary) Operator"
+  
+- JavaScript.info - Interactive tutorials and explanations
+  Look for: "Functions", "Logical Operators", "Comparisons"
+  
+- W3Schools JavaScript - Beginner-friendly explanations with examples
+  Look for: "Functions", "Operators", "If...Else"
+
+================================================================================
+PART 7: TESTING YOUR CODE IN A BROWSER
+================================================================================
+
+Method 1: Using the Browser Console (Easiest - Takes 2 minutes)
+---------------------------------------------------------------
+The browser console lets you run JavaScript code instantly. Here's how:
+
+1. Open your browser (Chrome, Firefox, Safari, Edge)
+2. Press F12 (or Ctrl+Shift+I on Windows, Cmd+Option+I on Mac)
+3. Click the "Console" tab
+4. Copy-paste your function code into the console and press Enter
+5. Now test it by typing: max(10, 5) and press Enter
+6. You should see: 10
+
+Quick test:
+  max(10, 5)          // You should see: 10
+  max(3, 8)           // You should see: 8
+  min(10, 5)          // You should see: 5
+  min(3, 8)           // You should see: 3
+
+If you see these results, your code works!
+
+
+Test Cases to Try:
+------------------
+
+Basic Tests:
+  max(1, 2)           // Expected: 2
+  max(5, 5)           // Expected: 5
+  min(1, 2)           // Expected: 1
+  min(5, 5)           // Expected: 5
+
+Negative Numbers:
+  max(-10, -5)        // Expected: -5
+  max(-1, -100)       // Expected: -1
+  min(-10, -5)        // Expected: -10
+  min(-1, -100)       // Expected: -100
+
+Mixed Positive/Negative:
+  max(-5, 10)         // Expected: 10
+  max(100, -1)        // Expected: 100
+  min(-5, 10)         // Expected: -5
+  min(100, -1)        // Expected: -1
+
+Decimal Numbers:
+  max(3.5, 3.2)       // Expected: 3.5
+  max(0.1, 0.01)      // Expected: 0.1
+  min(3.5, 3.2)       // Expected: 3.2
+  min(0.1, 0.01)      // Expected: 0.01
+
+Large Numbers:
+  max(1000000, 999999) // Expected: 1000000
+  min(1000000, 999999) // Expected: 999999
+
+
+Method 2: Create an HTML File (More Professional)
+---------------------------------------------------
+Create a file called "test-min-max.html" and paste this code:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min & Max Function Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+        }
+        
+        .input-group {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        
+        input {
+            padding: 8px 12px;
+            margin-right: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button {
+            padding: 8px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #764ba2;
+        }
+        
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+        
+        .test-results {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .test-case {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 3px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .passed {
+            border-left-color: #4caf50;
+        }
+        
+        .failed {
+            border-left-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Min & Max Function Tester 🎮</h1>
+        
+        <!-- Interactive Input Section -->
+        <div class="input-group">
+            <h2>Try It Yourself</h2>
+            <input type="number" id="num1" placeholder="Enter first number" value="10">
+            <input type="number" id="num2" placeholder="Enter second number" value="5">
+            <button onclick="testCustom()">Test Max</button>
+            <button onclick="testCustomMin()">Test Min</button>
+            <div id="customResult"></div>
+        </div>
+        
+        <!-- Automated Test Cases -->
+        <div class="test-results">
+            <h2>Automated Test Cases</h2>
+            <button onclick="runAllTests()" style="width: 100%; margin-bottom: 20px;">
+                Run All Tests
+            </button>
+            <div id="testOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        // Your function implementations
+        function max(num1, num2) {
+            return num1 > num2 ? num1 : num2;
+        }
+
+        function min(num1, num2) {
+            return num1 < num2 ? num1 : num2;
+        }
+
+        // Test function for custom input
+        function testCustom() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const result = max(num1, num2);
+            document.getElementById('customResult').innerHTML = 
+                `<div class="result">max(${num1}, ${num2}) = <strong>${result}</strong></div>`;
+        }
+
+        function testCustomMin() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const result = min(num1, num2);
+            document.getElementById('customResult').innerHTML = 
+                `<div class="result">min(${num1}, ${num2}) = <strong>${result}</strong></div>`;
+        }
+
+        // Automated test runner
+        function runAllTests() {
+            const testCases = [
+                { func: 'max', args: [1, 2], expected: 2 },
+                { func: 'max', args: [5, 5], expected: 5 },
+                { func: 'max', args: [-10, -5], expected: -5 },
+                { func: 'max', args: [-5, 10], expected: 10 },
+                { func: 'max', args: [3.5, 3.2], expected: 3.5 },
+                { func: 'min', args: [1, 2], expected: 1 },
+                { func: 'min', args: [5, 5], expected: 5 },
+                { func: 'min', args: [-10, -5], expected: -10 },
+                { func: 'min', args: [-5, 10], expected: -5 },
+                { func: 'min', args: [3.5, 3.2], expected: 3.2 },
+            ];
+
+            let output = '';
+            let passed = 0;
+
+            testCases.forEach(test => {
+                const func = test.func === 'max' ? max : min;
+                const result = func(...test.args);
+                const isCorrect = result === test.expected;
+                
+                if (isCorrect) passed++;
+                
+                output += `
+                    <div class="test-case ${isCorrect ? 'passed' : 'failed'}">
+                        ${test.func}(${test.args.join(', ')}) = ${result}
+                        ${isCorrect ? '✓ Correct' : '✗ Expected: ' + test.expected}
+                    </div>
+                `;
+            });
+
+            output = `<div style="margin-bottom: 15px; font-weight: bold; color: #667eea;">
+                        Tests Passed: ${passed}/${testCases.length}
+                     </div>` + output;
+
+            document.getElementById('testOutput').innerHTML = output;
+        }
+
+        // Auto-run tests when page loads
+        window.onload = function() {
+            runAllTests();
+        };
+    </script>
+</body>
+</html>
+```
+
+How to Use the HTML Test File:
+1. Copy the code above into a text editor (like VS Code, Notepad++, or even Notepad)
+2. Save it as "test-min-max.html" on your computer
+3. Open the file in your web browser (double-click it or drag it into a browser tab)
+4. You'll see your functions being tested automatically!
+5. Try typing different numbers into the input boxes to test your functions
+
+================================================================================
+PART 8: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ Mistake 1: Using Math.max() or Math.min()
+   Problem: The assignment specifically says you can't use these built-in
+            functions. Plus, you won't learn how they work!
+   Solution: Write your own comparison logic using > or < operators.
+   Example:
+     WRONG:  return Math.max(num1, num2);
+     RIGHT:  return num1 > num2 ? num1 : num2;
+
+
+❌ Mistake 2: Comparing the wrong way
+   Problem: Writing num1 < num2 in your max function, which returns the
+            minimum instead of the maximum
+   Solution: Use > for max and < for min. Double-check your operator!
+   Example:
+     WRONG:  function max(num1, num2) { return num1 < num2 ? num1 : num2; }
+     RIGHT:  function max(num1, num2) { return num1 > num2 ? num1 : num2; }
+
+
+❌ Mistake 3: Forgetting the ternary operator syntax
+   Problem: Writing something like "if num1 > num2 return num1" which isn't
+            valid JavaScript syntax
+   Solution: Remember the pattern: condition ? valueIfTrue : valueIfFalse
+   Example:
+     WRONG:  return if (num1 > num2) num1 else num2;
+     RIGHT:  return num1 > num2 ? num1 : num2;
+
+
+❌ Mistake 4: Returning the wrong value
+   Problem: After the comparison, returning the opposite value
+   Solution: Be careful with your ternary operator - the first value after ?
+            is what you return if the condition is TRUE
+   Example:
+     WRONG:  return num1 > num2 ? num2 : num1;  // This gives minimum!
+     RIGHT:  return num1 > num2 ? num1 : num2;  // This gives maximum!
+
+
+❌ Mistake 5: Not testing with negative numbers
+   Problem: Your code might work for positive numbers but fail for negatives
+   Solution: Always test with negative numbers, decimals, and edge cases
+   Example:
+     Test these: max(-10, -5), min(-100, -50), max(-1, 1)
+     If they work, you're good!
+
+
+❌ Mistake 6: Confusing the function parameters
+   Problem: Mixing up which parameter is which
+   Solution: When you call max(10, 5), num1=10 and num2=5 (left to right)
+   Example:
+     max(10, 5) means num1=10, num2=5
+     So if 10 > 5, return 10 ✓
+
+
+❌ Mistake 7: Case sensitivity in function names
+   Problem: Writing "Max" or "MAX" instead of "max"
+   Solution: JavaScript is case-sensitive. The function must be lowercase: max
+   Example:
+     WRONG:  function Max(num1, num2) { ... }  // Function name is wrong
+     RIGHT:  function max(num1, num2) { ... }  // Perfect!
+
+================================================================================
+PART 9: BONUS CHALLENGES
+================================================================================
+
+Once you've finished the basic assignment, try these to level up your skills:
+
+Challenge 1: Create an average function
+   Description: Write a function called `average` that takes 2 numbers and
+                returns their average (add them up and divide by 2).
+                Bonus: Make it work with 3, 4, or any number of arguments!
+   Hint: Use ... (spread operator) to accept multiple numbers
+
+
+Challenge 2: Create a mid function
+   Description: Write a function called `mid` that takes 3 numbers and returns
+                the middle value. For example:
+                mid(1, 5, 3) → 3
+                mid(10, 2, 8) → 8
+   Hint: You could use your min and max functions here!
+
+
+Challenge 3: Add input validation
+   Description: Modify your max and min functions to check if the inputs are
+                actually numbers. If not, return an error message.
+   Hint: Use typeof to check if something is a number
+   Example: typeof 5 === 'number' → true
+
+
+Challenge 4: Create a clamp function
+   Description: Write a function that takes 3 numbers (value, min, max) and
+                returns the value, but keeps it between min and max.
+                clamp(5, 0, 10) → 5 (it's within bounds)
+                clamp(15, 0, 10) → 10 (it's above max, so return max)
+                clamp(-5, 0, 10) → 0 (it's below min, so return min)
+   Hint: This is like saying "if value > max, return max; if value < min, 
+         return min; otherwise return value"
+
+
+Challenge 5: Create a compare function
+   Description: Write a function that takes 2 numbers and returns:
+                1 if the first is bigger
+                -1 if the second is bigger
+                0 if they're equal
+   Hint: This is useful for sorting!
+
+
+Challenge 6: Performance test
+   Description: Test your functions 10,000 times and see how fast they are.
+                Can you compare them to Math.max and Math.min?
+   Hint: Use console.time() and console.timeEnd() to measure
+
+================================================================================
+PART 10: FINAL THOUGHTS
+================================================================================
+
+This assignment teaches several important programming concepts:
+
+1. **Functions** - How to create reusable blocks of code that do specific jobs
+   Why: Almost every program is made up of functions working together
+
+2. **Comparison Operators** - How to ask "is A bigger than B?"
+   Why: Every decision a computer makes starts with a comparison
+
+3. **Conditional Logic** - How to make code say "if this, then that"
+   Why: Programs need to respond differently to different situations
+
+4. **The Ternary Operator** - A concise way to express if/else decisions
+   Why: Makes your code cleaner and easier to read
+
+5. **Function Parameters and Return Values** - How functions communicate
+   Why: This is how you pass information into functions and get results back
+
+These skills are fundamental to ALL programming. Once you understand these
+concepts, you can build much more complex applications!
+
+You might be thinking: "These functions seem so simple... why learn them?"
+
+Great question! Here's why:
+
+• Comparison is at the heart of every program ever written
+• Video games compare scores, health bars, and positions
+• Banks compare account balances
+• Websites compare usernames and passwords
+• Machine learning algorithms make billions of comparisons
+• Your smartphone compares sensor data all day long
+
+By mastering these simple concepts now, you're building the foundation for
+anything you want to create in the future!
+
+Remember: Even the most complex programs are just many simple functions
+working together. You've just learned how to write one of those simple,
+but powerful, functions.
+
+The awesome part about being a programmer is that you get to create things
+that run on computers everywhere. You get to solve real problems. You get to
+be creative. And it all starts with understanding the basics like this.
+
+Keep coding, keep learning, and most importantly - keep having fun with it!
+You're on your way to becoming an amazing programmer! 🚀
+
+================================================================================
+PART 11: COMPLETE CORRECT SOLUTION
+================================================================================
+
+Below is the final, clean version of the solution that you should submit:
+
+```javascript
+function max(num1, num2) {
+  return num1 > num2 ? num1 : num2;
+}
+
+function min(num1, num2) {
+  return num1 < num2 ? num1 : num2;
+}
+```
+
+That's it! Just 4 lines of code that solve the entire problem.
+
+
+Verification of Correct Output:
+--------------------------------
+
+Test your functions and you should get these exact results:
+
+max(10, 5)      === 10
+max(3, 8)       === 8
+max(-10, -5)    === -5
+max(7, 7)       === 7
+max(0.5, 0.3)   === 0.5
+
+min(10, 5)      === 5
+min(3, 8)       === 3
+min(-10, -5)    === -10
+min(7, 7)       === 7
+min(0.5, 0.3)   === 0.3
+
+If your function returns these exact values, you've solved it correctly!
+
+
+Why This Solution Works:
+------------------------
+
+✓ Simple and efficient - It's only one line per function, no unnecessary code
+✓ Mathematically correct - The comparison logic is sound for all numbers
+✓ Handles all cases - Works with positive, negative, decimal, and equal numbers
+✓ Follows the rules - Doesn't use Math.max or Math.min
+✓ Readable - Anyone can understand what "num1 > num2 ? num1 : num2" means
+✓ Fast - The ternary operator is very fast for the computer to execute
+✓ Teachable - Shows you understand functions, comparisons, and conditionals
+
+================================================================================
+PART 12: STEP-BY-STEP BROWSER TESTING GUIDE
+================================================================================
+
+QUICK START (Easiest Method - Takes 2 Minutes):
+-----------------------------------------------
+
+Step 1: Open your browser and press F12 to open Developer Tools
+Step 2: Click the "Console" tab
+Step 3: Copy and paste this entire code block:
+
+function max(num1, num2) {
+  return num1 > num2 ? num1 : num2;
+}
+
+function min(num1, num2) {
+  return num1 < num2 ? num1 : num2;
+}
+
+Step 4: Press Enter. You should see no errors.
+Step 5: Now test by typing: max(10, 5) and press Enter
+Step 6: You should see: 10 displayed in the console
+
+
+Complete Browser Console Test Script:
+-------------------------------------
+
+Copy everything below into your browser console and run it all at once:
+
+```javascript
+// Define the functions
+function max(num1, num2) {
+  return num1 > num2 ? num1 : num2;
+}
+
+function min(num1, num2) {
+  return num1 < num2 ? num1 : num2;
+}
+
+// Run tests and display results
+console.log("=== MAX TESTS ===");
+console.log("max(10, 5) =", max(10, 5), "Expected: 10");
+console.log("max(3, 8) =", max(3, 8), "Expected: 8");
+console.log("max(-10, -5) =", max(-10, -5), "Expected: -5");
+console.log("max(7, 7) =", max(7, 7), "Expected: 7");
+console.log("max(-1, 1) =", max(-1, 1), "Expected: 1");
+
+console.log("\n=== MIN TESTS ===");
+console.log("min(10, 5) =", min(10, 5), "Expected: 5");
+console.log("min(3, 8) =", min(3, 8), "Expected: 3");
+console.log("min(-10, -5) =", min(-10, -5), "Expected: -10");
+console.log("min(7, 7) =", min(7, 7), "Expected: 7");
+console.log("min(-1, 1) =", min(-1, 1), "Expected: -1");
+
+console.log("\n=== DECIMAL TESTS ===");
+console.log("max(3.5, 3.2) =", max(3.5, 3.2), "Expected: 3.5");
+console.log("min(3.5, 3.2) =", min(3.5, 3.2), "Expected: 3.2");
+
+console.log("\n=== SUCCESS ===");
+console.log("If all Expected values match the results, your solution is correct!");
+```
+
+
+Expected Console Output:
+------------------------
+
+```
+=== MAX TESTS ===
+max(10, 5) = 10 Expected: 10
+max(3, 8) = 8 Expected: 8
+max(-10, -5) = -5 Expected: -5
+max(7, 7) = 7 Expected: 7
+max(-1, 1) = 1 Expected: 1
+
+=== MIN TESTS ===
+min(10, 5) = 5 Expected: 5
+min(3, 8) = 3 Expected: 3
+min(-10, -5) = -10 Expected: -10
+min(7, 7) = 7 Expected: 7
+min(-1, 1) = -1 Expected: -1
+
+=== DECIMAL TESTS ===
+max(3.5, 3.2) = 3.5 Expected: 3.5
+min(3.5, 3.2) = 3.2 Expected: 3.2
+
+=== SUCCESS ===
+If all Expected values match the results, your solution is correct!
+```
+
+
+HTML File Method (More Professional):
+--------------------------------------
+
+Create a file named "test-min-max.html" with the content provided in Part 7.
+This gives you a nice visual interface to test your functions.
+
+
+How to Use the HTML Test File:
+1. Create a text file (use Notepad, VS Code, or any text editor)
+2. Copy the HTML code from Part 7 into the file
+3. Save it as "test-min-max.html"
+4. Open it in your browser (double-click or drag into browser)
+5. You'll see a beautiful test interface that automatically runs all tests
+6. Try typing your own numbers to test the functions
+
+
+Troubleshooting:
+----------------
+
+Problem: I get "ReferenceError: max is not defined"
+Solution: Make sure you've pasted the function code into the console and
+          pressed Enter BEFORE trying to call the function.
+
+Problem: My function returns the wrong answer
+Solution: Check your comparison operator. For max, use >. For min, use <.
+          Remember the pattern: condition ? ifTrue : ifFalse
+
+Problem: The HTML file won't open
+Solution: Make sure you saved it as ".html" (not ".txt").
+          Then double-click it or drag it into your browser window.
+
+Problem: My functions work in the console but tests fail
+Solution: This usually means the code you're testing is different from what's
+          in your actual file. Make sure you copied the correct code.
+
+Problem: I see "Uncaught SyntaxError: Unexpected identifier"
+Solution: You probably made a typo. Check:
+          - Did you use { } brackets?
+          - Did you spell "function" correctly?
+          - Did you use ? and : in the ternary operator?
+
+================================================================================
+
+Great job working through this guide! You now understand how to:
+✓ Create functions with parameters
+✓ Use comparison operators
+✓ Use the ternary operator for conditional logic
+✓ Return values from functions
+✓ Test your code
+
+These are the building blocks of JavaScript programming.
+
+Next, learn about:
+• Arrays and loops
+• Objects and methods
+• Working with strings
+• DOM manipulation (making web pages interactive)
+• Async code and promises
+
+You're on an amazing journey. Keep learning, keep coding, and have fun! 🎉
+
+================================================================================

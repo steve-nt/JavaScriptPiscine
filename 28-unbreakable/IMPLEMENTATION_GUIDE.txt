@@ -1,0 +1,1012 @@
+================================================================================
+                    UNBREAKABLE - IMPLEMENTATION GUIDE
+                 Master String.split() and Array.join() Concepts
+================================================================================
+
+Welcome! This guide will teach you how to recreate two of JavaScript's most
+powerful built-in functions: split() and join(). These are fundamental tools
+that every JavaScript programmer uses daily, and understanding how they work
+under the hood will make you a better developer.
+
+Think of this as learning to "rewire" JavaScript's basic tools. What if you
+suddenly couldn't use split() and join()? Could you rebuild them yourself?
+That's what you're about to do!
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What You Need to Build:
+------------------------
+✓ A split() function that works like String.split, but takes the STRING as the
+  FIRST argument instead of being called on the string itself
+
+✓ A join() function that works like Array.join, but takes the ARRAY as the
+  FIRST argument instead of being called on the array itself
+
+✓ Both functions must work WITHOUT using the native String.split, Array.join,
+  String.match, or RegExp.exec methods (they're disabled on purpose!)
+
+Real-World Example:
+-------------------
+Imagine you have a sentence: "hello-world-javascript"
+
+Normal way (that's disabled):
+  "hello-world-javascript".split("-")  // Can't do this!
+  
+Your new way:
+  split("hello-world-javascript", "-")  // Returns ["hello", "world", "javascript"]
+
+And for joining:
+
+Normal way (that's disabled):
+  ["hello", "world", "javascript"].join("-")  // Can't do this!
+
+Your new way:
+  join(["hello", "world", "javascript"], "-")  // Returns "hello-world-javascript"
+
+Why This Matters:
+-----------------
+Understanding how split() and join() work teaches you critical programming
+concepts used everywhere: loops, string manipulation, array handling, and
+algorithm design. In real-world JavaScript, you might need to:
+- Parse CSV files by splitting on commas
+- Build URLs from arrays of path segments using join
+- Process user input by splitting on spaces
+- Generate HTML by joining array elements
+
+This assignment also shows you that even "magic" functions are just code—code
+YOU can write!
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO UNDERSTAND
+================================================================================
+
+Concept 1: String Manipulation and Iteration
+---------------------------------------------
+Strings in JavaScript are sequences of characters. To split a string, you need
+to:
+1. Go through each character one by one (iteration)
+2. Check if you've found the separator
+3. Collect characters between separators into groups
+
+ANALOGY: Imagine a sentence written on a long strip of paper. You want to cut
+it into pieces wherever you see a dash (-). You go through character by
+character, and whenever you find a dash, you cut the paper and start a new
+piece.
+
+Example with "a-b-c":
+  Position: 0 1 2 3 4 5
+  String:   a - b - c
+            ^   ^   ^
+  When we hit positions 1 and 3 (the dashes), we know to "cut" and start
+  collecting a new piece.
+
+Concept 2: Loops and Character-by-Character Processing
+-------------------------------------------------------
+You'll use a loop (typically for loop) to examine each character in the string.
+In JavaScript, you can:
+- Access individual characters using string[index]
+- Check the length of a string using string.length
+- Iterate from 0 to string.length - 1
+
+Example:
+  let str = "hello";
+  for (let i = 0; i < str.length; i++) {
+    console.log(str[i]);  // Prints each character
+  }
+  // Output: h e l l o (one per line)
+
+Concept 3: Building Arrays Dynamically
+---------------------------------------
+To create the result array for split(), you can't know in advance how many
+pieces you'll have. So you:
+1. Create an empty array
+2. As you process the string, push() new pieces into it
+3. Return the final array when done
+
+The push() method adds an element to the end of an array:
+  let result = [];
+  result.push("hello");
+  result.push("world");
+  console.log(result);  // ["hello", "world"]
+
+Concept 4: String Concatenation and Building Pieces
+----------------------------------------------------
+As you loop through characters, you need to accumulate them into pieces:
+1. Start with an empty string (currentPiece = "")
+2. Add each character to it until you hit a separator
+3. When you hit a separator, push the piece and reset
+
+Example tracking:
+  String: "a-b"
+  Separator: "-"
+  
+  i=0: currentPiece = "a"
+  i=1: Hit separator! Push "a", reset currentPiece = ""
+  i=2: currentPiece = "b"
+  End of string: Push "b"
+  
+  Result: ["a", "b"]
+
+Concept 5: Joining Arrays with a Separator
+-------------------------------------------
+The opposite of split. You have an array and want to combine it into a single
+string with a separator between elements:
+1. Start with an empty result string
+2. Loop through each element in the array
+3. Add the element + separator to the result (except maybe the last one)
+4. Return the final string
+
+Example:
+  Array: ["hello", "world"]
+  Separator: "-"
+  
+  Start: result = ""
+  Add "hello" → result = "hello"
+  Add "-" → result = "hello-"
+  Add "world" → result = "hello-world"
+  
+  Return: "hello-world"
+
+================================================================================
+PART 3: STEP-BY-STEP ALGORITHM (Your Thinking Process)
+================================================================================
+
+FOR THE split() FUNCTION:
+
+Step 1: Check if the separator exists in the string
+      If not, return an array with just the whole string
+
+Step 2: Create an empty array to hold your results
+
+Step 3: Create a variable to accumulate the current piece you're building
+
+Step 4: Loop through each character in the string
+        - If the current characters match the separator:
+          * Push the accumulated piece to the result array
+          * Reset the current piece
+          * Skip past all the characters in the separator
+        - Otherwise:
+          * Add the character to the current piece
+
+Step 5: After the loop ends, don't forget the last piece!
+        Push it to the result array
+
+Step 6: Return the result array
+
+FOR THE join() FUNCTION:
+
+Step 1: Create an empty string to build your result
+
+Step 2: Loop through each element in the array
+
+Step 3: For each element:
+        - Add it to the result string
+        - If it's not the last element, add the separator after it
+
+Step 4: Return the final result string
+
+================================================================================
+PART 4: THE COMPLETE SOLUTION WITH COMMENTS
+================================================================================
+
+Here's the fully commented code with detailed explanations:
+
+```javascript
+// FUNCTION 1: split(string, separator)
+// This function breaks a string into pieces based on a separator
+function split(str, sep) {
+  // Create an empty array to store the pieces we'll find
+  const result = [];
+  
+  // If the separator is an empty string or doesn't exist in the string,
+  // we need to handle it specially
+  if (sep === "") {
+    // Empty separator means split into individual characters
+    for (let i = 0; i < str.length; i++) {
+      result.push(str[i]);
+    }
+    return result;
+  }
+  
+  // Start building the current piece
+  let currentPiece = "";
+  
+  // Loop through each character position in the string
+  let i = 0;
+  while (i < str.length) {
+    // Check if the next characters match our separator
+    // We use substring to get a chunk of the string starting at position i
+    if (str.substring(i, i + sep.length) === sep) {
+      // We found the separator!
+      // Add the piece we've been building to our results
+      result.push(currentPiece);
+      
+      // Reset the current piece
+      currentPiece = "";
+      
+      // Skip past the separator characters
+      // If separator is 3 characters long, skip 3 positions
+      i += sep.length;
+    } else {
+      // This character is NOT the start of a separator
+      // Add it to the piece we're building
+      currentPiece += str[i];
+      
+      // Move to the next character
+      i++;
+    }
+  }
+  
+  // Don't forget the last piece! (There's no separator after it)
+  result.push(currentPiece);
+  
+  return result;
+}
+
+
+// FUNCTION 2: join(array, separator)
+// This function combines array elements into a string with a separator between them
+function join(arr, sep) {
+  // Start with an empty result string
+  let result = "";
+  
+  // Loop through each element in the array
+  for (let i = 0; i < arr.length; i++) {
+    // Add the current element to our result
+    result += arr[i];
+    
+    // Add the separator AFTER each element, but NOT after the last one
+    // Check if this isn't the last element
+    if (i < arr.length - 1) {
+      result += sep;
+    }
+  }
+  
+  return result;
+}
+```
+
+Example Usage:
+--------------
+
+// Testing split() function
+console.log(split("hello-world", "-"));
+// Expected output: ["hello", "world"]
+
+console.log(split("apple,banana,cherry", ","));
+// Expected output: ["apple", "banana", "cherry"]
+
+console.log(split("JavaScript", ""));
+// Expected output: ["J", "a", "v", "a", "S", "c", "r", "i", "p", "t"]
+
+console.log(split("noSeparatorHere", "-"));
+// Expected output: ["noSeparatorHere"]
+
+
+// Testing join() function
+console.log(join(["hello", "world"], "-"));
+// Expected output: "hello-world"
+
+console.log(join(["apple", "banana", "cherry"], ","));
+// Expected output: "apple,banana,cherry"
+
+console.log(join(["one", "two", "three"], " "));
+// Expected output: "one two three"
+
+console.log(join(["single"], "-"));
+// Expected output: "single" (no separator after the only element)
+
+================================================================================
+PART 5: UNDERSTANDING THE LOGIC DEEPER
+================================================================================
+
+Let's trace through a real example step by step:
+
+EXAMPLE 1: split("cat-dog", "-")
+
+Initialization:
+  str = "cat-dog"
+  sep = "-"
+  result = []
+  currentPiece = ""
+  i = 0
+
+Iteration 1: i = 0
+  str.substring(0, 1) = "c"
+  Is "c" === "-"? NO
+  currentPiece = "c"
+  i = 1
+
+Iteration 2: i = 1
+  str.substring(1, 2) = "a"
+  Is "a" === "-"? NO
+  currentPiece = "ca"
+  i = 2
+
+Iteration 3: i = 2
+  str.substring(2, 3) = "t"
+  Is "t" === "-"? NO
+  currentPiece = "cat"
+  i = 3
+
+Iteration 4: i = 3
+  str.substring(3, 4) = "-"
+  Is "-" === "-"? YES!
+  result.push("cat") → result = ["cat"]
+  currentPiece = ""
+  i = 4 (skip the separator)
+
+Iteration 5: i = 4
+  str.substring(4, 5) = "d"
+  Is "d" === "-"? NO
+  currentPiece = "d"
+  i = 5
+
+Iteration 6: i = 5
+  str.substring(5, 6) = "o"
+  Is "o" === "-"? NO
+  currentPiece = "do"
+  i = 6
+
+Iteration 7: i = 6
+  str.substring(6, 7) = "g"
+  Is "g" === "-"? NO
+  currentPiece = "dog"
+  i = 7
+
+Loop ends (i = 7, str.length = 7)
+
+Final step:
+  result.push("dog") → result = ["cat", "dog"]
+  return ["cat", "dog"]
+
+
+EXAMPLE 2: join(["hi", "bye"], " ")
+
+Initialization:
+  arr = ["hi", "bye"]
+  sep = " "
+  result = ""
+  i = 0
+
+Iteration 1: i = 0
+  result += arr[0] → result = "hi"
+  Is 0 < 1? YES (not the last element)
+  result += " " → result = "hi "
+  i = 1
+
+Iteration 2: i = 1
+  result += arr[1] → result = "hi bye"
+  Is 1 < 1? NO (this is the last element)
+  Don't add separator
+  i = 2
+
+Loop ends (i = 2, arr.length = 2)
+
+return "hi bye"
+
+Why This Works:
+---------------
+The split() function works because:
+- We check each position to see if a separator starts there
+- We accumulate characters until we find a separator
+- We handle the final piece after the loop (the most common mistake!)
+
+The join() function works because:
+- We add each element sequentially
+- We add separators between elements (but not after the last one)
+- Checking (i < arr.length - 1) prevents an extra separator at the end
+
+================================================================================
+PART 6: KEYWORDS & CONCEPTS TO EXPLORE FURTHER
+================================================================================
+
+Want to understand these topics better? Search for:
+
+1. **String Methods in JavaScript** - Discover other powerful string functions
+   Learn about: substring(), indexOf(), slice(), charAt(), toUpperCase()
+   These methods let you manipulate text in many ways!
+
+2. **Array Methods in JavaScript** - Learn about manipulation techniques
+   Learn about: push(), pop(), shift(), unshift(), splice(), map(), filter()
+   Arrays are containers that can hold any data type
+
+3. **Loops in JavaScript** - Master different looping structures
+   Learn about: for loops, while loops, for...of loops
+   Different loops solve different problems elegantly
+
+4. **String Comparison and Matching** - Understand how strings are compared
+   Learn about: === vs ==, case sensitivity, character codes
+   Computers compare strings character by character!
+
+5. **Algorithm Design** - Learn how to think about solving problems step-by-step
+   Learn about: pseudocode, flowcharts, algorithm complexity
+   Every function is just an algorithm written in code
+
+Websites to explore:
+- **MDN Web Docs** (https://developer.mozilla.org) - The official JavaScript reference
+  Find detailed explanations and examples of every method
+  
+- **JavaScript.info** (https://javascript.info) - Learn JavaScript from basics to advanced
+  Has interactive examples and quizzes to test your knowledge
+  
+- **FreeCodeCamp** (https://freecodecamp.org) - Video tutorials and interactive challenges
+  Great for visual learners who prefer videos
+
+================================================================================
+PART 7: TESTING YOUR CODE IN A BROWSER
+================================================================================
+
+Method 1: Using the Browser Console (Easiest)
+----------------------------------------------
+Step 1: Open your web browser (Chrome, Firefox, Safari, etc.)
+Step 2: Press F12 (or Ctrl+Shift+I on Windows/Linux, Cmd+Option+I on Mac)
+        This opens the Developer Tools
+Step 3: Click on the "Console" tab
+Step 4: Paste your entire split() and join() functions into the console
+Step 5: Press Enter
+Step 6: Test the functions by typing commands and pressing Enter
+
+Test Cases to Try:
+   
+   // Test split() with basic separator
+   split("apple-banana-orange", "-")
+   Expected: ["apple", "banana", "orange"]
+   
+   // Test split() with different separator
+   split("one,two,three", ",")
+   Expected: ["one", "two", "three"]
+   
+   // Test split() with single character
+   split("a-b", "-")
+   Expected: ["a", "b"]
+   
+   // Test split() with no separator found
+   split("helloworld", "-")
+   Expected: ["helloworld"]
+   
+   // Test split() with empty separator
+   split("hello", "")
+   Expected: ["h", "e", "l", "l", "o"]
+   
+   // Test join() with basic array
+   join(["apple", "banana", "orange"], "-")
+   Expected: "apple-banana-orange"
+   
+   // Test join() with single element
+   join(["hello"], "-")
+   Expected: "hello"
+   
+   // Test join() with different separator
+   join(["one", "two", "three"], ", ")
+   Expected: "one, two, three"
+
+Method 2: Create an HTML File (More Professional)
+---------------------------------------------------
+This method is better for testing and sharing your work!
+
+Create a file named "test.html" with this content:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unbreakable - Split and Join Functions Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #0066cc;
+            margin-top: 30px;
+        }
+        .test-section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #0066cc;
+        }
+        .test-case {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+        }
+        .test-case strong {
+            color: #0066cc;
+        }
+        .result {
+            background-color: #e8f4f8;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .failure {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Unbreakable: Split and Join Functions Test</h1>
+    
+    <div class="test-section">
+        <h2>Your Functions</h2>
+        <p>The split() and join() functions are running in this page.</p>
+        <p>Open the browser console (F12) to see detailed test results.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // Paste your split() and join() functions here:
+        
+        function split(str, sep) {
+            const result = [];
+            
+            if (sep === "") {
+                for (let i = 0; i < str.length; i++) {
+                    result.push(str[i]);
+                }
+                return result;
+            }
+            
+            let currentPiece = "";
+            let i = 0;
+            while (i < str.length) {
+                if (str.substring(i, i + sep.length) === sep) {
+                    result.push(currentPiece);
+                    currentPiece = "";
+                    i += sep.length;
+                } else {
+                    currentPiece += str[i];
+                    i++;
+                }
+            }
+            
+            result.push(currentPiece);
+            return result;
+        }
+
+        function join(arr, sep) {
+            let result = "";
+            for (let i = 0; i < arr.length; i++) {
+                result += arr[i];
+                if (i < arr.length - 1) {
+                    result += sep;
+                }
+            }
+            return result;
+        }
+
+        // Test cases
+        const tests = [
+            {
+                name: "split() basic test",
+                code: 'split("hello-world", "-")',
+                expected: '["hello", "world"]'
+            },
+            {
+                name: "split() with commas",
+                code: 'split("a,b,c", ",")',
+                expected: '["a", "b", "c"]'
+            },
+            {
+                name: "split() with empty separator",
+                code: 'split("hi", "")',
+                expected: '["h", "i"]'
+            },
+            {
+                name: "split() no separator found",
+                code: 'split("noDash", "-")',
+                expected: '["noDash"]'
+            },
+            {
+                name: "join() basic test",
+                code: 'join(["hello", "world"], "-")',
+                expected: '"hello-world"'
+            },
+            {
+                name: "join() with space",
+                code: 'join(["one", "two", "three"], " ")',
+                expected: '"one two three"'
+            },
+            {
+                name: "join() single element",
+                code: 'join(["alone"], "-")',
+                expected: '"alone"'
+            }
+        ];
+
+        // Run all tests
+        let resultsHTML = "";
+        tests.forEach((test, index) => {
+            const result = eval(test.code);
+            const resultStr = JSON.stringify(result);
+            
+            resultsHTML += `
+                <div class="test-case">
+                    <strong>Test ${index + 1}: ${test.name}</strong><br>
+                    Code: <code>${test.code}</code><br>
+                    Result: <div class="result">${resultStr}</div>
+                    Expected: ${test.expected}
+                </div>
+            `;
+            
+            console.log(`Test ${index + 1}: ${test.name}`);
+            console.log(`  Code: ${test.code}`);
+            console.log(`  Result:`, result);
+            console.log(`  Expected: ${test.expected}`);
+            console.log("");
+        });
+
+        document.getElementById("results").innerHTML = resultsHTML;
+    </script>
+</body>
+</html>
+```
+
+How to Use the HTML Test File:
+1. Copy the HTML code above into a text editor (Notepad, VS Code, etc.)
+2. Save it as "test.html" in a folder on your computer
+3. Double-click the file to open it in your web browser
+4. The page will automatically run all tests and display results
+5. Open the browser console (F12) to see detailed output
+
+Method 3: Interactive Browser Testing (Advanced)
+-------------------------------------------------
+For even more interactive testing, you could modify the HTML to include
+input fields where you can type in custom test cases!
+
+================================================================================
+PART 8: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ Mistake 1: Forgetting the last piece in split()
+   Problem: Your split() function returns one fewer element than expected
+            Example: split("a-b", "-") returns ["a"] instead of ["a", "b"]
+   Solution: Make sure you push the last currentPiece AFTER the loop ends
+            Even if there's no separator at the end, the last piece needs
+            to be added to the result array
+
+❌ Mistake 2: Adding an extra separator at the end in join()
+   Problem: Your join() function adds the separator after EVERY element
+            Example: join(["a", "b"], "-") returns "a-b-" instead of "a-b"
+   Solution: Check (i < arr.length - 1) before adding the separator
+            This ensures you only add it BETWEEN elements, not after the last
+
+❌ Mistake 3: Not handling empty separators in split()
+   Problem: split("hello", "") doesn't return ["h", "e", "l", "l", "o"]
+   Solution: Add a special case at the beginning to check if sep === ""
+            If it is, just split into individual characters
+
+❌ Mistake 4: Using incorrect string comparison in split()
+   Problem: You compare str[i] === sep when sep might be multiple characters
+   Solution: Use str.substring(i, i + sep.length) === sep instead
+            substring() extracts a portion of the string to compare
+
+❌ Mistake 5: Accidentally using the built-in split() or join()
+   Problem: You call "hello".split("-") instead of split("hello", "-")
+   Solution: Remember: the string/array comes FIRST in your functions
+            Your function signatures are different from the built-in ones
+
+❌ Mistake 6: Infinite loops with while loop
+   Problem: Your while loop never increments i, causing it to run forever
+   Solution: Make sure you increment i in BOTH branches of your if statement
+            When you find a separator: i += sep.length
+            When you don't: i += 1
+
+❌ Mistake 7: Not initializing variables correctly
+   Problem: Variables are undefined or have wrong starting values
+   Solution: Initialize currentPiece = "", result = [], and i = 0 clearly
+            Always start with empty arrays and strings, not undefined
+
+================================================================================
+PART 9: BONUS CHALLENGES
+================================================================================
+
+Once you've finished the basic assignment, try these extensions:
+
+Challenge 1: Split with Limit
+   Modify split() to accept a third parameter: limit
+   split("a-b-c-d", "-", 2) should return ["a", "b-c-d"]
+   (Only split up to the limit, then keep the rest as one piece)
+   Hint: Stop adding to result array after reaching the limit
+
+Challenge 2: Join with Empty Array
+   Handle the edge case where the array is empty
+   join([], "-") should return ""
+   Hint: Check if arr.length === 0 at the beginning
+
+Challenge 3: Join with Non-String Elements
+   Make join() work with numbers and other types
+   join([1, 2, 3], ",") should return "1,2,3"
+   Hint: toString() converts any value to a string
+
+Challenge 4: Split with Regex (Advanced)
+   The real String.split() can use regex patterns
+   Try to understand how regex patterns work
+   Search for: "regular expressions" or "regex" on MDN
+   This is a more advanced challenge for later!
+
+Challenge 5: Performance Test
+   Split a very long string and measure how fast it works
+   Count how many operations your function performs
+   Compare with other approaches
+   Hint: Use console.time() and console.timeEnd()
+
+================================================================================
+PART 10: FINAL THOUGHTS
+================================================================================
+
+This assignment teaches several important programming concepts:
+
+1. **String Iteration** - Understanding how to process strings character by
+   character is fundamental to text processing in any language
+
+2. **Array Building** - Learning to dynamically build arrays by pushing
+   elements is how you create data structures that change size
+
+3. **Algorithm Design** - You're not just coding; you're creating an algorithm
+   (a step-by-step procedure) to solve a problem
+
+4. **State Management** - Tracking variables like currentPiece and i shows
+   how you maintain state as you process data
+
+5. **Edge Cases** - Handling empty separators, single elements, and other
+   edge cases teaches you to think about all possibilities
+
+These skills are fundamental to all programming. Once you understand these
+concepts, you can build much more complex applications! You'll use:
+- String splitting when parsing CSV files, reading user input, or processing
+  log files
+- Array joining when building dynamic HTML, creating URLs, or outputting data
+
+Remember: The most "magical" functions in programming are just regular code
+written by people just like you. By understanding how split() and join() work,
+you're learning that you can write any function—no matter how complex it seems.
+
+🚀 Next Steps After This Assignment:
+- Try the bonus challenges above
+- Look at how other built-in functions work
+- Create a mini project that uses split() and join()
+- Help a friend understand these concepts (teaching is learning!)
+
+================================================================================
+PART 11: COMPLETE CORRECT SOLUTION
+================================================================================
+
+Below is the final, clean version of the solution that you should submit:
+
+```javascript
+function split(str, sep) {
+  const result = [];
+  
+  if (sep === "") {
+    for (let i = 0; i < str.length; i++) {
+      result.push(str[i]);
+    }
+    return result;
+  }
+  
+  let currentPiece = "";
+  let i = 0;
+  
+  while (i < str.length) {
+    if (str.substring(i, i + sep.length) === sep) {
+      result.push(currentPiece);
+      currentPiece = "";
+      i += sep.length;
+    } else {
+      currentPiece += str[i];
+      i++;
+    }
+  }
+  
+  result.push(currentPiece);
+  return result;
+}
+
+function join(arr, sep) {
+  let result = "";
+  
+  for (let i = 0; i < arr.length; i++) {
+    result += arr[i];
+    if (i < arr.length - 1) {
+      result += sep;
+    }
+  }
+  
+  return result;
+}
+```
+
+Verification of Correct Output:
+--------------------------------
+
+When you run these test cases, you should see these exact outputs:
+
+split("hello-world", "-")
+  → ["hello", "world"] ✓
+
+split("a,b,c", ",")
+  → ["a", "b", "c"] ✓
+
+split("JavaScript", "")
+  → ["J", "a", "v", "a", "S", "c", "r", "i", "p", "t"] ✓
+
+split("noSep", "-")
+  → ["noSep"] ✓
+
+join(["hello", "world"], "-")
+  → "hello-world" ✓
+
+join(["one", "two", "three"], ", ")
+  → "one, two, three" ✓
+
+join(["alone"], "-")
+  → "alone" ✓
+
+If your function returns these exact values, you've solved it correctly!
+
+Why This Solution Works:
+------------------------
+✓ Handles multi-character separators using substring()
+✓ Properly manages state with currentPiece tracking
+✓ Doesn't forget the last piece after the loop
+✓ Correctly avoids extra separators in join()
+✓ Works with all edge cases (empty string, no separator, single element)
+✓ Uses simple, efficient loops instead of complex methods
+
+================================================================================
+PART 12: STEP-BY-STEP BROWSER TESTING GUIDE
+================================================================================
+
+QUICK START (Easiest Method - 2 minutes):
+------------------------------------------
+
+Step 1: Press F12 in your web browser to open the Developer Tools
+Step 2: Click on the "Console" tab
+Step 3: Copy both split() and join() functions (from Part 11 above) and paste
+        them into the console
+Step 4: Press Enter to register the functions
+Step 5: Test them by typing: split("hello-world", "-") and pressing Enter
+        You should see: ["hello", "world"]
+
+Complete Browser Console Test Script:
+-------------------------------------
+Copy everything below into your browser console and run it at once:
+
+```javascript
+// Define the functions
+function split(str, sep) {
+  const result = [];
+  
+  if (sep === "") {
+    for (let i = 0; i < str.length; i++) {
+      result.push(str[i]);
+    }
+    return result;
+  }
+  
+  let currentPiece = "";
+  let i = 0;
+  
+  while (i < str.length) {
+    if (str.substring(i, i + sep.length) === sep) {
+      result.push(currentPiece);
+      currentPiece = "";
+      i += sep.length;
+    } else {
+      currentPiece += str[i];
+      i++;
+    }
+  }
+  
+  result.push(currentPiece);
+  return result;
+}
+
+function join(arr, sep) {
+  let result = "";
+  
+  for (let i = 0; i < arr.length; i++) {
+    result += arr[i];
+    if (i < arr.length - 1) {
+      result += sep;
+    }
+  }
+  
+  return result;
+}
+
+// Run tests and show results
+console.log("=== SPLIT TESTS ===");
+console.log("split('hello-world', '-'):", split("hello-world", "-"));
+console.log("split('a,b,c', ','):", split("a,b,c", ","));
+console.log("split('JavaScript', ''):", split("JavaScript", ""));
+console.log("split('noSeparator', '-'):", split("noSeparator", "-"));
+
+console.log("\n=== JOIN TESTS ===");
+console.log("join(['hello', 'world'], '-'):", join(["hello", "world"], "-"));
+console.log("join(['one', 'two', 'three'], ', '):", join(["one", "two", "three"], ", "));
+console.log("join(['solo'], '-'):", join(["solo"], "-"));
+```
+
+Expected Console Output:
+------------------------
+```
+=== SPLIT TESTS ===
+split('hello-world', '-'): Array [ "hello", "world" ]
+split('a,b,c', ','): Array [ "a", "b", "c" ]
+split('JavaScript', ''): Array [ "J", "a", "v", "a", "S", "c", "r", "i", "p", "t" ]
+split('noSeparator', '-'): Array [ "noSeparator" ]
+
+=== JOIN TESTS ===
+join(['hello', 'world'], '-'): "hello-world"
+join(['one', 'two', 'three'], ', '): "one, two, three"
+join(['solo'], '-'): "solo"
+```
+
+HTML File Method (More Professional):
+--------------------------------------
+Create a file named "test.html" with the content provided in Part 7, Method 2.
+
+This creates a nice visual test interface that:
+- Automatically runs tests when you open the page
+- Shows results in a formatted table
+- Displays output in the browser console as well
+
+How to Use the HTML Test File:
+1. Create a new file with a text editor
+2. Copy the HTML code from Part 7, Method 2
+3. Save it as "unbreakable-test.html"
+4. Open it by double-clicking the file in your file explorer
+5. The page loads and automatically runs all tests
+6. You can modify the test cases in the script section to test more
+
+Troubleshooting:
+----------------
+Problem: "split is not defined" in the console
+Solution: Make sure you've pasted and executed the function definition
+         in the console. Copy the entire function and paste it, then press Enter.
+
+Problem: The function runs but returns unexpected results
+Solution: Check your logic carefully against Part 5 (Understanding the Logic)
+         Trace through one example step-by-step on paper
+         Common issues: forgetting the last piece, extra separators, etc.
+
+Problem: The HTML test file won't open
+Solution: Make sure the file has the .html extension (not .txt)
+         Right-click and choose "Open with" → "Choose another app" → Browser
+         Or drag the file into your browser window
+
+Problem: My split() function doesn't handle multi-character separators
+Solution: Use str.substring(i, i + sep.length) instead of just str[i]
+         This extracts multiple characters for comparison
+
+================================================================================
+                        YOU GOT THIS! 💪
+================================================================================

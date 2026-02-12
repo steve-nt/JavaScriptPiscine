@@ -1,0 +1,923 @@
+================================================================================
+                    ARRAY SEARCH FUNCTIONS - IMPLEMENTATION GUIDE
+            Master the Art of Finding Things: Build indexOf, lastIndexOf, includes
+================================================================================
+
+Welcome! This guide will teach you how to create three powerful search functions
+that find values in arrays - just like the built-in JavaScript Array methods do.
+By building these from scratch, you'll understand how the computer actually
+searches through data, which is a superpower in programming!
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What You Need to Build:
+------------------------
+You need to create three functions that search through arrays:
+
+1. **indexOf(array, searchValue, [fromIndex])**
+   - Searches from LEFT to RIGHT (start to end)
+   - Returns the position (index) where the value is first found
+   - If not found, returns -1
+   - Can optionally start the search from a specific position
+
+2. **lastIndexOf(array, searchValue, [fromIndex])**
+   - Searches from RIGHT to LEFT (end to start)
+   - Returns the position (index) where the value is LAST found
+   - If not found, returns -1
+   - Can optionally start the search from a specific position going backward
+
+3. **includes(array, searchValue, [fromIndex])**
+   - Checks if a value EXISTS in the array
+   - Returns true if found, false if not found
+   - Can optionally start checking from a specific position
+
+IMPORTANT RULE: You CANNOT use the built-in Array methods like indexOf(),
+lastIndexOf(), or includes(). You have to write the logic yourself!
+
+Real-World Example:
+-------------------
+Imagine you have an array of your friends' names:
+  friends = ["Alex", "Jordan", "Casey", "Taylor", "Casey", "Morgan"]
+
+indexOf(friends, "Casey")        → returns 2 (first "Casey" is at index 2)
+lastIndexOf(friends, "Casey")    → returns 4 (last "Casey" is at index 4)
+includes(friends, "Morgan")      → returns true (Morgan is in the list)
+includes(friends, "Riley")       → returns false (Riley is NOT in the list)
+
+Why This Matters:
+-----------------
+Searching through data is one of the MOST common things computers do:
+- Google searches billions of web pages
+- Instagram finds your friends
+- Your phone's contacts app searches for people
+- Video games check if you've found all the items
+
+Understanding HOW to search is fundamental. These three functions teach you
+different searching patterns that you'll use in almost every program you write.
+Plus, this is how real programmers think - knowing what the computer is doing
+under the hood!
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO UNDERSTAND
+================================================================================
+
+Concept 1: Array Indexing
+--------------------------
+Arrays store items in positions, starting at 0 (not 1!). Think of it like
+apartment building numbers:
+
+  Index:     0        1        2        3        4
+  Value:   "Alex"  "Jordan" "Casey" "Taylor" "Casey"
+
+To get an item, you use: array[index]
+  array[0] = "Alex"
+  array[2] = "Casey"
+
+This is crucial because when you find something, you need to return its index!
+
+Concept 2: Loops (Iterating Through Arrays)
+--------------------------------------------
+A loop lets you check each item one by one. There are different ways:
+
+FOR LOOP (most common for searching):
+  for (let i = 0; i < array.length; i++) {
+    // i starts at 0, increases by 1 each time, stops before array.length
+    // Each time through, i represents the current index
+  }
+
+Think of this like walking through the apartment building, checking each unit:
+  Unit 0: Check "Alex" - not what I'm looking for
+  Unit 1: Check "Jordan" - not what I'm looking for
+  Unit 2: Check "Casey" - FOUND IT! Return 2
+
+Concept 3: Comparison (Checking if Two Things Are Equal)
+---------------------------------------------------------
+To see if something matches what you're searching for, use the equality operator:
+
+  if (array[i] === searchValue) {
+    // We found a match!
+  }
+
+The === operator checks if two things are EXACTLY the same.
+  5 === 5           → true
+  "hello" === "hello" → true
+  "hello" === "Hello" → false (JavaScript is case-sensitive!)
+  5 === "5"         → false (number 5 is not the same as string "5")
+
+Concept 4: Understanding "From Index" (Optional Parameter)
+-----------------------------------------------------------
+Sometimes you don't want to search the ENTIRE array. You want to start from
+a specific position. This is why indexOf has that optional third parameter.
+
+  indexOf(array, "Jordan", 2)
+  
+This means: "Search for Jordan starting from index 2, going forward"
+
+In lastIndexOf, it works backward from that position:
+  lastIndexOf(array, "Jordan", 3)
+  
+This means: "Search for Jordan looking backward from index 3"
+
+Think of it like: "I found Jordan earlier, but I want to see if there's an
+earlier (or later for lastIndexOf) version of Jordan in my list."
+
+Concept 5: Return Values Matter
+--------------------------------
+Your functions MUST return the right thing:
+- indexOf and lastIndexOf: return a NUMBER (the index) or -1 if not found
+- includes: returns a BOOLEAN (true or false)
+
+If you return the wrong type, your function doesn't work correctly!
+
+================================================================================
+PART 3: STEP-BY-STEP ALGORITHM (Your Thinking Process)
+================================================================================
+
+FOR indexOf (searching left to right):
+--------------------------------------
+Step 1: Figure out where to start
+        - Use fromIndex if provided, otherwise start at 0
+        
+Step 2: Create a loop that goes through the array from start to end
+        - Loop through each index from our start point
+        
+Step 3: Check each element as you go
+        - Compare array[i] with searchValue using ===
+        
+Step 4: When you find a match, return that index immediately
+        - Don't keep searching, just return!
+        
+Step 5: If the loop finishes without finding anything, return -1
+        - This means the value wasn't in the array
+
+FOR lastIndexOf (searching right to left):
+-------------------------------------------
+Step 1: Figure out where to start
+        - Use fromIndex if provided, otherwise start at array.length - 1
+        - (array.length - 1 is the last index)
+        
+Step 2: Create a loop that goes BACKWARD through the array
+        - Loop from our starting point DOWN to 0
+        - Decrease i by 1 each time
+        
+Step 3: Check each element as you go backward
+        - Compare array[i] with searchValue using ===
+        
+Step 4: When you find a match, return that index immediately
+        - This is the LAST match because we're searching backward
+        
+Step 5: If the loop finishes without finding anything, return -1
+        - This means the value wasn't in the array
+
+FOR includes (checking if value exists):
+-----------------------------------------
+Step 1: Figure out where to start
+        - Use fromIndex if provided, otherwise start at 0
+        
+Step 2: Loop through the array from the start point to the end
+        
+Step 3: Check each element
+        - Compare array[i] with searchValue using ===
+        
+Step 4: If you find a match, return true immediately
+        - You found it!
+        
+Step 5: If the loop finishes, return false
+        - It's not in the array
+
+================================================================================
+PART 4: THE COMPLETE SOLUTION WITH COMMENTS
+================================================================================
+
+function indexOf(array, searchValue, fromIndex = 0) {
+  // Handle case where fromIndex is negative
+  // A negative fromIndex means count backward from the end
+  if (fromIndex < 0) {
+    fromIndex = Math.max(0, array.length + fromIndex);
+  }
+  
+  // Loop from fromIndex to the end of the array
+  for (let i = fromIndex; i < array.length; i++) {
+    // Check if the current element matches what we're searching for
+    if (array[i] === searchValue) {
+      // Found it! Return the index right away
+      return i;
+    }
+  }
+  
+  // If we got here, we never found the value
+  return -1;
+}
+
+function lastIndexOf(array, searchValue, fromIndex) {
+  // If fromIndex is not provided, start from the last element
+  if (fromIndex === undefined) {
+    fromIndex = array.length - 1;
+  }
+  
+  // Handle negative fromIndex - count backward from the end
+  if (fromIndex < 0) {
+    fromIndex = array.length + fromIndex;
+  }
+  
+  // Make sure fromIndex doesn't exceed array length
+  if (fromIndex >= array.length) {
+    fromIndex = array.length - 1;
+  }
+  
+  // Loop BACKWARD from fromIndex to the beginning
+  // i-- means decrease i by 1 each time
+  for (let i = fromIndex; i >= 0; i--) {
+    // Check if the current element matches what we're searching for
+    if (array[i] === searchValue) {
+      // Found the LAST occurrence! Return it
+      return i;
+    }
+  }
+  
+  // If we got here, we never found the value
+  return -1;
+}
+
+function includes(array, searchValue, fromIndex = 0) {
+  // Handle negative fromIndex
+  if (fromIndex < 0) {
+    fromIndex = Math.max(0, array.length + fromIndex);
+  }
+  
+  // Loop from fromIndex to the end
+  for (let i = fromIndex; i < array.length; i++) {
+    // Check if the current element matches
+    if (array[i] === searchValue) {
+      // Found it! Return true
+      return true;
+    }
+  }
+  
+  // Never found it, return false
+  return false;
+}
+
+Example Usage:
+--------------
+Let's trace through with actual data:
+
+const students = ["Alex", "Jordan", "Casey", "Taylor", "Casey"];
+
+indexOf(students, "Casey")
+  → Starts at index 0, checks: "Alex" (no), "Jordan" (no), "Casey" (YES!)
+  → Returns 2
+
+lastIndexOf(students, "Casey")
+  → Starts at index 4, checks: "Casey" (YES!)
+  → Returns 4
+
+includes(students, "Taylor")
+  → Checks: "Alex" (no), "Jordan" (no), "Casey" (no), "Taylor" (YES!)
+  → Returns true
+
+includes(students, "Riley")
+  → Checks all 5 students, never finds "Riley"
+  → Returns false
+
+indexOf(students, "Jordan", 2)
+  → Starts looking from index 2 instead of 0
+  → Checks: "Casey" (no), "Taylor" (no), "Casey" (no)
+  → Returns -1 (not found from that point onward)
+
+================================================================================
+PART 5: UNDERSTANDING THE MATH/LOGIC DEEPER
+================================================================================
+
+Let's trace through indexOf step by step with actual numbers:
+
+Array: [10, 20, 30, 20, 40]
+Looking for: 20
+Starting from: 0
+
+Loop iteration 1: i = 0
+  - Is array[0] === 20?
+  - Is 10 === 20? NO
+  - Continue to next iteration
+
+Loop iteration 2: i = 1
+  - Is array[1] === 20?
+  - Is 20 === 20? YES!
+  - RETURN 1 immediately (don't keep searching)
+
+Result: 1 (This is the FIRST occurrence)
+
+
+Let's trace through lastIndexOf with the same array:
+
+Array: [10, 20, 30, 20, 40]
+Looking for: 20
+Starting from: 4 (the end)
+
+Loop iteration 1: i = 4
+  - Is array[4] === 20?
+  - Is 40 === 20? NO
+  - i-- so i becomes 3
+
+Loop iteration 2: i = 3
+  - Is array[3] === 20?
+  - Is 20 === 20? YES!
+  - RETURN 3 immediately
+
+Result: 3 (This is the LAST occurrence)
+
+Notice the difference! Both functions search for the same value, but:
+- indexOf finds the FIRST one (2nd position)
+- lastIndexOf finds the LAST one (4th position)
+
+Why Negative fromIndex Works:
+-----------------------------
+When fromIndex is negative, like -2:
+
+array.length = 5
+fromIndex = -2
+Actual start position = array.length + fromIndex = 5 + (-2) = 3
+
+So starting at -2 means "start 2 positions before the end" = index 3
+
+This is like saying: "Start searching from the third-to-last element"
+
+================================================================================
+PART 6: KEYWORDS & CONCEPTS TO EXPLORE FURTHER
+================================================================================
+
+Want to understand these topics better? Search for:
+
+1. **Linear Search** - [How computers find things the simple way]
+   Learn about: Sequential search, time complexity O(n), when to use linear search
+   Why it matters: This is the algorithm you just built!
+
+2. **Arrays and Indexing** - [How data is organized in memory]
+   Learn about: Zero-based indexing, array length, accessing elements, bounds
+   Why it matters: Understanding arrays is fundamental to all programming
+
+3. **Comparison Operators (=== vs ==)** - [How JavaScript checks equality]
+   Learn about: Strict equality, type coercion, why === is better
+   Why it matters: Using the wrong comparison causes subtle bugs
+
+4. **Optional Parameters / Default Values** - [Functions that are flexible]
+   Learn about: Function signatures, undefined, default arguments, rest parameters
+   Why it matters: Making functions that work in multiple ways
+
+5. **Time Complexity and Big O Notation** - [How to measure if code is fast]
+   Learn about: O(n), O(n²), O(1), why it matters for large datasets
+   Why it matters: Your solution has O(n) complexity - good enough!
+
+6. **Algorithm Design** - [How to think about problems systematically]
+   Learn about: Breaking problems into steps, pseudocode, testing algorithms
+   Why it matters: This is how professional programmers work
+
+7. **Higher-Order Functions** - [Advanced: functions that accept other functions]
+   Learn about: Callbacks, map, filter, reduce
+   Why it matters: Once you understand search, you can use these powerful methods
+
+Websites to explore:
+- MDN Web Docs (developer.mozilla.org) - Official JavaScript documentation
+- JavaScript.info - Excellent tutorials on JavaScript fundamentals
+- Codecademy - Interactive JavaScript lessons and challenges
+- Khan Academy - Great for understanding algorithms and data structures
+- LeetCode - Practice coding problems, starting with Easy difficulty
+- HackerRank - More coding challenges with different difficulty levels
+
+================================================================================
+PART 7: TESTING YOUR CODE IN A BROWSER
+================================================================================
+
+Method 1: Using the Browser Console (Easiest)
+----------------------------------------------
+Step 1: Open any website in your browser (google.com, youtube.com, whatever)
+Step 2: Right-click anywhere on the page → Choose "Inspect" or "Inspect Element"
+Step 3: Go to the "Console" tab (you'll see >>)
+Step 4: Copy and paste your functions into the console
+Step 5: Run the test cases below by typing them one at a time
+
+When testing, you'll see the result immediately!
+
+Test Cases to Try:
+   
+Basic indexOf tests:
+   const arr = [1, 2, 3, 2, 4];
+   indexOf(arr, 2)         → should return 1
+   indexOf(arr, 4)         → should return 4
+   indexOf(arr, 99)        → should return -1
+   indexOf(arr, 2, 2)      → should return 3 (starts searching from index 2)
+
+Basic lastIndexOf tests:
+   const arr = [1, 2, 3, 2, 4];
+   lastIndexOf(arr, 2)     → should return 3
+   lastIndexOf(arr, 4)     → should return 4
+   lastIndexOf(arr, 99)    → should return -1
+
+Basic includes tests:
+   const arr = [1, 2, 3, 2, 4];
+   includes(arr, 2)        → should return true
+   includes(arr, 99)       → should return false
+   includes(arr, 2, 4)     → should return false (no 2 from index 4 onward)
+
+String tests:
+   const names = ["Alice", "Bob", "Charlie"];
+   indexOf(names, "Bob")   → should return 1
+   includes(names, "David") → should return false
+
+Edge cases:
+   indexOf([], 5)          → should return -1 (empty array)
+   lastIndexOf([5], 5)     → should return 0 (single element)
+   includes([1, 2, 3], 2, 10) → should return false (fromIndex beyond array)
+
+Method 2: Create an HTML File (More Professional)
+---------------------------------------------------
+This method lets you create a proper test file you can use repeatedly.
+
+Step 1: Create a new file called "test-index-of.html"
+Step 2: Copy the HTML code below into the file
+Step 3: Open it in your browser
+Step 4: Open the browser console to see the results
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Search Functions Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background-color: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-case {
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #007bff;
+            background-color: #f8f9fa;
+        }
+        .pass {
+            border-left-color: #28a745;
+            background-color: #f0f8f4;
+        }
+        .fail {
+            border-left-color: #dc3545;
+            background-color: #f8f5f6;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Array Search Functions Test</h1>
+    
+    <div class="test-section">
+        <h2>Your Functions Here</h2>
+        <p>Your functions (indexOf, lastIndexOf, includes) will be tested below.</p>
+        <p>Open the browser console (F12) to see detailed results.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>✅ Test Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // PASTE YOUR FUNCTIONS HERE:
+        // function indexOf(array, searchValue, fromIndex = 0) { ... }
+        // function lastIndexOf(array, searchValue, fromIndex) { ... }
+        // function includes(array, searchValue, fromIndex = 0) { ... }
+
+        // TEST CASES
+        const tests = [];
+        
+        function runTest(description, actual, expected) {
+            const passed = JSON.stringify(actual) === JSON.stringify(expected);
+            tests.push({
+                description,
+                actual,
+                expected,
+                passed
+            });
+            console.log(`${passed ? '✓' : '✗'} ${description}`);
+            console.log(`  Expected: ${expected}, Got: ${actual}`);
+        }
+
+        // Test indexOf
+        console.log('\n=== Testing indexOf ===');
+        const arr1 = [1, 2, 3, 2, 4];
+        runTest('indexOf([1,2,3,2,4], 2)', indexOf(arr1, 2), 1);
+        runTest('indexOf([1,2,3,2,4], 4)', indexOf(arr1, 4), 4);
+        runTest('indexOf([1,2,3,2,4], 99)', indexOf(arr1, 99), -1);
+        runTest('indexOf([1,2,3,2,4], 2, 2)', indexOf(arr1, 2, 2), 3);
+
+        // Test lastIndexOf
+        console.log('\n=== Testing lastIndexOf ===');
+        runTest('lastIndexOf([1,2,3,2,4], 2)', lastIndexOf(arr1, 2), 3);
+        runTest('lastIndexOf([1,2,3,2,4], 4)', lastIndexOf(arr1, 4), 4);
+        runTest('lastIndexOf([1,2,3,2,4], 99)', lastIndexOf(arr1, 99), -1);
+
+        // Test includes
+        console.log('\n=== Testing includes ===');
+        runTest('includes([1,2,3,2,4], 2)', includes(arr1, 2), true);
+        runTest('includes([1,2,3,2,4], 99)', includes(arr1, 99), false);
+        runTest('includes([1,2,3,2,4], 2, 4)', includes(arr1, 2, 4), false);
+
+        // Display results on page
+        const resultsDiv = document.getElementById('results');
+        const passCount = tests.filter(t => t.passed).length;
+        const totalCount = tests.length;
+        
+        resultsDiv.innerHTML = `
+            <p><strong>Results: ${passCount}/${totalCount} tests passed</strong></p>
+            <ul style="list-style: none; padding: 0;">
+                ${tests.map(t => `
+                    <li class="test-case ${t.passed ? 'pass' : 'fail'}">
+                        <strong>${t.passed ? '✓' : '✗'}</strong> ${t.description}<br>
+                        Expected: <code>${t.expected}</code>, Got: <code>${t.actual}</code>
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+    </script>
+</body>
+</html>
+```
+
+Method 3: Using VS Code with Live Server Extension (Advanced)
+-------------------------------------------------------------
+Step 1: Install VS Code if you don't have it
+Step 2: Install the "Live Server" extension
+Step 3: Create a .html file with your functions
+Step 4: Right-click and select "Open with Live Server"
+Step 5: The page opens in a browser, and changes auto-refresh when you save
+
+================================================================================
+PART 8: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ Mistake 1: Using the wrong equality operator
+   Problem: Using == instead of ===
+   Example: if (array[i] == searchValue) works but is unsafe
+   Solution: Always use === for exact comparison
+   Why: == does type coercion, == might match "5" with 5, === won't
+
+❌ Mistake 2: Forgetting to return -1 when not found
+   Problem: Your function returns undefined instead of -1
+   Example: Just having a loop without a final return statement
+   Solution: Make sure you have "return -1;" after your loop
+   Why: indexOf and lastIndexOf MUST return -1 when the value isn't found
+
+❌ Mistake 3: Returning early prevents finding the LAST occurrence
+   Problem: indexOf and lastIndexOf returning the same value
+   Example: Both functions returning the first match they find
+   Solution: Make lastIndexOf search backward (i-- instead of i++)
+   Why: The direction of search determines which occurrence you find first
+
+❌ Mistake 4: Not handling the fromIndex parameter correctly
+   Problem: Functions that ignore the fromIndex parameter
+   Example: Always starting search from 0 or array.length, no matter what
+   Solution: Use the fromIndex value as your loop starting point
+   Why: The optional parameter lets users start searching from a specific place
+
+❌ Mistake 5: Off-by-one errors with backward search
+   Problem: lastIndexOf searching from wrong position or searching one too far
+   Example: Starting from array.length instead of array.length - 1
+   Solution: Remember that array.length - 1 is the last valid index
+   Why: If array has 5 items, valid indices are 0,1,2,3,4 (not 5)
+
+❌ Mistake 6: Using array.indexOf() or array.includes() in your solution
+   Problem: Violating the assignment requirement to not use built-in methods
+   Example: return array.indexOf(searchValue);
+   Solution: Write the search logic yourself without using built-in methods
+   Why: The whole point is to understand HOW these methods work
+
+❌ Mistake 7: Not handling edge cases
+   Problem: Functions that break with empty arrays or single elements
+   Example: Not checking if array.length is 0
+   Solution: Test with edge cases and make sure your loops handle them
+   Why: Real code needs to handle unusual inputs gracefully
+
+================================================================================
+PART 9: BONUS CHALLENGES
+================================================================================
+
+Once you've finished the basic assignment, try these:
+
+Challenge 1: Find ALL occurrences
+   Create a function findAll(array, searchValue) that returns an array of ALL
+   indices where searchValue appears. 
+   Example: findAll([1,2,1,3,1], 1) should return [0, 2, 4]
+   This teaches you: array methods, building dynamic arrays
+
+Challenge 2: Search with custom comparison
+   Create a function indexOfByProperty(array, obj, property) that finds the
+   first object in the array where obj[property] matches.
+   Example: indexOfByProperty(students, {name: 'Bob'}, 'name')
+   This teaches you: object properties, flexible searching
+
+Challenge 3: Case-insensitive string search
+   Create versions that ignore uppercase/lowercase differences
+   Example: indexOf(['Apple', 'banana'], 'APPLE') returns 0
+   This teaches you: string methods, case handling
+
+Challenge 4: Performance testing
+   Create arrays with 1,000,000 items and measure how long indexOf takes
+   Use: const start = performance.now(); ... const end = performance.now();
+   This teaches you: performance analysis, time complexity
+
+Challenge 5: Implement reverse indexOf
+   Create a function rindexOf that searches backward but returns the index
+   as if you were searching forward (opposite of lastIndexOf logic)
+   This teaches you: different search patterns, index calculations
+
+================================================================================
+PART 10: FINAL THOUGHTS
+================================================================================
+
+This assignment teaches several important programming concepts:
+
+1. **Algorithm Design** - Breaking a problem into logical steps
+   You learned to think step-by-step about how to solve a problem
+
+2. **Loops and Iteration** - Repeating actions on data
+   You used for loops to examine each element of an array
+
+3. **Comparison and Logic** - Making decisions about data
+   You used === and if statements to find matching values
+
+4. **Return Values and Data Types** - Functions must return the right thing
+   Numbers, booleans, and -1 all have specific meanings
+
+5. **Edge Cases and Robustness** - Handling unusual inputs
+   Your code works with empty arrays, negative indices, and more
+
+These skills are fundamental to all programming. Once you understand these 
+concepts, you can build much more complex applications! You can now:
+
+- Search through databases containing millions of records
+- Build autocomplete features like Google uses
+- Create game features that check if items are in inventories
+- Filter and find data in real applications
+
+Remember: Every programmer, from beginners to experts building Google, starts
+with problems just like this one. Understanding HOW things work at a basic level
+is what separates great programmers from average ones.
+
+The difference between a programmer and a great programmer is curiosity.
+Ask yourself questions like:
+- What if the array has 1 million items? How long would this take?
+- What happens if searchValue is null or undefined?
+- Can I solve this with fewer lines of code?
+
+That curiosity will make you an excellent programmer!
+
+================================================================================
+PART 11: COMPLETE CORRECT SOLUTION
+================================================================================
+
+Below is the final, clean version of the solution that you should submit:
+
+```javascript
+function indexOf(array, searchValue, fromIndex = 0) {
+  // Handle negative fromIndex
+  if (fromIndex < 0) {
+    fromIndex = Math.max(0, array.length + fromIndex);
+  }
+  
+  // Search from fromIndex to the end
+  for (let i = fromIndex; i < array.length; i++) {
+    if (array[i] === searchValue) {
+      return i;
+    }
+  }
+  
+  return -1;
+}
+
+function lastIndexOf(array, searchValue, fromIndex) {
+  // Default fromIndex to the last element
+  if (fromIndex === undefined) {
+    fromIndex = array.length - 1;
+  }
+  
+  // Handle negative fromIndex
+  if (fromIndex < 0) {
+    fromIndex = array.length + fromIndex;
+  }
+  
+  // Ensure fromIndex is within bounds
+  if (fromIndex >= array.length) {
+    fromIndex = array.length - 1;
+  }
+  
+  // Search backward from fromIndex to the beginning
+  for (let i = fromIndex; i >= 0; i--) {
+    if (array[i] === searchValue) {
+      return i;
+    }
+  }
+  
+  return -1;
+}
+
+function includes(array, searchValue, fromIndex = 0) {
+  // Handle negative fromIndex
+  if (fromIndex < 0) {
+    fromIndex = Math.max(0, array.length + fromIndex);
+  }
+  
+  // Search from fromIndex to the end
+  for (let i = fromIndex; i < array.length; i++) {
+    if (array[i] === searchValue) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+```
+
+Verification of Correct Output:
+--------------------------------
+Test these cases - your functions should return these exact values:
+
+indexOf([1, 2, 3, 2, 4], 2)        → 1
+indexOf([1, 2, 3, 2, 4], 4)        → 4
+indexOf([1, 2, 3, 2, 4], 99)       → -1
+indexOf(['a', 'b', 'c'], 'b', 2)   → -1
+
+lastIndexOf([1, 2, 3, 2, 4], 2)    → 3
+lastIndexOf([1, 2, 3, 2, 4], 1)    → 0
+lastIndexOf([1, 2, 3, 2, 4], 99)   → -1
+lastIndexOf([1, 2, 3, 2, 4], 2, 1) → 1
+
+includes([1, 2, 3, 4], 3)          → true
+includes([1, 2, 3, 4], 99)         → false
+includes(['hello', 'world'], 'hello') → true
+includes([], 5)                    → false
+
+If your function returns these exact values, you've solved it correctly!
+
+Why This Solution Works:
+------------------------
+✓ Uses simple loops to go through the array systematically
+✓ Properly handles the fromIndex parameter for all three functions
+✓ Returns the correct data types (numbers for indexOf/lastIndexOf, boolean for includes)
+✓ Returns -1 for indexOf/lastIndexOf when value isn't found (not undefined)
+✓ Returns false for includes when value isn't found (not undefined or null)
+✓ Handles edge cases like empty arrays and negative indices
+✓ Does NOT use the built-in array methods
+✓ Is efficient - O(n) time complexity, which is as good as it gets for linear search
+
+================================================================================
+PART 12: STEP-BY-STEP BROWSER TESTING GUIDE
+================================================================================
+
+QUICK START (Easiest Method - 2 minutes):
+------------------------------------------
+
+Step 1: Open a web browser (Chrome, Firefox, Safari, Edge - any works)
+Step 2: Go to any website (google.com, youtube.com, etc.)
+Step 3: Press F12 to open Developer Tools
+Step 4: Click the "Console" tab
+Step 5: Paste the complete test script below
+
+Complete Browser Console Test Script:
+-------------------------------------
+Copy EVERYTHING below (including the functions) into your browser console:
+
+```javascript
+// First, define the functions
+function indexOf(array, searchValue, fromIndex = 0) {
+  if (fromIndex < 0) {
+    fromIndex = Math.max(0, array.length + fromIndex);
+  }
+  for (let i = fromIndex; i < array.length; i++) {
+    if (array[i] === searchValue) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function lastIndexOf(array, searchValue, fromIndex) {
+  if (fromIndex === undefined) {
+    fromIndex = array.length - 1;
+  }
+  if (fromIndex < 0) {
+    fromIndex = array.length + fromIndex;
+  }
+  if (fromIndex >= array.length) {
+    fromIndex = array.length - 1;
+  }
+  for (let i = fromIndex; i >= 0; i--) {
+    if (array[i] === searchValue) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function includes(array, searchValue, fromIndex = 0) {
+  if (fromIndex < 0) {
+    fromIndex = Math.max(0, array.length + fromIndex);
+  }
+  for (let i = fromIndex; i < array.length; i++) {
+    if (array[i] === searchValue) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Now run the tests
+console.log('=== Testing indexOf ===');
+console.log(indexOf([1, 2, 3, 2, 4], 2), '← should be 1');
+console.log(indexOf([1, 2, 3, 2, 4], 4), '← should be 4');
+console.log(indexOf([1, 2, 3, 2, 4], 99), '← should be -1');
+console.log(indexOf(['a', 'b', 'c'], 'b'), '← should be 1');
+
+console.log('\n=== Testing lastIndexOf ===');
+console.log(lastIndexOf([1, 2, 3, 2, 4], 2), '← should be 3');
+console.log(lastIndexOf([1, 2, 3, 2, 4], 1), '← should be 0');
+console.log(lastIndexOf([1, 2, 3, 2, 4], 99), '← should be -1');
+
+console.log('\n=== Testing includes ===');
+console.log(includes([1, 2, 3, 4], 3), '← should be true');
+console.log(includes([1, 2, 3, 4], 99), '← should be false');
+console.log(includes(['hello', 'world'], 'hello'), '← should be true');
+console.log(includes([], 5), '← should be false');
+```
+
+Expected Console Output:
+------------------------
+```
+=== Testing indexOf ===
+1 ← should be 1
+4 ← should be 4
+-1 ← should be -1
+1 ← should be 1
+
+=== Testing lastIndexOf ===
+3 ← should be 3
+0 ← should be 0
+-1 ← should be -1
+
+=== Testing includes ===
+true ← should be true
+false ← should be false
+true ← should be true
+false ← should be false
+```
+
+If all your numbers match, you've got it right!
+
+How to Use the HTML Test File:
+1. Copy the HTML code from Part 7, Method 2
+2. Save it as "test-index-of.html" on your computer
+3. Double-click it to open in your browser
+4. You'll see test results displayed on the page AND in the console
+
+Troubleshooting:
+----------------
+Problem: "indexOf is not defined" error
+Solution: Make sure you pasted the ENTIRE function definition, not just the name
+          Check for missing curly braces { } or parentheses ( )
+
+Problem: Tests pass in console but fail in the checker
+Solution: Review the exact error message - might be edge case you didn't handle
+          Try tests with empty arrays, negative numbers, and negative fromIndex
+
+Problem: Can't open Developer Tools
+Solution: Try these shortcuts instead of F12:
+          Chrome/Edge: Ctrl+Shift+J (Windows) or Cmd+Option+J (Mac)
+          Firefox: Ctrl+Shift+K (Windows) or Cmd+Option+K (Mac)
+          Safari: Cmd+Option+I (Mac)
+
+================================================================================
+
+Now you have everything you need to master array searching! Good luck! 🚀
+
+================================================================================

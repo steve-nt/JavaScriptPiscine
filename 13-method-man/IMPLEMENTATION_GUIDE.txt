@@ -1,0 +1,855 @@
+================================================================================
+               METHOD MAN - MASTERING STRING & ARRAY METHODS
+                      Transform Text Like a Pro Programmer!
+================================================================================
+
+Welcome! This guide will teach you how to write 5 powerful functions that work
+with strings and arrays. These are the fundamental building blocks used in
+messaging apps, text editors, and chatbots. By the end, you'll understand how
+programmers manipulate text in real applications!
+
+================================================================================
+PART 1: UNDERSTANDING THE ASSIGNMENT
+================================================================================
+
+What You Need to Build:
+------------------------
+You will write 5 functions that work with text in different ways:
+
+1. words() - Takes a sentence and breaks it into individual words (array)
+2. sentence() - Takes words and combines them back into a sentence (string)
+3. yell() - Takes text and makes it LOUD (all uppercase)
+4. whisper() - Takes text and makes it quiet (*lowercase*)
+5. capitalize() - Takes text and fixes the capitalization (First letter big, rest small)
+
+Real-World Example:
+-------------------
+Imagine you're building a chat app. You need to:
+- Let users TYPE_LIKE_THIS (yell) or *like this* (whisper)
+- Display "Hello World" when they type "hello world" (capitalize)
+- Break down messages into words to analyze them
+- Put words back together when displaying
+
+These 5 functions are exactly how professional developers handle this!
+
+Why This Matters:
+-----------------
+String manipulation is EVERYWHERE in programming:
+- Text editors handle capitalization and formatting
+- Social media apps analyze text (search, filters)
+- Chat apps have special text formatting
+- Translation software breaks down and rebuilds sentences
+- Search engines need to process text in different ways
+
+Learning these skills means you're learning how real apps work!
+
+================================================================================
+PART 2: KEY CONCEPTS YOU NEED TO UNDERSTAND
+================================================================================
+
+Concept 1: String Methods - The Tools in Your Toolkit
+------------------------------------------------------
+A String Method is like a tool in a toolbox. It's a pre-built function that 
+JavaScript gives you to manipulate strings.
+
+Think of strings like LEGO blocks. JavaScript provides special tools to:
+- Split them apart (.split())
+- Make them bigger (.toUpperCase())
+- Make them smaller (.toLowerCase())
+- Change the first letter (.charAt())
+
+You don't have to build these tools yourself - they already exist! You just 
+need to know how to use them.
+
+Examples:
+  "hello".toUpperCase() → "HELLO"
+  "HELLO".toLowerCase() → "hello"
+  "hello world".split(" ") → ["hello", "world"]
+
+
+Concept 2: Array Methods - Working with Collections
+----------------------------------------------------
+An Array Method is a tool for working with arrays (lists of items).
+
+If strings are individual LEGO blocks, arrays are collections of blocks.
+The most important array method you'll use is .join() - it combines items.
+
+Think of it like this:
+- .split(" ") breaks things apart (opposite of join)
+- .join(" ") puts things together (opposite of split)
+
+These are like opposite actions:
+  "hello world".split(" ") → ["hello", "world"]
+  ["hello", "world"].join(" ") → "hello world"
+
+Notice: split and join are OPPOSITES. They undo each other!
+
+
+Concept 3: String Indexing and Characters
+------------------------------------------
+Strings are made of characters, and you can access each character by position.
+
+Think of a string like a row of boxes:
+  "hello"
+   01234    ← These are the positions (indices)
+
+Position 0 = 'h'
+Position 1 = 'e'
+Position 2 = 'l'
+Position 3 = 'l'
+Position 4 = 'o'
+
+You can get a character at a position using:
+  "hello"[0] → "h"
+  "hello"[1] → "e"
+
+And you can get the rest of the string AFTER position 0 using:
+  "hello".slice(1) → "ello"
+  "hello".substring(1) → "ello"
+
+This is how we capitalize: take the first character (uppercase it) and add 
+the rest of the string (in lowercase).
+
+
+Concept 4: Method Chaining - Doing Multiple Things at Once
+-----------------------------------------------------------
+Methods can be chained together, meaning you call one method, then call 
+another method on the result!
+
+Think of it like an assembly line:
+- Raw string → split() → array of words → join() → finished sentence
+
+Example:
+  "  hello  world  ".trim().split(" ").join("-")
+  
+This does: trim spaces → split by space → join with dash
+
+Each method works on the RESULT of the previous method!
+
+================================================================================
+PART 3: STEP-BY-STEP ALGORITHM (Your Thinking Process)
+================================================================================
+
+For words():
+  Step 1: Take the input string
+  Step 2: Use .split(" ") to break it at every space
+  Step 3: Return the array of words
+  
+  That's it! JavaScript does the hard work for you.
+
+For sentence():
+  Step 1: Take the input array
+  Step 2: Use .join(" ") to combine with spaces between
+  Step 3: Return the final string
+  
+  Again, simple because JavaScript has the tool ready!
+
+For yell():
+  Step 1: Take the input string
+  Step 2: Use .toUpperCase() to make every letter big
+  Step 3: Return the uppercase string
+
+For whisper():
+  Step 1: Take the input string
+  Step 2: Use .toLowerCase() to make every letter small
+  Step 3: Add "*" at the beginning and end
+  Step 4: Return the result
+
+For capitalize():
+  Step 1: Take the input string
+  Step 2: Get the first character: string[0]
+  Step 3: Make it uppercase: string[0].toUpperCase()
+  Step 4: Get the rest of the string: string.slice(1)
+  Step 5: Make the rest lowercase: string.slice(1).toLowerCase()
+  Step 6: Combine them together: first + rest
+  Step 7: Return the result
+
+================================================================================
+PART 4: THE COMPLETE SOLUTION WITH COMMENTS
+================================================================================
+
+Below is the complete solution with detailed comments:
+
+```javascript
+// Function 1: words()
+// Takes a sentence and returns an array of words
+// INPUT: "hello world" → OUTPUT: ["hello", "world"]
+function words(str) {
+  // .split(" ") breaks the string at every space
+  // It creates an array with each word as an item
+  return str.split(" ");
+}
+
+
+// Function 2: sentence()
+// Takes an array of words and combines them into a sentence
+// INPUT: ["hello", "world"] → OUTPUT: "hello world"
+function sentence(arr) {
+  // .join(" ") takes every item in the array and combines them
+  // The " " (space) goes between each item
+  return arr.join(" ");
+}
+
+
+// Function 3: yell()
+// Takes a string and makes it LOUD (all uppercase)
+// INPUT: "hello" → OUTPUT: "HELLO"
+function yell(str) {
+  // .toUpperCase() converts every letter to uppercase
+  // Numbers and spaces stay the same
+  return str.toUpperCase();
+}
+
+
+// Function 4: whisper()
+// Takes a string and makes it quiet with asterisks
+// INPUT: "HELLO" → OUTPUT: "*hello*"
+function whisper(str) {
+  // .toLowerCase() converts every letter to lowercase
+  // Then we add "*" at the beginning and end
+  // We use + to combine strings (concatenation)
+  return "*" + str.toLowerCase() + "*";
+}
+
+
+// Function 5: capitalize()
+// Takes a string and fixes capitalization
+// First letter uppercase, rest lowercase
+// INPUT: "hELLO wORLD" → OUTPUT: "Hello world"
+function capitalize(str) {
+  // str[0] gets the first character
+  // .toUpperCase() makes it big
+  // str.slice(1) gets everything AFTER the first character
+  // .toLowerCase() makes the rest small
+  // We combine them with +
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+```
+
+Example Usage:
+--------------
+Let's trace through each function:
+
+words("hello world code"):
+  → "hello world code".split(" ")
+  → ["hello", "world", "code"]
+
+sentence(["hello", "world", "code"]):
+  → ["hello", "world", "code"].join(" ")
+  → "hello world code"
+
+yell("code"):
+  → "code".toUpperCase()
+  → "CODE"
+
+whisper("CODE"):
+  → "*" + "CODE".toLowerCase() + "*"
+  → "*" + "code" + "*"
+  → "*code*"
+
+capitalize("jAvAsCrIpT"):
+  → "j".toUpperCase() + "AvAsCrIpT".toLowerCase()
+  → "J" + "avascript"
+  → "Javascript"
+
+================================================================================
+PART 5: UNDERSTANDING THE LOGIC DEEPER
+================================================================================
+
+Let's trace through capitalize() step-by-step with "hELLO":
+
+VISUAL BREAKDOWN:
+  Input: "hELLO"
+  
+  Step 1: Get position 0
+          "hELLO"[0] = "h"
+          
+  Step 2: Uppercase position 0
+          "h".toUpperCase() = "H"
+          
+  Step 3: Get characters from position 1 onwards
+          "hELLO".slice(1) = "ELLO"
+          
+  Step 4: Lowercase the rest
+          "ELLO".toLowerCase() = "ello"
+          
+  Step 5: Combine
+          "H" + "ello" = "Hello"
+          
+  Output: "Hello"
+
+
+Why each method is necessary:
+- split() helps when you need to work with individual words
+- join() helps when you need to reassemble words
+- toUpperCase() and toLowerCase() are essential for formatting
+- slice() and indexing let you access specific parts of strings
+- String concatenation (+) lets you combine pieces
+
+Alternative approaches:
+You could use string.charAt(0) instead of string[0], but [0] is simpler.
+You could use string.substring(1) instead of string.slice(1), but slice() is
+more flexible and modern.
+
+================================================================================
+PART 6: KEYWORDS & CONCEPTS TO EXPLORE FURTHER
+================================================================================
+
+Want to understand these topics better? Search for:
+
+1. **String Methods in JavaScript** - [List of all built-in string tools]
+   Learn about: toUpperCase, toLowerCase, split, slice, substring, charAt,
+   indexOf, replace, includes, trim, startsWith, endsWith
+
+2. **Array Methods in JavaScript** - [Tools for working with lists]
+   Learn about: join, split, map, filter, forEach, find, reduce,
+   pop, push, shift, unshift
+
+3. **String Indexing and slice()** - [Accessing parts of strings]
+   Learn about: Index positions, negative indices, immutability
+
+4. **Method Chaining** - [Combining methods together]
+   Learn about: Fluent interfaces, chainable methods, readability
+
+Websites to explore:
+- **MDN Web Docs** (https://developer.mozilla.org) - Official JavaScript docs
+  Find: Complete reference for String and Array methods with examples
+  
+- **JavaScript.info** (https://javascript.info) - Interactive tutorials
+  Find: String methods, Array methods, and deep explanations
+  
+- **W3Schools** (https://www.w3schools.com) - Beginner-friendly tutorials
+  Find: Try-it-yourself editor to test methods live
+
+================================================================================
+PART 7: TESTING YOUR CODE IN A BROWSER
+================================================================================
+
+Method 1: Using the Browser Console (Easiest - 2 minutes)
+----------------------------------------------------------
+Step 1: Open your browser (Chrome, Firefox, Safari, Edge)
+Step 2: Press F12 or right-click and select "Inspect"
+Step 3: Click the "Console" tab
+Step 4: Copy and paste the entire solution code above
+Step 5: Press Enter to define all 5 functions
+Step 6: Now test them by typing:
+        words("hello world code")
+        sentence(["hello", "world"])
+        yell("quiet")
+        whisper("LOUD")
+        capitalize("jAvAsCrIpT")
+
+Test Cases to Try:
+   Test words() with: "the quick brown fox"
+   Expected: ["the", "quick", "brown", "fox"]
+   
+   Test sentence() with: ["the", "quick", "brown"]
+   Expected: "the quick brown"
+   
+   Test yell() with: "javascript is fun"
+   Expected: "JAVASCRIPT IS FUN"
+   
+   Test whisper() with: "SCREAM"
+   Expected: "*scream*"
+   
+   Test capitalize() with: "hELLo WoRLD"
+   Expected: "Hello world"
+
+
+Method 2: Create an HTML File (More Professional - 5 minutes)
+--------------------------------------------------------------
+This method is better for testing multiple cases at once.
+
+Step 1: Create a new file called test.html on your computer
+Step 2: Copy the entire HTML code below into it
+Step 3: Double-click the file to open it in your browser
+Step 4: You'll see a page with test results
+Step 5: Open the Console (F12) to see detailed outputs
+
+Here's the HTML file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Method Man - Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-case {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff;
+        }
+        .input {
+            color: #0066cc;
+            font-weight: bold;
+        }
+        .output {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Method Man - Testing Your Functions</h1>
+    
+    <div class="test-section">
+        <h2>Function Definitions</h2>
+        <p>All functions are defined in the JavaScript section below.</p>
+        <p>Open your browser's Developer Console (F12) to see test results!</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // PASTE YOUR 5 FUNCTIONS HERE
+        function words(str) {
+            return str.split(" ");
+        }
+
+        function sentence(arr) {
+            return arr.join(" ");
+        }
+
+        function yell(str) {
+            return str.toUpperCase();
+        }
+
+        function whisper(str) {
+            return "*" + str.toLowerCase() + "*";
+        }
+
+        function capitalize(str) {
+            return str[0].toUpperCase() + str.slice(1).toLowerCase();
+        }
+
+        // TEST CASES
+        const tests = [
+            {
+                name: "words()",
+                tests: [
+                    { input: '"hello world"', expected: '["hello", "world"]' },
+                    { input: '"the quick brown fox"', expected: '["the", "quick", "brown", "fox"]' },
+                    { input: '"javascript is fun"', expected: '["javascript", "is", "fun"]' }
+                ],
+                func: () => [
+                    words("hello world"),
+                    words("the quick brown fox"),
+                    words("javascript is fun")
+                ]
+            },
+            {
+                name: "sentence()",
+                tests: [
+                    { input: '["hello", "world"]', expected: '"hello world"' },
+                    { input: '["the", "quick", "brown"]', expected: '"the quick brown"' }
+                ],
+                func: () => [
+                    sentence(["hello", "world"]),
+                    sentence(["the", "quick", "brown"])
+                ]
+            },
+            {
+                name: "yell()",
+                tests: [
+                    { input: '"hello"', expected: '"HELLO"' },
+                    { input: '"javascript is fun"', expected: '"JAVASCRIPT IS FUN"' }
+                ],
+                func: () => [
+                    yell("hello"),
+                    yell("javascript is fun")
+                ]
+            },
+            {
+                name: "whisper()",
+                tests: [
+                    { input: '"HELLO"', expected: '"*hello*"' },
+                    { input: '"SCREAM"', expected: '"*scream*"' }
+                ],
+                func: () => [
+                    whisper("HELLO"),
+                    whisper("SCREAM")
+                ]
+            },
+            {
+                name: "capitalize()",
+                tests: [
+                    { input: '"hELLO"', expected: '"Hello"' },
+                    { input: '"jAvAsCrIpT"', expected: '"Javascript"' },
+                    { input: '"hello world"', expected: '"Hello world"' }
+                ],
+                func: () => [
+                    capitalize("hELLO"),
+                    capitalize("jAvAsCrIpT"),
+                    capitalize("hello world")
+                ]
+            }
+        ];
+
+        // Display results
+        let html = "";
+        tests.forEach(testGroup => {
+            html += `<div class="test-case"><strong>${testGroup.name}</strong>`;
+            const results = testGroup.func();
+            testGroup.tests.forEach((test, i) => {
+                const result = JSON.stringify(results[i]);
+                const passed = result === test.expected;
+                html += `<div style="margin-left: 20px; margin-top: 10px;">
+                    Input: <span class="input">${test.input}</span><br>
+                    Expected: <span class="output">${test.expected}</span><br>
+                    Got: <span class="${passed ? 'output' : 'error'}">${result}</span><br>
+                    Status: ${passed ? '✅ PASS' : '❌ FAIL'}
+                </div>`;
+            });
+            html += `</div>`;
+        });
+
+        document.getElementById("results").innerHTML = html;
+    </script>
+</body>
+</html>
+```
+
+Method 3: Interactive Testing (Advanced)
+-----------------------------------------
+If you want to create an interactive tool where you can type inputs:
+
+Step 1: Create a file called interactive.html
+Step 2: Copy the advanced HTML/JavaScript code below
+Step 3: Open it in your browser and interact with the functions
+
+This version has text boxes where you can type your own test inputs!
+
+================================================================================
+PART 8: COMMON MISTAKES TO AVOID
+================================================================================
+
+❌ Mistake 1: Forgetting to return the result
+   Problem: function words(str) { str.split(" "); }
+   This function does the work but returns "undefined"!
+   Solution: Always use RETURN when you want to give back a value
+   Correct: function words(str) { return str.split(" "); }
+
+❌ Mistake 2: Using the wrong separator in split() or join()
+   Problem: "hello-world".split(" ") → ["hello-world"]
+   The dash doesn't split anything because you split by SPACE, not dash!
+   Solution: Match the separator to what you actually want
+   Correct: "hello-world".split("-") → ["hello", "world"]
+
+❌ Mistake 3: Forgetting the asterisks in whisper()
+   Problem: function whisper(str) { return str.toLowerCase(); }
+   This returns lowercase but without the asterisks!
+   Solution: Remember to add "*" at the beginning AND end
+   Correct: return "*" + str.toLowerCase() + "*";
+
+❌ Mistake 4: Using wrong method names
+   Problem: "hello".uppercase() or "hello".UPPERCASE()
+   JavaScript is CASE-SENSITIVE. It's toUpperCase, not uppercase
+   Solution: Use exact method names (they're lowercase method names)
+   Correct: "hello".toUpperCase() [note the camelCase]
+
+❌ Mistake 5: Confusing slice() with split()
+   Problem: str.split(1) to get the first character
+   split() is for breaking strings, not getting characters!
+   Solution: Use slice() or [0] for getting parts of strings
+   Correct: str.slice(1) or str[0]
+
+❌ Mistake 6: Forgetting edge cases (single letter strings)
+   Problem: capitalize("") crashes or acts weird
+   Solution: Test your functions with edge cases like "", "a", "A"
+   Note: capitalize("") with our code would fail - discuss why!
+
+================================================================================
+PART 9: BONUS CHALLENGES
+================================================================================
+
+Once you've mastered the 5 functions, try these advanced challenges:
+
+Challenge 1: Reverse Text Function
+   Create a function reverse(str) that returns the string backwards
+   Example: reverse("hello") → "olleh"
+   Hint: Look up the .reverse() array method and .split("")
+
+Challenge 2: Remove Extra Spaces
+   Create a function cleanSpaces(str) that removes extra spaces
+   Example: cleanSpaces("hello   world") → "hello world"
+   Hint: Use .split(" "), filter out empty strings, then .join(" ")
+
+Challenge 3: Count Words
+   Create a function wordCount(str) that returns how many words
+   Example: wordCount("the quick brown fox") → 4
+   Hint: Use words() function and .length property
+
+Challenge 4: Title Case
+   Create a function titleCase(str) that capitalizes each word
+   Example: titleCase("hello world") → "Hello World"
+   Hint: Use words() and capitalize() together!
+
+Challenge 5: Acronym Maker
+   Create a function acronym(str) that makes an acronym
+   Example: acronym("as soon as possible") → "ASAP"
+   Hint: Use words(), get first letter of each, join together
+
+Extra Challenge: Combine All Functions
+   Write a function that takes a sentence and:
+   1. Yells it
+   2. Makes it whisper format
+   3. Capitalizes it
+   4. Shows all the words
+   This tests your understanding of using multiple functions together!
+
+================================================================================
+PART 10: FINAL THOUGHTS
+================================================================================
+
+This assignment teaches several CRITICAL programming concepts:
+
+1. **String Methods** - Built-in tools that JavaScript provides
+   These save you from writing complex code from scratch!
+
+2. **Array Methods** - Tools for working with lists of items
+   Join and split are opposites - understanding this helps everywhere!
+
+3. **Basic Text Manipulation** - The foundation of every text application
+   From Slack to Google Docs to Twitter, this is happening behind the scenes!
+
+4. **Breaking Problems Into Steps** - You wrote 5 separate functions
+   Professional code is made of small, focused functions that do ONE thing well!
+
+5. **The Power of Pre-built Tools** - You didn't build split() or join()
+   Programmers use existing tools efficiently rather than reinventing the wheel!
+
+These skills are fundamental to all programming. Once you understand these 
+concepts, you can build much more complex applications. Everything from text
+editors to search engines to translation software uses these basic string
+operations!
+
+REMEMBER: The best programmers aren't the ones who memorize everything - 
+they're the ones who know WHICH TOOLS EXIST and how to use them. You just 
+learned 5+ string methods. That's exactly the mindset of a professional 
+programmer!
+
+Keep exploring! There are SO many more string and array methods. Each one is
+a tool in your toolbox. The more tools you know about, the easier programming
+becomes.
+
+Don't be afraid to:
+- Experiment with different methods
+- Combine functions in creative ways
+- Break code and figure out why it broke
+- Read error messages carefully (they tell you exactly what's wrong!)
+- Ask why things work the way they do
+
+Happy coding! 🚀
+
+================================================================================
+PART 11: COMPLETE CORRECT SOLUTION
+================================================================================
+
+Below is the final, clean version of the solution that you should submit:
+
+```javascript
+function words(str) {
+  return str.split(" ");
+}
+
+function sentence(arr) {
+  return arr.join(" ");
+}
+
+function yell(str) {
+  return str.toUpperCase();
+}
+
+function whisper(str) {
+  return "*" + str.toLowerCase() + "*";
+}
+
+function capitalize(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+```
+
+Verification of Correct Output:
+--------------------------------
+
+Test these inputs and verify you get these EXACT outputs:
+
+words("hello world code")
+  Expected: ["hello", "world", "code"]
+  
+sentence(["hello", "world"])
+  Expected: "hello world"
+  
+yell("hello")
+  Expected: "HELLO"
+  
+whisper("HELLO")
+  Expected: "*hello*"
+  
+capitalize("hELLO")
+  Expected: "Hello"
+
+If your functions return these exact values, you've solved it correctly!
+
+Why This Solution Works:
+------------------------
+
+✓ split(" ") correctly breaks strings at spaces
+✓ join(" ") correctly combines arrays with spaces between items
+✓ toUpperCase() makes all letters big for YELLING
+✓ toLowerCase() with asterisks creates the whisper effect
+✓ First character uppercase + rest lowercase = proper capitalization
+✓ It's simple, readable, and uses the right tools for each job
+✓ No unnecessary complexity - each function does exactly one thing
+✓ It handles the basic cases and most edge cases correctly
+✓ It uses method chaining and string concatenation effectively
+✓ Professional developers write code exactly like this!
+
+================================================================================
+PART 12: COMPLETE BROWSER TESTING GUIDE
+================================================================================
+
+QUICK START (Easiest Method - 2 minutes):
+------------------------------------------
+
+Step 1: Open Chrome/Firefox/Safari in a new window
+Step 2: Press F12 to open Developer Tools
+Step 3: Click "Console" tab
+Step 4: Copy all 5 function definitions from "PART 11" above
+Step 5: Paste into the console and press Enter
+Step 6: Test by typing: yell("hello")
+Step 7: Press Enter and see "HELLO" appear
+
+That's it! You're now testing your code.
+
+Complete Browser Console Test Script:
+-------------------------------------
+Copy and paste this ENTIRE block into your browser console:
+
+```javascript
+function words(str) { return str.split(" "); }
+function sentence(arr) { return arr.join(" "); }
+function yell(str) { return str.toUpperCase(); }
+function whisper(str) { return "*" + str.toLowerCase() + "*"; }
+function capitalize(str) { return str[0].toUpperCase() + str.slice(1).toLowerCase(); }
+
+// Now run these tests
+console.log("TESTING words():");
+console.log(words("hello world code"));
+console.log(words("the quick brown fox"));
+
+console.log("\nTESTING sentence():");
+console.log(sentence(["hello", "world"]));
+console.log(sentence(["the", "quick", "brown"]));
+
+console.log("\nTESTING yell():");
+console.log(yell("hello"));
+console.log(yell("javascript is fun"));
+
+console.log("\nTESTING whisper():");
+console.log(whisper("HELLO"));
+console.log(whisper("SCREAM"));
+
+console.log("\nTESTING capitalize():");
+console.log(capitalize("hELLO"));
+console.log(capitalize("jAvAsCrIpT"));
+console.log(capitalize("hello world"));
+```
+
+Expected Console Output:
+------------------------
+```
+TESTING words():
+["hello", "world", "code"]
+["the", "quick", "brown", "fox"]
+
+TESTING sentence():
+"hello world"
+"the quick brown"
+
+TESTING yell():
+"HELLO"
+"JAVASCRIPT IS FUN"
+
+TESTING whisper():
+"*hello*"
+"*scream*"
+
+TESTING capitalize():
+"Hello"
+"Javascript"
+"Hello world"
+```
+
+HTML File Method (More Professional):
+--------------------------------------
+Create a file called "method-man-test.html" and use the HTML code from PART 7.
+This gives you a visual testing page with nice formatting.
+
+Steps:
+1. Create a new text file
+2. Name it: method-man-test.html
+3. Copy the HTML code from "Method 2" section in PART 7
+4. Save the file
+5. Double-click to open in your browser
+6. You'll see all test cases and their results
+
+Troubleshooting:
+----------------
+
+Problem: Console shows "Uncaught SyntaxError"
+Solution: You probably have a typo. Check:
+  - Did you close all parentheses?
+  - Did you close all curly braces?
+  - Is it return, not Return?
+  Copy the code from Part 11 again and be more careful.
+
+Problem: Functions return "undefined"
+Solution: You forgot the RETURN keyword!
+  Wrong: function words(str) { str.split(" "); }
+  Right: function words(str) { return str.split(" "); }
+
+Problem: Test results don't match expected output
+Solution: Check the function logic:
+  - Does capitalize() work with empty strings?
+  - Does whisper() have both asterisks?
+  - Does split use the right separator?
+  Add console.log() statements to debug step by step.
+
+Problem: Can't find the Console tab
+Solution: 
+  - Make sure you pressed F12 (not Fn+F12 on Mac)
+  - Look for tabs: Elements, Console, Sources, Network
+  - Console might be at the bottom of the screen
+
+You've got this! Debugging is a core programming skill. 🎯
+
+================================================================================

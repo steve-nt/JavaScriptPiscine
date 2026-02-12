@@ -1,0 +1,108 @@
+<!DOCTYPE html>>
+<html>
+<head>
+    <title>Circular Object Test</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20px;
+            background-color: aliceblue;
+        }
+        .container {
+            background-color: aquamarine;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px black;
+            max-width: 600px;
+       }
+       .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid #4CAF50;
+            background-color: #f0f8f0;
+       }
+       .test-result.pass {
+            border-left-color: #4CAF50;
+        }
+        .test-result.fail {
+            border-left-color: #f44336;
+            background-color: #fff0f0;
+        }
+        h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Circular Object Test</h1>
+        <h2>Testing Self-Referencing Objects</h2>
+        
+        <div id="results"></div>
+        
+        <h3>How It Works:</h3>
+        <pre>const circular = {};
+circular.circular = circular;</pre>
+    </div>
+
+    <script src="circular.js"></script>
+    <script>
+        // Get the results div
+        const resultsDiv = document.getElementById('results');
+
+        // Helper function to add test results
+        function addTest(testName, result, expected) {
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test-result ' + (result === expected ? 'pass' : 'fail');
+            testDiv.innerHTML = `
+                <strong>${testName}</strong><br>
+                Expected: ${expected}<br>
+                Got: ${result}<br>
+                Status: ${result === expected ? '✓ PASS' : '✗ FAIL'}
+            `;
+            resultsDiv.appendChild(testDiv);
+        }
+
+        // Run tests
+        addTest(
+            'Test 1: circular.circular === circular',
+            circular.circular === circular,
+            true
+        );
+
+        addTest(
+            'Test 2: circular.circular.circular === circular',
+            circular.circular.circular === circular,
+            true
+        );
+
+        addTest(
+            'Test 3: Deep access still works',
+            circular.circular.circular.circular === circular,
+            true
+        );
+
+        addTest(
+            'Test 4: Type check',
+            typeof circular,
+            'object'
+        );
+
+        addTest(
+            'Test 5: Has circular property',
+            'circular' in circular,
+            true
+        );
+
+        // Log to console as well
+        console.log('✓ All tests completed! Check the page for results.');
+        console.log('circular object:', circular);
+    </script>
+</body>
+</html>

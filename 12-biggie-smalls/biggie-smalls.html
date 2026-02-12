@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Biggie Smalls Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .test-result {
+            background-color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .test-result.pass {
+            border-left-color: #4CAF50;
+        }
+        .test-result.fail {
+            border-left-color: #f44336;
+        }
+        h1 {
+            color: #333;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Biggie Smalls - Test Results</h1>
+    <div id="results"></div>
+
+    <script src="biggie-smalls.js"></script>
+
+    <script>
+        // Test results will be displayed here
+        const resultsDiv = document.getElementById('results');
+        const tests = [];
+
+        // Test 1: Check smalls value
+        tests.push({
+            name: 'smalls value is -Infinity',
+            passed: smalls === -Infinity,
+            actual: smalls
+        });
+
+        // Test 2: Check biggie value
+        tests.push({
+            name: 'biggie value is Number.MAX_VALUE',
+            passed: biggie === Number.MAX_VALUE,
+            actual: biggie
+        });
+
+        // Test 3: Verify smalls is truly the smallest
+        tests.push({
+            name: 'Any number is greater than smalls',
+            passed: -1000000000000 > smalls,
+            actual: (-1000000000000 > smalls) ? 'true' : 'false'
+        });
+
+        // Test 4: Verify biggie is truly the largest
+        tests.push({
+            name: 'Any number is less than biggie',
+            passed: 1000000000000 < biggie,
+            actual: (1000000000000 < biggie) ? 'true' : 'false'
+        });
+
+        // Test 5: Check both are numbers
+        tests.push({
+            name: 'Both variables are of type "number"',
+            passed: typeof smalls === 'number' && typeof biggie === 'number',
+            actual: `typeof smalls = "${typeof smalls}", typeof biggie = "${typeof biggie}"`
+        });
+
+        // Display results
+        tests.forEach((test, index) => {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${test.passed ? 'pass' : 'fail'}`;
+            resultDiv.innerHTML = `
+                <strong>${test.passed ? '✓ PASS' : '✗ FAIL'}</strong> - Test ${index + 1}: ${test.name}
+                <br>Result: <code>${test.actual}</code>
+            `;
+            resultsDiv.appendChild(resultDiv);
+        });
+
+        // Summary
+        const passed = tests.filter(t => t.passed).length;
+        const summary = document.createElement('div');
+        summary.style.marginTop = '20px';
+        summary.style.fontSize = '18px';
+        summary.style.fontWeight = 'bold';
+        summary.innerHTML = `${passed}/${tests.length} tests passed!`;
+        resultsDiv.appendChild(summary);
+    </script>
+</body>
+</html>

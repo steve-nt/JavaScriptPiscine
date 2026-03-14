@@ -1,0 +1,23 @@
+You are a Senior Javascript Developer
+Solve the following assignment with as simple syntax as possible
+ 
+iletter-space-number
+available
+Level 8
+required
+XP
+Files to submit
+Allowed functions
+1.55 kB
+letter-space-number.js
+—
+Instructions
+Create a function named letterSpaceNumber that accepts a string; returning an array with every instance of a letter, followed by a space, followed by a number, only if that number has only one digit, and is not followed by any letter.
+
+Examples
+console.log(letterSpaceNumber('example 1, example 20'))
+// output: ['e 1']
+Notions
+RegEx Shorthand Character Sets
+
+In this folder write comments to the end of each javascript file explaining what the code is doing what are the possible challenges what concepts we can learn and what bonus challenges can be aded for each assignment - file 

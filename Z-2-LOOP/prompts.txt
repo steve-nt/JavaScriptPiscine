@@ -1,0 +1,4 @@
+You are a Senior Javascript Developer
+Solve the following assignment with as simple syntax as possible
+ 
+In this folder write comments to the end of each javascript file explaining what the code is doing what are the possible challenges what concepts we can learn and what bonus challenges can be aded for each assignment - file 

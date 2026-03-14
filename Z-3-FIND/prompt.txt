@@ -1,0 +1,47 @@
+You are a Senior Javascript Developer
+Solve the following assignment with as simple syntax as possible
+ 
+valid-ip
+available
+Level 9
+optional
+XP
+Files to submit
+Allowed functions
+1.70 kB
+valid-ip.js
+—
+Instructions
+Create a function named findIP, that returns an array of valid IP addresses from a given string. These addresses may or may not have a port.
+
+For the IP part, the syntax will be as follows, where x is a number from 0-255. Values with leading zeros are not valid:
+
+x.x.x.x
+Don't forget to learn about the syntax of ports. But remember, the maximum TCP port number is 65,535.
+
+For this task, you only need to concern yourself with <host> and <port>. Don't worry about <scheme> or anything else.
+
+Notions
+Learn RegEx
+
+The issue was that the regex was too greedy and matching beyond the URL boundaries. It is fixed to 1 use [^\s?]* for the domain/path part (stops at ? or whitespace) 2 use [^&=]* for parameter keys (stops at & or =) 3 use (?:[^\s&])* for parameter values (stops at whitespace or &). These changes ensure URLs terminate properly at whitespace and don't continue capturing unrelated text
+
+
+Added (? \!&) negative lookahead after the parameter patterns in both greedyQuery and notSoGreedy. This ensures that URLs with more parameters than required won't be truncated and matched, greedyQuery: Matches only URLs with 3+ parameters where no additional & follows. notSoGreedy: Matches only URLs with exactly 2-3 parameters where no additional & follows. This prevents partial URL matching when a URL has more parameters than our threshold.
+
+The regex by being explicit about parameter structure instead of using ambiguous quantifiers: - notSoGreedy: Explicitly requires 2 params + optional 3rd param (exactly 2-3 params) - greedyQuery: Explicitly requires 3 params + any additional params (3+ params) - Both use (?=\s|$) positive lookahead to ensure URLs end at whitespace or end of string This prevents the regex from accidentally truncating values or matching partial URLs.
+
+Changed the trailing word boundary \b to a negative lookahead (? \!\d|\.) which ensures the IP isn't followed by more digits or dots (which would make it an invalid/incomplete IP).
+
+The reason it was failing: The negative lookahead (? \!\\d|\\.) was rejecting IPs with ports if they were followed by a dot or digit (like in text like "IP:8080. next sentence" or "IP:8080.something"). Removing the \\. from the lookahead allows ports to be matched properly since a colon and digits are sufficient to identify a port. 
+
+Changed from match() to matchAll() with explicit extraction of the full match m[0]. This should handle any edge cases with capture groups
+
+==============================================================================================================================================
+==============================================================================================================================================
+
+Αdd comments to the end of all JavaScript files in the repository. These comments should:
+  1. Explain the code
+  2. Explain the concepts it studies
+  3. Give real world examples
+  4. Bonus challenges

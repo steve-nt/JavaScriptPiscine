@@ -1,0 +1,75 @@
+You are a Senior Javascript Developer
+Solve the following assignment with as simple syntax as possible
+
+unicode-technical-report-35
+available
+Level 10
+optional
+XP
+Files to submit
+Allowed functions
+1.85 kB
+unicode-technical-report-35.js
+—
+Subject
+Create a function named format which accepts a valid Date and a format string. Your function should return a correctly formatted string.
+
+Your function must handle:
+
+y
+
+yyyy
+
+G
+
+GGGG
+
+M
+
+MM
+
+MMM
+
+MMMM
+
+d
+
+dd
+
+E
+
+EEEE
+
+h
+
+hh
+
+m
+
+mm
+
+s
+
+ss
+
+H
+
+HH
+
+a
+
+Example
+const d = new Date('7 January 1985, 3:08:19')
+
+format(d, 'HH(mm)ss [dd] <MMM>') // -> '03(08)19 [07] <Jan>'
+Notions
+Unicode Date Field Symbol Table
+
+==============================================================================================================================================
+==============================================================================================================================================
+
+Αdd comments to the end of all JavaScript files in the repository. These comments should:
+  1. Explain the code
+  2. Explain the concepts it studies
+  3. Give real world examples
+  4. Bonus challenges

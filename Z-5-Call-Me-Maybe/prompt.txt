@@ -1,0 +1,36 @@
+You are a Senior Javascript Developer
+Solve the following assignment with as simple syntax as possible
+
+currify
+available
+Level 12
+optional
+XP
+Files to submit
+Allowed functions
+2.15 kB
+currify.js
+—
+Instructions
+Create the function currify that will curry any functions put as argument.
+
+example:
+
+const mult2 = (el1, el2) => el1 * el2
+console.log(mult2(2, 2)) // result expected 4
+
+const mult2Curried = currify(mult2)
+
+console.log(mult2Curried(2)(2)) // result expected 4
+// (same result, with a function that has technically only one argument)
+Notions
+stackoverflow.com/questions/36314/what-is-currying
+
+==============================================================================================================================================
+==============================================================================================================================================
+
+Αdd comments to the end of all JavaScript files in the repository. These comments should:
+  1. Explain the code
+  2. Explain the concepts it studies
+  3. Give real world examples
+  4. Bonus challenges
